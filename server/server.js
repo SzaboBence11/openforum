@@ -1,12 +1,35 @@
-const express = require('express')
-const app = express()
+import express from 'express';
+import dotenv from 'dotenv';
+import db from './db.js';
 
-app.get('/api', (req, res) => {
-  res.json({
-    "users": ['userOne', 'userTwo', 'userThree']
-  })
-})
+dotenv.config();
 
-app.listen(5000, () => {
-  console.log('Server started on port 5000')
-})
+const app = express();
+app.use(express.json());
+
+// --- Routes --- //
+
+// 1. Összes user lekérdezése
+app.get('/users', (req, res) => {
+  db.query('SELECT * FROM users', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// 2. Új user hozzáadása
+app.post('/users', (req, res) => {
+  const { name, email } = req.body;
+  db.query(
+    'INSERT INTO users (name, email) VALUES (?, ?)',
+    [name, email],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json({ id: result.insertId, name, email });
+    }
+  );
+});
+
+// --- Indítás --- //
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`🚀 Szerver fut a ${PORT} porton`));
