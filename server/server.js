@@ -9,9 +9,8 @@ app.use(express.json());
 
 // --- Routes --- //
 
-// 1. Összes user lekérdezése
-app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
+app.get('/communities', (req, res) => {
+  db.query('SELECT * FROM `communities` ORDER BY rand() LIMIT 10; ', (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
