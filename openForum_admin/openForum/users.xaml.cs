@@ -43,12 +43,13 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = "SELECT * FROM users INNER JOIN blocked_users ON users.id = blocked_users.user_id ";
+                    query = "SELECT users.id, users.name, users.email, EXISTS (SELECT 1 FROM blocked_users WHERE blocked_users.user_id = users.id) AS blocked FROM users LEFT JOIN blocked_users ON users.id = blocked_users.user_id";
                 }
                 else
                 {
-                    query = $"SELECT * FROM users WHERE name LIKE \"%{tbSearch.Text}%\"";
+                    query = $"SELECT users.id, users.name, users.email, EXISTS (SELECT 1 FROM blocked_users WHERE blocked_users.user_id = users.id) AS blocked FROM users LEFT JOIN blocked_users ON users.id = blocked_users.user_id WHERE name LIKE \"%{tbSearch.Text}%\"";
                 }
+                
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
                 openConnection();
