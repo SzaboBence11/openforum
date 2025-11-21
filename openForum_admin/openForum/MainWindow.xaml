@@ -1,0 +1,23 @@
+﻿<Window x:Class="openForum.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:openForum"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="170*"/>
+        </Grid.RowDefinitions>
+        <Label Content="OpenForum Admin Felület" Margin="240,24,240,23" FontSize="24" FontWeight="Bold"/>
+        <Button Content="Felhasználók" Name="btnUsers" Margin="166,39,502,262" Grid.Row="1" Click="btnUsers_Click"/>
+        <Button Content="Közösségek" Name="btnCommunitys" Margin="503,39,166,262" Grid.Row="1"/>
+        <Button Content="Posztok" Name="btnPosts" Margin="166,131,503,170" Grid.Row="1"/>
+        <Button Content="Bejelentések" Name="btnReports" Margin="166,228,502,73" Grid.Row="1"/>
+        <Button Content="Hozzászólások" Name="btnComments" Margin="503,130,166,170" Grid.Row="1"/>
+        <Button Content="Kilépés" Name="btnExit" Margin="503,228,165,73" Grid.Row="1" Click="btnExit_Click"/>
+
+    </Grid>
+</Window>
