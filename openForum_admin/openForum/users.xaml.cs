@@ -47,7 +47,7 @@ namespace openForum
                 }
                 else
                 {
-                    query = $"SELECT users.id, users.name, users.display_name, users.role, users.email, EXISTS (SELECT 1 FROM blocked_users WHERE blocked_users.user_id = users.id) AS blocked FROM users LEFT JOIN blocked_users ON users.id = blocked_users.user_id WHERE name LIKE \"%{tbSearch.Text}%\"";
+                    query = $"SELECT users.id, users.name, users.display_name, users.role, users.email, EXISTS (SELECT 1 FROM blocked_users WHERE blocked_users.user_id = users.id) AS blocked FROM users LEFT JOIN blocked_users ON users.id = blocked_users.user_id WHERE users.name LIKE \"%{tbSearch.Text}%\" OR users.display_name LIKE \"%{tbSearch.Text}%\" OR users.email LIKE \"%{tbSearch.Text}%\" OR users.role LIKE \"%{tbSearch.Text}%\"";
                 }
                 
 

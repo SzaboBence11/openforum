@@ -43,11 +43,11 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT * FROM comments";
+                    query = $"SELECT u.name AS user_name, p.title AS PostTitle, c.text, c.date FROM comments c LEFT JOIN users u ON u.id = c.user_id LEFT JOIN posts p ON p.id = c.post_id";
                 }
                 else
                 {
-                    query = $"SELECT * FROM comments";
+                    query = $"SELECT u.name AS user_name, p.title AS PostTitle, c.text, c.date FROM comments c LEFT JOIN users u ON u.id = c.user_id LEFT JOIN posts p ON p.id = c.post_id WHERE p.title LIKE \"%{tbSearch.Text}%\" OR u.name LIKE \"%{tbSearch.Text}%\" OR c.text LIKE \"%{tbSearch.Text}%\"";
                 }
 
 

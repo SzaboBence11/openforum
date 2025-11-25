@@ -43,11 +43,11 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT * FROM reports";
+                    query = $"SELECT r.id, u.name AS Banned_User, r.reason FROM reports r LEFT JOIN users u ON u.id = r.user_id";
                 }
                 else
                 {
-                    query = $"SELECT * FROM reports";
+                    query = $"SELECT r.id, u.name AS Banned_User, r.reason FROM reports r LEFT JOIN users u ON u.id = r.user_id WHERE u.name LIKE \"%{tbSearch.Text}%\" OR r.reason LIKE \"%{tbSearch.Text}%\"";
                 }
 
 
