@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="users" Height="450" Width="800">
     <Grid>
-        <Button Name="btnBack" Content="Back" Click="btnBack_Click" Margin="675,387,10,10"/>
-        <DataGrid Name="dgUsers" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,134,0,133"/>
-        <TextBox Name="tbSearch" HorizontalAlignment="Left" Margin="390,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Button Name="btnBack" Content="Back" Click="btnBack_Click" Margin="345,324,340,41"/>
+        <DataGrid Name="dgUsers" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,144"/>
+        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Label Content="Keresés" HorizontalAlignment="Center" Margin="0,41,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -36,5 +36,12 @@ namespace openForum
             usersWindow.Show();
             this.Close();
         }
+
+        private void btnCommunitys_Click(object sender, RoutedEventArgs e)
+        {
+            var communitiesWindow = new Communities();
+            communitiesWindow.Show();
+            this.Close();
+        }
     }
 }

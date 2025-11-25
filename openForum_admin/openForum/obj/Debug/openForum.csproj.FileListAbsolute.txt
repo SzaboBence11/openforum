@@ -96,3 +96,5 @@ Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\openForum.csproj.C
 Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\openForum.csproj.Up2Date
 Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\openForum.exe
 Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\openForum.pdb
+Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\Communities.g.cs
+Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\Communities.baml

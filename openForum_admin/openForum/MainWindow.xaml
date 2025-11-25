@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <Label Content="OpenForum Admin Felület" Margin="240,24,240,23" FontSize="24" FontWeight="Bold"/>
         <Button Content="Felhasználók" Name="btnUsers" Margin="166,39,502,262" Grid.Row="1" Click="btnUsers_Click"/>
-        <Button Content="Közösségek" Name="btnCommunitys" Margin="503,39,166,262" Grid.Row="1"/>
+        <Button Content="Közösségek" Name="btnCommunitys" Margin="503,39,166,262" Grid.Row="1" Click="btnCommunitys_Click"/>
         <Button Content="Posztok" Name="btnPosts" Margin="166,131,503,170" Grid.Row="1"/>
         <Button Content="Bejelentések" Name="btnReports" Margin="166,228,502,73" Grid.Row="1"/>
         <Button Content="Hozzászólások" Name="btnComments" Margin="503,130,166,170" Grid.Row="1"/>
