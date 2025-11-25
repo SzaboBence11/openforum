@@ -43,5 +43,26 @@ namespace openForum
             communitiesWindow.Show();
             this.Close();
         }
+
+        private void btnPosts_Click(object sender, RoutedEventArgs e)
+        {
+            var postsWindow = new Posts();
+            postsWindow.Show();
+            this.Close();
+        }
+
+        private void btnComments_Click(object sender, RoutedEventArgs e)
+        {
+            var commentsWindow = new Comments();
+            commentsWindow.Show();
+            this.Close();
+        }
+
+        private void btnReports_Click(object sender, RoutedEventArgs e)
+        {
+            var reportsWindow = new Reports();
+            reportsWindow.Show();
+            this.Close();
+        }
     }
 }

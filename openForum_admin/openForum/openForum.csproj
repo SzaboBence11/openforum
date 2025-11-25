@@ -104,12 +104,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Comments.xaml.cs">
+      <DependentUpon>Comments.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Communities.xaml.cs">
       <DependentUpon>Communities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Posts.xaml.cs">
+      <DependentUpon>Posts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports.xaml.cs">
+      <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
     <Compile Include="users.xaml.cs">
       <DependentUpon>users.xaml</DependentUpon>
     </Compile>
+    <Page Include="Comments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Communities.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +139,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Posts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="users.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

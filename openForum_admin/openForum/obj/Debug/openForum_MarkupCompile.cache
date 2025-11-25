@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-Z:\remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\
+Z:\01remek_vizsga\openforum\openForum_admin\openForum\obj\Debug\
 openForum
 none
 false
 DEBUG;TRACE
-Z:\remek_vizsga\openforum\openForum_admin\openForum\App.xaml
-3-978880766
+Z:\01remek_vizsga\openforum\openForum_admin\openForum\App.xaml
+61882144642
 
-71771853108
-32-646555499
-Communities.xaml;MainWindow.xaml;users.xaml;
+10-690087824
+32-462757384
+Comments.xaml;Communities.xaml;MainWindow.xaml;Posts.xaml;Reports.xaml;users.xaml;
 
 False
 

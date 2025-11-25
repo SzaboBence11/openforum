@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,18 +13,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using MySql.Data.MySqlClient;
 
 namespace openForum
 {
     /// <summary>
-    /// Interaction logic for Communities.xaml
+    /// Interaction logic for Posts.xaml
     /// </summary>
-    public partial class Communities : Window
+    public partial class Posts : Window
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;database=openforum;uid=root");
         MySqlCommand command;
-        public Communities()
+        public Posts()
         {
             InitializeComponent();
             getData();
@@ -43,11 +43,11 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT c.name, c.description, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id GROUP BY c.id, c.name, c.description, c.date";
+                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id";
                 }
                 else
                 {
-                    query = $"SELECT c.name, c.description, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id WHERE name LIKE \"%{tbSearch.Text}%\" GROUP BY c.id, c.name, c.description, c.date";
+                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id ";
                 }
 
 
