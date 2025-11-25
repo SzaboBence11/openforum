@@ -9,7 +9,7 @@
     <Grid>
         <Button Name="btnBack" Content="Back" Margin="345,324,340,41" Click="btnBack_Click"/>
         <DataGrid Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,144"/>
-        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="tbSearch_TextChanged"/>
         <Label Content="Keresés" HorizontalAlignment="Left" Margin="378,41,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

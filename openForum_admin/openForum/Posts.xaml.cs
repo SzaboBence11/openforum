@@ -43,11 +43,11 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id";
+                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.title, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id";
                 }
                 else
                 {
-                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id ";
+                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.title, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id WHERE p.title LIKE \"%{tbSearch.Text}%\" OR u.name LIKE \"%{tbSearch.Text}%\" OR c.name LIKE \"%{tbSearch.Text}%\" or p.text LIKE \"%{tbSearch.Text}%\"";
                 }
 
 
