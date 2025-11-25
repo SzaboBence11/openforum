@@ -7,17 +7,29 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF67B59D"/>
+                <GradientStop Color="#FF387D7B" Offset="1"/>
+                <GradientStop Color="#FF65BDB7" Offset="0.508"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
             <RowDefinition Height="170*"/>
         </Grid.RowDefinitions>
-        <Label Content="OpenForum Admin Felület" Margin="240,24,240,23" FontSize="24" FontWeight="Bold"/>
-        <Button Content="Felhasználók" Name="btnUsers" Margin="166,39,502,262" Grid.Row="1" Click="btnUsers_Click"/>
-        <Button Content="Közösségek" Name="btnCommunitys" Margin="503,39,166,262" Grid.Row="1" Click="btnCommunitys_Click"/>
-        <Button Content="Posztok" Name="btnPosts" Margin="166,131,503,170" Grid.Row="1" Click="btnPosts_Click"/>
-        <Button Content="Bejelentések" Name="btnReports" Margin="166,228,502,73" Grid.Row="1" Click="btnReports_Click"/>
-        <Button Content="Hozzászólások" Name="btnComments" Margin="503,130,166,170" Grid.Row="1" Click="btnComments_Click"/>
-        <Button Content="Kilépés" Name="btnExit" Margin="503,228,165,73" Grid.Row="1" Click="btnExit_Click"/>
-
+        <Image Margin="454,202,116,47" Source="/btn_kilepes.png" Stretch="Uniform" Grid.Row="1" Cursor="" ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxWidth="228.842665130568" MaxHeight="91.0313364055298"/>
+        <Image Margin="118,8,453,241" Source="/btn_kozossegek.png" Stretch="Uniform" Grid.Row="1" MaxWidth="228.842665130568" MaxHeight="91.0313364055298"/>
+        <Image Margin="118,105,454,144" Source="/btn_posztok.png" Stretch="Uniform" Grid.Row="1" MaxHeight="90.6961325966851" MaxWidth="228"/>
+        <Image Margin="208,-29,208,319" Source="/title.png" Stretch="UniformToFill" Grid.RowSpan="2" MaxWidth="380" MaxHeight="147.182320441989"/>
+        <Image Margin="118,202,453,47" Grid.Row="1" Source="/btn_bejelentesek.png" Stretch="Uniform" MaxHeight="91.03133640553" MaxWidth="228.842665130568"/>
+        <Image Margin="454,13,117,235" Grid.Row="1" Source="/btn_felhasznalok.png" Stretch="Uniform" MaxWidth="229" MaxHeight="91.0939226519337"/>
+        <Image Margin="454,105,117,144" Grid.Row="1" Source="/btn_hozzaszolasok.png" Stretch="Uniform" MaxWidth="228.842665130568" MaxHeight="91.0313364055298"/>
+        <Button Content="Felhasználók" Name="btnUsers" Margin="465,20,128,241" Grid.Row="1" Click="btnUsers_Click" Opacity="0"/>
+        <Button Content="Közösségek" Name="btnCommunitys" Margin="129,13,464,248" Grid.Row="1" Click="btnCommunitys_Click" Opacity="0"/>
+        <Button Content="Posztok" Name="btnPosts" Margin="129,113,464,152" Grid.Row="1" Click="btnPosts_Click" Opacity="0"/>
+        <Button Content="Bejelentések" Name="btnReports" Margin="129,210,464,55" Grid.Row="1" Click="btnReports_Click" Opacity="0"/>
+        <Button Content="Hozzászólások" Name="btnComments" Margin="465,113,128,152" Grid.Row="1" Click="btnComments_Click" Opacity="0"/>
+        <Button Content="Kilépés" Name="btnExit" Margin="465,210,128,55" Grid.Row="1" Click="btnExit_Click" Opacity="0"/>
     </Grid>
 </Window>

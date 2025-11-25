@@ -179,5 +179,32 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_bejelentesek.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_felhasznalok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_hozzaszolasok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_kilepes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_kozossegek.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_posztok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_vissza.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="title_kereses.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
