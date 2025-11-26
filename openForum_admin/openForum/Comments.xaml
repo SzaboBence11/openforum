@@ -7,9 +7,17 @@
         mc:Ignorable="d"
         Title="Comments" Height="450" Width="800">
     <Grid>
-        <Button Name="btnBack" Content="Back" Margin="345,324,340,41" Click="btnBack_Click"/>
-        <DataGrid Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,144"/>
-        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="tbSearch_TextChanged"/>
-        <Label Content="Keresés" HorizontalAlignment="Left" Margin="378,41,0,0" VerticalAlignment="Top"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF67B59D"/>
+                <GradientStop Color="#FF387D7B" Offset="1"/>
+                <GradientStop Color="#FF65BDB7" Offset="0.508"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image Margin="281,311,281,28" Source="/btn_vissza.png" Stretch="Uniform" MaxWidth="238" MaxHeight="95.04"/>
+        <Button Name="btnBack" Content="Back" Margin="281,311,281,38" Click="btnBack_Click" Opacity="0"/>
+        <DataGrid Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,144" FontFamily="Eras ITC"/>
+        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontSize="20" FontFamily="Eras ITC"/>
+        <Image Margin="302,1,296,353" Source="/title_kereses.png" Stretch="UniformToFill"/>
     </Grid>
 </Window>

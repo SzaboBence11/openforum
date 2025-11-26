@@ -17,7 +17,7 @@
         <Image Margin="281,311,281,28" Source="/btn_vissza.png" Stretch="Uniform" MaxWidth="238" MaxHeight="95.04"/>
         <Button Name="btnBack" Content="Back" Margin="288,319,296,38" Click="btnBack_Click" MaxWidth="216" MaxHeight="77.04" Opacity="0"/>
         <DataGrid Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,144" FontFamily="Eras ITC"/>
-        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontFamily="Eras ITC"/>
+        <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontFamily="Eras ITC" FontSize="20"/>
         <Image Margin="302,1,296,353" Source="/title_kereses.png" Stretch="UniformToFill"/>
     </Grid>
 </Window>
