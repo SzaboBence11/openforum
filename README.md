@@ -19,3 +19,9 @@
 ## Projekt Futtatása:
 ### 1. Backend: A backendes mappában "npm i" command, majd "npm start";
 ### 2. Frontend: A frontendes mappában "npm i" command, majd "npm start dev";
+
+## Trello
+### Link: https://trello.com/b/Jo3ltAzi/openforum
+
+## Github
+### Link: https://github.com/SzaboBence11/openforum
