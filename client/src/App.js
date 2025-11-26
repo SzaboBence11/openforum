@@ -5,13 +5,13 @@ function App() {
   const [backendData, setBackendData] = useState({ communities: [] })
 
   useEffect(() => {
-    fetch('/communities') 
+    fetch('/randomCommunities') 
       .then(res => res.json())
       .then(data => {
         
         setBackendData({ communities: data })
       })
-      .catch(err => console.error('Fetch /communities failed:', err))
+      .catch(err => console.error('Fetch /randomCommunities failed:', err))
   }, [])
 
   return (
