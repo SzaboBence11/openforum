@@ -33,6 +33,46 @@ app.get('/posts', (req, res) => {
   });
 });
 
+// 4. Comment-ek lekérése
+app.get('/comments', (req, res) => {
+  db.query('SELECT * FROM `comments`; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// 5. Community User-ek lekérése
+app.get('/community_users', (req, res) => {
+  db.query('SELECT * FROM `community_users`; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// 6. Blocked User-ek lekérése
+app.get('/blocked_users', (req, res) => {
+  db.query('SELECT * FROM `blocked_users`; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// 7. Report-ok lekérése
+app.get('/reports', (req, res) => {
+  db.query('SELECT * FROM `reports`; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// 8. Vote-ok lekérése
+app.get('/votes', (req, res) => {
+  db.query('SELECT * FROM `votes`; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
 // . 10 Random Community Lekérése
 app.get('/randomCommunities', (req, res) => {
   db.query('SELECT * FROM `communities` ORDER BY rand() LIMIT 10; ', (err, results) => {
@@ -41,7 +81,7 @@ app.get('/randomCommunities', (req, res) => {
   });
 });
 
-// . Új user hozzáadása
+// 11. Új user hozzáadása
 app.post('/insertUsers', (req, res) => {
   const { name, email, password } = req.body;
   db.query(
