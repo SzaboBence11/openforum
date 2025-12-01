@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:openForum"
         mc:Ignorable="d"
-        Title="Communities" Height="450" Width="800">
+        Title="Communities" Height="628" Width="1207">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

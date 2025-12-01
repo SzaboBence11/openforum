@@ -206,5 +206,11 @@
   <ItemGroup>
     <Resource Include="title_kereses.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_modify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_delete.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

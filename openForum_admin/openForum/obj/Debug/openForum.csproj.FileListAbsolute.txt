@@ -195,7 +195,6 @@ Z:\openforum\openForum_admin\openForum\bin\Debug\System.Numerics.Vectors.xml
 Z:\openforum\openForum_admin\openForum\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 Z:\openforum\openForum_admin\openForum\bin\Debug\System.Threading.Tasks.Extensions.xml
 Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.csproj.AssemblyReference.cache
-Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.exe.config
 Z:\openforum\openForum_admin\openForum\obj\Debug\Comments.g.cs
 Z:\openforum\openForum_admin\openForum\obj\Debug\Communities.g.cs
 Z:\openforum\openForum_admin\openForum\obj\Debug\MainWindow.g.cs
@@ -218,3 +217,4 @@ Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.csproj.CoreCompileInp
 Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.csproj.Up2Date
 Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.exe
 Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.pdb
+Z:\openforum\openForum_admin\openForum\obj\Debug\openForum.exe.config

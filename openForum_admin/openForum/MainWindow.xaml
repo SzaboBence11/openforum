@@ -25,11 +25,11 @@
         <Image Margin="118,202,453,47" Grid.Row="1" Source="/btn_bejelentesek.png" Stretch="Uniform" MaxHeight="91.03133640553" MaxWidth="228.842665130568"/>
         <Image Margin="454,13,117,235" Grid.Row="1" Source="/btn_felhasznalok.png" Stretch="Uniform" MaxWidth="229" MaxHeight="91.0939226519337"/>
         <Image Margin="454,105,117,144" Grid.Row="1" Source="/btn_hozzaszolasok.png" Stretch="Uniform" MaxWidth="228.842665130568" MaxHeight="91.0313364055298"/>
-        <Button Content="Felhasználók" Name="btnUsers" Margin="465,20,128,241" Grid.Row="1" Click="btnUsers_Click" Opacity="0"/>
-        <Button Content="Közösségek" Name="btnCommunitys" Margin="129,13,464,248" Grid.Row="1" Click="btnCommunitys_Click" Opacity="0"/>
-        <Button Content="Posztok" Name="btnPosts" Margin="129,113,464,152" Grid.Row="1" Click="btnPosts_Click" Opacity="0"/>
-        <Button Content="Bejelentések" Name="btnReports" Margin="129,210,464,55" Grid.Row="1" Click="btnReports_Click" Opacity="0"/>
-        <Button Content="Hozzászólások" Name="btnComments" Margin="465,113,128,152" Grid.Row="1" Click="btnComments_Click" Opacity="0"/>
-        <Button Content="Kilépés" Name="btnExit" Margin="465,210,128,55" Grid.Row="1" Click="btnExit_Click" Opacity="0"/>
+        <Button Content="Felhasználók" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnUsers" Margin="465,20,128,241" Grid.Row="1" Click="btnUsers_Click" Opacity="0"/>
+        <Button Content="Közösségek" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnCommunitys" Margin="129,13,464,248" Grid.Row="1" Click="btnCommunitys_Click" Opacity="0"/>
+        <Button Content="Posztok" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnPosts" Margin="129,113,464,152" Grid.Row="1" Click="btnPosts_Click" Opacity="0"/>
+        <Button Content="Bejelentések" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnReports" Margin="129,210,464,55" Grid.Row="1" Click="btnReports_Click" Opacity="0"/>
+        <Button Content="Hozzászólások" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnComments" Margin="465,113,128,152" Grid.Row="1" Click="btnComments_Click" Opacity="0"/>
+        <Button Content="Kilépés" MaxWidth="229" MaxHeight="91.0939226519337" Name="btnExit" Margin="465,210,128,55" Grid.Row="1" Click="btnExit_Click" Opacity="0"/>
     </Grid>
 </Window>
