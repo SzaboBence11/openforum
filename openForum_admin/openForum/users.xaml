@@ -16,7 +16,7 @@
         </Grid.Background>
         <Image VerticalAlignment="Bottom" Margin="316,368,318,0" Source="/btn_vissza.png" MaxWidth="150" MaxHeight="70"/>
         <Button VerticalAlignment="Bottom" Name="btnBack" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="316,340,316,0" Opacity="0" Height="66"/>
-        <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgUsers" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC"/>
+        <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgUsers" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20"/>
         <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="TextBox_TextChanged" Height="31" FontSize="20" FontFamily="Eras ITC"/>
         <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="167,0,0,102" TextWrapping="Wrap" Text="" Width="37" TextChanged="TextBox_TextChanged" Height="32" FontSize="20" FontFamily="Eras ITC"/>
         <Image VerticalAlignment="Top" Margin="264,0,266,0" MaxWidth="220" MaxHeight="91" Width="270" Height="84" Source="/title_kereses.png"/>
