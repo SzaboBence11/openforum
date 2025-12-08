@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Nov 13. 08:16
+-- Létrehozás ideje: 2025. Dec 08. 10:59
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,28 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `openforum`
 --
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `blocked_users`
---
-
-CREATE TABLE `blocked_users` (
-  `user_id` int(10) NOT NULL,
-  `email` varchar(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `blocked_users`
---
-
-INSERT INTO `blocked_users` (`user_id`, `email`) VALUES
-(5, 'julia.morgan@example.com'),
-(12, 'alex_13@example.com'),
-(19, 'matthew.holt@example.com'),
-(27, 'sarah.connor@example.com'),
-(33, 'daniel_woods@example.com');
 
 -- --------------------------------------------------------
 
@@ -380,54 +358,55 @@ CREATE TABLE `users` (
   `role` char(1) NOT NULL,
   `password` varchar(64) NOT NULL,
   `email` varchar(254) NOT NULL,
-  `description` varchar(200) NOT NULL
+  `description` varchar(200) NOT NULL,
+  `blocked` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `display_name`, `role`, `password`, `email`, `description`) VALUES
-(1, 'alex_13', 'Alex 13', 'U', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'alex13@example.hu', 'Számítástechnika iránt érdeklődő felhasználó, hobbiból programoz.'),
-(2, 'kovacs_peti', 'Kovács Peti', 'U', '5f4dcc3b5aa765d61d8327deb882cf99aa3f3a1b2c3d4e5f67890abcdef12345', 'peti.kovacs@example.hu', 'Gyakorló webfejlesztő, szeret blogolni.'),
-(3, 'noemi88', 'Noémi', 'U', 'b94d27b9934d3e08a52e52d7da7dabfadeadbeef0123456789abcdefabcd1234', 'noemi88@mail.hu', 'Fotós és természetbarát.'),
-(4, 'marci_admin', 'Marci', 'A', 'a3f5c6d7e8f90123456789abcdef0123456789abcdef0123456789abcdefabcd', 'marci.admin@example.hu', 'Rendszergazda, felelős a rendszer üzemeltetéséért.'),
-(5, 'zsuzsi_m', 'Zsuzsi', 'M', 'c1d2e3f40123456789abcdef0123456789abcdef0123456789abcdef01234567', 'zsuzsi.moder@example.com', 'Moderátor, fórum szabályok felügyelője.'),
-(6, 'balazs_k', 'Balázs', 'U', '0f1e2d3c4b5a69788796a5b4c3d2e1f0a1b2c3d4e5f60718293a4b5c6d7e8f90', 'balazs.k@example.hu', 'Backend fejlesztő, SQL lelkes.'),
-(7, 'anna_92', 'Anna', 'U', '9a8b7c6d5e4f30123456789abcdef0123456789abcdef0123456789abcdefab', 'anna92@example.hu', 'Grafikus, UI/UX iránt érdeklődik.'),
-(8, 'tamask', 'Tamás K.', 'M', '7f6e5d4c3b2a1908123456789abcdef0123456789abcdef0123456789abcdef0', 'tamas.k@example.com', 'Tapasztalt moderátor, közösségépítő.'),
-(9, 'zsombi', 'Zsombi', 'U', '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', 'zsombi@example.hu', 'Diák és játékfejlesztő gyakornok.'),
-(10, 'petra_v', 'Petra Varga', 'U', 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789', 'petra.varga@mail.com', 'Tartalomkészítő, podcast házigazda.'),
-(11, 'gabor_admin', 'Gábor', 'A', '0a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcd12', 'gabor.admin@example.hu', 'Fő adminisztrátor, biztonsági feladatokkal.'),
-(12, 'erika_b', 'Erika', 'U', 'fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210', 'erika.b@example.hu', 'Marketing szakértő, social media menedzser.'),
-(13, 'laci_77', 'Laci', 'U', '11223344556677889900aabbccddeeff00112233445566778899aabbccddeeff', 'laci77@example.hu', 'Hardverhobbista, retro számítógépekért rajong.'),
-(14, 'kata_92', 'Kata', 'U', '99aa88bb77cc66dd55ee44ff33aa22bb11cc00ddffee11223344556677889900', 'kata92@mail.hu', 'UX kutató, felhasználói tesztek vezetője.'),
-(15, 'andras_m', 'András', 'M', '0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a', 'andras.moder@example.com', 'Moderátor, kommentek és viták kezelése.'),
-(16, 'dora_sz', 'Dóra', 'U', 'abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcd', 'dora.sz@example.hu', 'Frontend fejlesztő, React rajongó.'),
-(17, 'zsolti', 'Zsolti', 'U', '00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff', 'zsolti@example.com', 'DevOps érdeklődésű mérnök.'),
-(18, 'melinda', 'Melinda', 'U', 'f0e1d2c3b4a5968778695a4b3c2d1e0f1f2e3d4c5b6a79887766554433221100', 'melinda@mail.hu', 'Ügyfélszolgálatos, segítőkész és türelmes.'),
-(19, 'robert_p', 'Róbert', 'U', 'a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0', 'robert.p@example.hu', 'Adatbázis adminisztrátor gyakornok.'),
-(20, 'agnes_k', 'Ágnes', 'U', 'b1c2d3e4f5061728394a5b6c7d8e9f00112233445566778899aabbccddeeff11', 'agnes.k@example.com', 'Tartalommoderátor és cikkíró.'),
-(21, 'miklos', 'Miklós', 'M', 'c9d8e7f60123456789abcdef0123456789abcdef0123456789abcdef01234567', 'miklos.moder@example.hu', 'Tapasztalt fórummoderátor, közösségi szabályokért felel.'),
-(22, 'zita', 'Zita', 'U', '77aa88bb99cc00dd11ee22ff33aa44bb55cc66dd77ee88ff99aa00bb11cc22dd', 'zita@example.hu', 'Tanár, oktatási témákról ír a fórumon.'),
-(23, 'istvan_r', 'István', 'U', '3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b', 'istvan.r@example.com', 'Szabadúszó programozó, API-k szerelmese.'),
-(24, 'bea_sz', 'Bea', 'U', '45464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f6061626364', 'bea.sz@example.hu', 'Termékmenedzser, stratégiai gondolkodó.'),
-(25, 'julia', 'Júlia', 'U', '8f7e6d5c4b3a29108192a3b4c5d6e7f80112233445566778899aabbccddeeff0', 'julia@example.com', 'Közösségi média szakértő, kreatív tartalomgyártó.'),
-(26, 'tamas_x', 'Tamás X', 'U', 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890', 'tamas.x@example.hu', 'Szoftvertesztelő, automatizálási rajongó.'),
-(27, 'gigi', 'Gigi', 'U', '12131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031', 'gigi@example.hu', 'Designerek közösségének aktív tagja.'),
-(28, 'roland', 'Roland', 'M', '9f8e7d6c5b4a39281716253445566778899aabbccddeeff0011223344556677', 'roland.moder@example.com', 'Moderator, főként technikai témákat kezel.'),
-(29, 'nora', 'Nóra', 'U', '0f0e0d0c0b0a09080706050403020100ffeeddccbbaa99887766554433221100', 'nora@example.hu', 'Könyvmoly, irodalmi fórumok gyakori résztvevője.'),
-(30, 'szabi', 'Szabi', 'U', 'abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcd', 'szabi@example.com', 'Mobilalkalmazás fejlesztő, Kotlin és Swift felhasználó.'),
-(31, 'veronika', 'Veronika', 'U', '123abc456def7890abc123def4567890abc123def4567890abc123def4567890', 'veronika@mail.hu', 'Projektmenedzser, SCRUM mániás.'),
-(32, 'gabor_p', 'Gábor P.', 'U', 'fed123cba456fed789abc0123456789abcdef0123456789abcdef0123456789a', 'gabor.p@example.hu', 'Hálózati mérnök, biztonságorientált.'),
-(33, 'david', 'Dávid', 'U', '0a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20212223242526272829', 'david@example.com', 'Videószerkesztő, multimédia szakember.'),
-(34, 'ruzsa', 'Ruzsa', 'U', 'aa55bb66cc77dd88ee99ff00112233445566778899aabbccddeeff0011223344', 'ruzsa@example.hu', 'Startup alapító, üzleti mentor.'),
-(35, 'fanni', 'Fanni', 'U', 'deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef', 'fanni@example.com', 'Junior fejlesztő, tanulási fázisban.'),
-(36, 'endre', 'Endre', 'M', 'ffee00112233445566778899aabbccddeeff00112233445566778899aabbccdd', 'endre.moder@example.com', 'Moderator és technikai segéd.'),
-(37, 'ilona', 'Ilona', 'U', 'aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899', 'ilona@example.hu', 'HR szakértő, közösségi események szervezője.'),
-(38, 'pal', 'Pál', 'U', '1122aabb3344ccdd5566ee77889900aabbccddeeff00112233445566778899aa', 'pal@example.com', 'Tanácsadó, üzletfejlesztési tapasztalattal.'),
-(39, 'marta', 'Márta', 'U', '00ffee11ddcc22bb33aa44cc55dd66ee77ff889900aabbccddeeff1122334455', 'marta@mail.hu', 'Bloggerek között aktív, életmód témákban publikál.'),
-(40, 'istvan_b', 'István B.', 'U', '99cc88bb77aa66dd55ee44ff33aa22bb11cc00ddffee11223344556677889900', 'istvan.b@example.hu', 'Jogász, adatvédelmi témákkal foglalkozik.');
+INSERT INTO `users` (`id`, `name`, `display_name`, `role`, `password`, `email`, `description`, `blocked`) VALUES
+(1, 'alex_13', 'Alex 13', 'U', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'alex13@example.hu', 'Számítástechnika iránt érdeklődő felhasználó, hobbiból programoz.', NULL),
+(2, 'kovacs_peti', 'Kovács Peti', 'U', '5f4dcc3b5aa765d61d8327deb882cf99aa3f3a1b2c3d4e5f67890abcdef12345', 'peti.kovacs@example.hu', 'Gyakorló webfejlesztő, szeret blogolni.', NULL),
+(3, 'noemi88', 'Noémi', 'U', 'b94d27b9934d3e08a52e52d7da7dabfadeadbeef0123456789abcdefabcd1234', 'noemi88@mail.hu', 'Fotós és természetbarát.', NULL),
+(4, 'marci_admin', 'Marci', 'A', 'a3f5c6d7e8f90123456789abcdef0123456789abcdef0123456789abcdefabcd', 'marci.admin@example.hu', 'Rendszergazda, felelős a rendszer üzemeltetéséért.', NULL),
+(5, 'zsuzsi_m', 'Zsuzsi', 'M', 'c1d2e3f40123456789abcdef0123456789abcdef0123456789abcdef01234567', 'zsuzsi.moder@example.com', 'Moderátor, fórum szabályok felügyelője.', NULL),
+(6, 'balazs_k', 'Balázs', 'U', '0f1e2d3c4b5a69788796a5b4c3d2e1f0a1b2c3d4e5f60718293a4b5c6d7e8f90', 'balazs.k@example.hu', 'Backend fejlesztő, SQL lelkes.', NULL),
+(7, 'anna_92', 'Anna', 'U', '9a8b7c6d5e4f30123456789abcdef0123456789abcdef0123456789abcdefab', 'anna92@example.hu', 'Grafikus, UI/UX iránt érdeklődik.', NULL),
+(8, 'tamask', 'Tamás K.', 'M', '7f6e5d4c3b2a1908123456789abcdef0123456789abcdef0123456789abcdef0', 'tamas.k@example.com', 'Tapasztalt moderátor, közösségépítő.', NULL),
+(9, 'zsombi', 'Zsombi', 'U', '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', 'zsombi@example.hu', 'Diák és játékfejlesztő gyakornok.', NULL),
+(10, 'petra_v', 'Petra Varga', 'U', 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789', 'petra.varga@mail.com', 'Tartalomkészítő, podcast házigazda.', NULL),
+(11, 'gabor_admin', 'Gábor', 'A', '0a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcd12', 'gabor.admin@example.hu', 'Fő adminisztrátor, biztonsági feladatokkal.', NULL),
+(12, 'erika_b', 'Erika', 'U', 'fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210', 'erika.b@example.hu', 'Marketing szakértő, social media menedzser.', NULL),
+(13, 'laci_77', 'Laci', 'U', '11223344556677889900aabbccddeeff00112233445566778899aabbccddeeff', 'laci77@example.hu', 'Hardverhobbista, retro számítógépekért rajong.', 1),
+(14, 'kata_92', 'Kata', 'U', '99aa88bb77cc66dd55ee44ff33aa22bb11cc00ddffee11223344556677889900', 'kata92@mail.hu', 'UX kutató, felhasználói tesztek vezetője.', NULL),
+(15, 'andras_m', 'András', 'M', '0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a', 'andras.moder@example.com', 'Moderátor, kommentek és viták kezelése.', NULL),
+(16, 'dora_sz', 'Dóra', 'U', 'abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcd', 'dora.sz@example.hu', 'Frontend fejlesztő, React rajongó.', NULL),
+(17, 'zsolti', 'Zsolti', 'U', '00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff', 'zsolti@example.com', 'DevOps érdeklődésű mérnök.', NULL),
+(18, 'melinda', 'Melinda', 'U', 'f0e1d2c3b4a5968778695a4b3c2d1e0f1f2e3d4c5b6a79887766554433221100', 'melinda@mail.hu', 'Ügyfélszolgálatos, segítőkész és türelmes.', NULL),
+(19, 'robert_p', 'Róbert', 'U', 'a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0', 'robert.p@example.hu', 'Adatbázis adminisztrátor gyakornok.', NULL),
+(20, 'agnes_k', 'Ágnes', 'U', 'b1c2d3e4f5061728394a5b6c7d8e9f00112233445566778899aabbccddeeff11', 'agnes.k@example.com', 'Tartalommoderátor és cikkíró.', NULL),
+(21, 'miklos', 'Miklós', 'M', 'c9d8e7f60123456789abcdef0123456789abcdef0123456789abcdef01234567', 'miklos.moder@example.hu', 'Tapasztalt fórummoderátor, közösségi szabályokért felel.', NULL),
+(22, 'zita', 'Zita', 'U', '77aa88bb99cc00dd11ee22ff33aa44bb55cc66dd77ee88ff99aa00bb11cc22dd', 'zita@example.hu', 'Tanár, oktatási témákról ír a fórumon.', NULL),
+(23, 'istvan_r', 'István', 'U', '3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b', 'istvan.r@example.com', 'Szabadúszó programozó, API-k szerelmese.', NULL),
+(24, 'bea_sz', 'Bea', 'U', '45464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f6061626364', 'bea.sz@example.hu', 'Termékmenedzser, stratégiai gondolkodó.', NULL),
+(25, 'julia', 'Júlia', 'U', '8f7e6d5c4b3a29108192a3b4c5d6e7f80112233445566778899aabbccddeeff0', 'julia@example.com', 'Közösségi média szakértő, kreatív tartalomgyártó.', 1),
+(26, 'tamas_x', 'Tamás X', 'U', 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890', 'tamas.x@example.hu', 'Szoftvertesztelő, automatizálási rajongó.', NULL),
+(27, 'gigi', 'Gigi', 'U', '12131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031', 'gigi@example.hu', 'Designerek közösségének aktív tagja.', NULL),
+(28, 'roland', 'Roland', 'M', '9f8e7d6c5b4a39281716253445566778899aabbccddeeff0011223344556677', 'roland.moder@example.com', 'Moderator, főként technikai témákat kezel.', NULL),
+(29, 'nora', 'Nóra', 'U', '0f0e0d0c0b0a09080706050403020100ffeeddccbbaa99887766554433221100', 'nora@example.hu', 'Könyvmoly, irodalmi fórumok gyakori résztvevője.', NULL),
+(30, 'szabi', 'Szabi', 'U', 'abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcd', 'szabi@example.com', 'Mobilalkalmazás fejlesztő, Kotlin és Swift felhasználó.', NULL),
+(31, 'veronika', 'Veronika', 'U', '123abc456def7890abc123def4567890abc123def4567890abc123def4567890', 'veronika@mail.hu', 'Projektmenedzser, SCRUM mániás.', NULL),
+(32, 'gabor_p', 'Gábor P.', 'U', 'fed123cba456fed789abc0123456789abcdef0123456789abcdef0123456789a', 'gabor.p@example.hu', 'Hálózati mérnök, biztonságorientált.', NULL),
+(33, 'david', 'Dávid', 'U', '0a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20212223242526272829', 'david@example.com', 'Videószerkesztő, multimédia szakember.', NULL),
+(34, 'ruzsa', 'Ruzsa', 'U', 'aa55bb66cc77dd88ee99ff00112233445566778899aabbccddeeff0011223344', 'ruzsa@example.hu', 'Startup alapító, üzleti mentor.', NULL),
+(35, 'fanni', 'Fanni', 'U', 'deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef', 'fanni@example.com', 'Junior fejlesztő, tanulási fázisban.', 1),
+(36, 'endre', 'Endre', 'M', 'ffee00112233445566778899aabbccddeeff00112233445566778899aabbccdd', 'endre.moder@example.com', 'Moderator és technikai segéd.', NULL),
+(37, 'ilona', 'Ilona', 'U', 'aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899', 'ilona@example.hu', 'HR szakértő, közösségi események szervezője.', NULL),
+(38, 'pal', 'Pál', 'U', '1122aabb3344ccdd5566ee77889900aabbccddeeff00112233445566778899aa', 'pal@example.com', 'Tanácsadó, üzletfejlesztési tapasztalattal.', NULL),
+(39, 'marta', 'Márta', 'U', '00ffee11ddcc22bb33aa44cc55dd66ee77ff889900aabbccddeeff1122334455', 'marta@mail.hu', 'Bloggerek között aktív, életmód témákban publikál.', NULL),
+(40, 'istvan_b', 'István B.', 'U', '99cc88bb77aa66dd55ee44ff33aa22bb11cc00ddffee11223344556677889900', 'istvan.b@example.hu', 'Jogász, adatvédelmi témákkal foglalkozik.', NULL);
 
 -- --------------------------------------------------------
 
@@ -534,12 +513,6 @@ INSERT INTO `votes` (`id`, `post_id`, `user_id`, `type`) VALUES
 --
 
 --
--- A tábla indexei `blocked_users`
---
-ALTER TABLE `blocked_users`
-  ADD KEY `user_id` (`user_id`,`email`);
-
---
 -- A tábla indexei `comments`
 --
 ALTER TABLE `comments`
@@ -638,12 +611,6 @@ ALTER TABLE `votes`
 --
 -- Megkötések a kiírt táblákhoz
 --
-
---
--- Megkötések a táblához `blocked_users`
---
-ALTER TABLE `blocked_users`
-  ADD CONSTRAINT `blocked_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Megkötések a táblához `comments`
