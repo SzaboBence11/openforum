@@ -12,9 +12,14 @@ DEBUG;TRACE
 Z:\01remek_vizsga\openforum\openForum_admin\openForum\App.xaml
 61882144642
 
+<<<<<<< HEAD
 111522790854
 32-462757384
+=======
+10-690087824
+32350781770
+>>>>>>> 47b4d14c79c99f0144acbf71bbda30c155ecb9dd
 Comments.xaml;Communities.xaml;MainWindow.xaml;Posts.xaml;Reports.xaml;users.xaml;
 
-True
+False
 

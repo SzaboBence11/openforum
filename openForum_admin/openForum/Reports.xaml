@@ -19,13 +19,12 @@
         <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20"/>
         <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontSize="20" FontFamily="Eras ITC"/>
         <Image VerticalAlignment="Top" Margin="468,0,470,0" MaxWidth="220" MaxHeight="91" Width="270" Height="84" Source="/title_kereses.png"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="209,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="336,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="463,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="505,0,0,102" TextWrapping="Wrap" Text="" Width="260" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="770,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="812,0,0,83" Source="/btn_modify.png" Stretch="Fill"/>
-        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="962,0,0,83" Source="/btn_delete.png" Stretch="Fill"/>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="167,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <TextBox x:Name="reporteduser" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="209,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <TextBox x:Name="reason" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="336,0,0,102" TextWrapping="Wrap" Text="" Width="232" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="573,0,0,83" Source="/btn_delete.png" Stretch="Fill"/>
+        <TextBox x:Name="id" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="167,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="720,0,0,83" Source="/btn_ban.png" Stretch="Fill"/>
+        <Button VerticalAlignment="Bottom" Name="btnDelete" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="579,0,0,87" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
+        <Button VerticalAlignment="Bottom" Name="btnBan" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="726,0,0,87" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
     </Grid>
 </Window>
