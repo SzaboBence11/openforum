@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from 'react'
+import Header from './Header'
 
 function App() {
 
   const [backendData, setBackendData] = useState({ communities: [] })
 
   useEffect(() => {
-    fetch('/randomCommunities') 
+    fetch('/randomCommunities')
       .then(res => res.json())
       .then(data => {
-        
+
         setBackendData({ communities: data })
       })
       .catch(err => console.error('Fetch /randomCommunities failed:', err))
   }, [])
 
   return (
-    <div class="flex-col mt-5">
-      {backendData.communities.length > 0 ? (
-        backendData.communities.map((community, i) => (
-          <div key={i} class="mx-auto border-blue-300 border-2 w-32 p-1 bg-slate-300 rounded-lg mb-1">
-            <h3 class="text-center text-blue-200">{community.name}</h3>
-          </div>
-        ))
-      ) : (
-        <p>Betöltés...</p>
-      )}
+    <div>
+      <Header />
+
+      <div className="mt-5">
+        {backendData.communities.length > 0 ? (
+          backendData.communities.map((community, i) => (
+            <div key={i} className="border-2 w-32 p-1 ms-2
+                              bg-blue-600 border-blue-600
+                                rounded-lg mb-1 shadow-lg">
+              <h3 className="text-center text-white">{community.name}</h3>
+            </div>
+          ))
+        ) : (
+          <p>Betöltés...</p>
+        )}
+      </div>
     </div>
   )
 }
