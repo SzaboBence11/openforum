@@ -107,6 +107,7 @@
     <Compile Include="Comments.xaml.cs">
       <DependentUpon>Comments.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CommonMethods.cs" />
     <Compile Include="Communities.xaml.cs">
       <DependentUpon>Communities.xaml</DependentUpon>
     </Compile>

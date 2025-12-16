@@ -12,6 +12,7 @@ app.get('/randomCommunities', (req, res) => {
   db.query('SELECT communities.name, COUNT(community_users.user_id) as member_count FROM communities LEFT JOIN community_users ON community_users.community_id = communities.id GROUP BY communities.id ORDER BY rand() LIMIT 10; ', (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
+    console.log(results)
   });
 });
 

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-Z:\openforum\openForum_admin\openForum\obj\Debug\
+C:\Users\berta\Documents\openforum\openForum_admin\openForum\obj\Debug\
 openForum
 none
 false
 DEBUG;TRACE
-Z:\openforum\openForum_admin\openForum\App.xaml
+C:\Users\berta\Documents\openforum\openForum_admin\openForum\App.xaml
 61882144642
 
-10-690087824
-32350781770
+11769678627
+32-650038937
 Comments.xaml;Communities.xaml;MainWindow.xaml;Posts.xaml;Reports.xaml;users.xaml;
 
 False

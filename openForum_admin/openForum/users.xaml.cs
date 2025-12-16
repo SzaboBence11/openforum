@@ -28,14 +28,6 @@ namespace openForum
             InitializeComponent();
             getData();
         }
-        public void openConnection()
-        {
-            connection.Open();
-        }
-        public void closeConnection()
-        {
-            connection.Close();
-        }
         public void getData()
         {
             try
@@ -52,11 +44,11 @@ namespace openForum
                 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                openConnection();
+                connection.Open();
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
                 dgUsers.ItemsSource = ds.Tables[0].DefaultView;
-                closeConnection();
+                connection.Close();
             }
             catch (Exception err)
             {
@@ -73,6 +65,55 @@ namespace openForum
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            getData();
+        }
+
+        private void dgUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgUsers.SelectedItem != null)
+            {
+                DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+                name.Text = sor["name"].ToString();
+                displayname.Text = sor["display_name"].ToString();
+                role.Text = sor["role"].ToString();
+                email.Text = sor["email"].ToString();
+                blocked.Text = sor["blocked"].ToString();
+            }
+            else
+            {
+                name.Text = "";
+                displayname.Text = "";
+                role.Text = "";
+                email.Text = "";
+                blocked.Text = "";
+            }
+        }
+
+        private void btnBan_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+            string userid = sor["id"].ToString();
+            CommonMethods.BanUser(connection, userid);
+            dgUsers.SelectedItem = null;
+            getData();
+        }
+
+        private void btnModify_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+
+            List<string> dataList = new List<string>();
+            dataList.Add(sor["id"].ToString());
+            dataList.Add(name.Text);
+            dataList.Add(displayname.Text);
+            dataList.Add(role.Text);
+            dataList.Add(email.Text);
+            dataList.Add(blocked.Text);
+
+            var columnList = CommonMethods.GenerateColumnList(sor);
+            string id = sor["id"].ToString();
+            CommonMethods.Modify(connection, "users", dataList, columnList, id);
+            dgUsers.SelectedItem = null;
             getData();
         }
     }
