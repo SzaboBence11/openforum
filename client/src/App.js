@@ -6,22 +6,22 @@ import Login from './Login';
 import Register from './Register';
 
 function App() {
-  return (
+    return (
 
-    // Router
-    <BrowserRouter>
+        // Router
+        <BrowserRouter>
 
-      {/* Link header */}
-      <Header />
+            {/* Link header */}
+            <Header />
 
-      {/* Define routes */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
-  )
+            {/* Define routes */}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App

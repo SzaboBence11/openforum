@@ -16,19 +16,38 @@ function FrontPage() {
     }, [])
 
     return (
-        <div className='border-white'>
 
-            {/* Make space for each post */}
-            {backendData.posts.length > 0 ? (
-                backendData.posts.map((post, i) => (
-                    <div>
-                        {post.community}
-                        {post.text}
-                    </div>
-                ))
-            ) : (
-                <p>Betöltés...</p>
-            )}
+        // The whole frontpage area
+        <div className="p-4 sm:ml-64">
+            <div className="p-4 border-1 rounded-base">
+                {/* Make space for each post */}
+                {backendData.posts.length > 0 ? (
+                    backendData.posts.map((post, i) => (
+
+                        // Post card
+                        <div className="flex flex-col items-center h-52 border shadow-md
+                                        mb-4 rounded-lg border-gray-400 p-3"
+                             key={i}>
+                            
+                            {/* Post text content */}
+                            <p className='text-blue-950 text-3xl'>
+                                {post.post_title}
+                            </p>
+                            <p className='text-blue-950 text-2x1'>
+                                by: {post.poster_user} in {post.community}
+                            </p>
+                            <p className='text-blue-950 mt-3'>
+                                {post.post_text}
+                            </p>
+                            <p className='text-blue-950 mt-3'>
+                                Posted at: {post.post_date}
+                            </p>
+                        </div>
+                    ))
+                ) : (
+                    <p>Betöltés...</p>
+                )}
+            </div>
         </div>
     )
 }
