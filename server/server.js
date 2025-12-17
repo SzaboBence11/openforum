@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import db from './db.js';
 import crypto from "crypto";
+import { queryObjects } from 'v8';
 
 dotenv.config();
 
@@ -50,24 +51,49 @@ app.get('/getComments/:post_id', (req, res) => {
   });
 });
 
-app.post('/login', (req, res) => {
-  let {email, password} = req.body
-  current_password = createHash('sha256').update([password]).digest('base64'),
-  current_email = [email];
+app.post('/login', async(req, res) => {
+  try{
+    let {email, password} = req.body
+    password = createHash('sha256').update(password).digest('base64');
 
-  let current_user = db.execute(
-    "SELECT * FROM users WHERE email = ? LIMIT 1",
-    [email]
-  );
+    let [rows] = await db.query(
+      "SELECT * FROM users WHERE email = ? LIMIT 1",
+      [email]
+    );
 
-  if(!current_user.length)
-    return res.status(401).json("Nincs fiók ezzel az email címmel!");
+    if(!rows.length)
+      return res.status(401).json("Nincs fiók ezzel az email címmel!");
 
-  if(current_password != current_user.password)
-    return res.status(401).json("Az email - jelszó párosítás nem megfelelő!")
+    let current_user = rows[0];
 
-  return json(current_user);
+    if(password != current_user.password)
+      return res.status(401).json("Az email - jelszó párosítás nem megfelelő!")
 
+    delete current_user.password;
+
+    return res.json(current_user);
+  }
+  catch(err){
+    res.status(500).json("Szerver hiba!");
+  }
+})
+
+app.post('/register', async(req, res) => {
+  try{
+    let {name, display_name, password, email, description} = req.body,
+    name_check = await db.query("SELECT * FROM users WHERE name = ?", [name]),
+    email_check = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+
+    if(name_check.length)
+      return res.status(401).json("Ez a felhasználónév már foglalt!");
+
+    if(email_check.length)
+      return res.status(401).json("Ez az email már foglalt!");
+    
+  }
+  catch(err){
+    res.status(500).json("Szerver hiba!");
+  }
 })
 
 const PORT = process.env.PORT || 4000;
