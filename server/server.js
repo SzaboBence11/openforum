@@ -81,15 +81,21 @@ app.post('/login', async(req, res) => {
 app.post('/register', async(req, res) => {
   try{
     let {name, display_name, password, email, description} = req.body,
-    name_check = await db.query("SELECT * FROM users WHERE name = ?", [name]),
-    email_check = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+    [name_check] = await db.query("SELECT * FROM users WHERE name = ?", [name]),
+    [email_check] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
 
     if(name_check.length)
       return res.status(401).json("Ez a felhasználónév már foglalt!");
 
     if(email_check.length)
       return res.status(401).json("Ez az email már foglalt!");
-    
+
+    password = createHash('sha256').update(password).digest('base64');
+
+    await db.execute("INSERT INTO `users`(`name`, `display_name`, `role`, `password`, `email`, `description`, `blocked`) VALUES (?,?,'U',?,?,?,'0')", [name, display_name, password, email, description]);
+
+    return res.json({message: "Sikeres Regisztráció!"});
+
   }
   catch(err){
     res.status(500).json("Szerver hiba!");
