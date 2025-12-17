@@ -16,9 +16,33 @@ app.get('/randomCommunities', (req, res) => {
   });
 });
 
-// Get random posts (For Home)
-app.get('/randomCommunities', (req, res) => {
-  db.query('SELECT comments.text, posts.text, communities.name FROM comments INNER JOIN posts ON comments.post_id = posts.id INNER JOIN communities ON posts.community_id = communities.id ORDER BY rand() LIMIT 10; ', (err, results) => {
+// Get random posts from different communities(For Home)
+app.get('/randomPosts', (req, res) => {
+  db.query('SELECT (SELECT name FROM users WHERE users.id = posts.user_id) AS poster_user, posts.title AS post_title, posts.text AS post_text, posts.date AS post_date, communities.name AS community FROM comments INNER JOIN posts ON comments.post_id = posts.id INNER JOIN communities ON posts.community_id = communities.id ORDER BY rand() LIMIT 10; ', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+app.get('/getComments/:post_id', (req, res) => {
+  let post_id = parseInt(req.params.post_id);
+
+  if (isNaN(postId)) {
+    return res.status(400).json({ error: 'Hibás post_id' });
+  }
+
+  const sql = `
+    SELECT
+      users.name AS commenter_user,
+      comments.text,
+      comments.date
+    FROM comments
+    INNER JOIN users ON comments.user_id = users.id
+    WHERE comments.post_id = ?
+    ORDER BY comments.date ASC
+  `;
+
+  db.query(sql, [post_id], (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
