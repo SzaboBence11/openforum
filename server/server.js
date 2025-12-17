@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import db from './db.js';
+import crypto from "crypto";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.get('/randomCommunities', (req, res) => {
 
 // Get random posts from different communities(For Home)
 app.get('/randomPosts', (req, res) => {
-  db.query('SELECT (SELECT name FROM users WHERE users.id = posts.user_id) AS poster_user, posts.title AS post_title, posts.text AS post_text, posts.date AS post_date, communities.name AS community FROM comments INNER JOIN posts ON comments.post_id = posts.id INNER JOIN communities ON posts.community_id = communities.id ORDER BY rand() LIMIT 10; ', (err, results) => {
+  db.query('SELECT users.id, (SELECT name FROM users WHERE users.id = posts.user_id) AS poster_user, posts.title AS post_title, posts.text AS post_text, posts.date AS post_date, communities.name AS community FROM posts INNER JOIN communities ON posts.community_id = communities.id  INNER JOIN users On users.id = posts.user_id ORDER BY rand() LIMIT 10; ', (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
@@ -48,6 +49,26 @@ app.get('/getComments/:post_id', (req, res) => {
     res.json(results);
   });
 });
+
+app.post('/login', (req, res) => {
+  let {email, password} = req.body
+  current_password = createHash('sha256').update([password]).digest('base64'),
+  current_email = [email];
+
+  let current_user = db.execute(
+    "SELECT * FROM users WHERE email = ? LIMIT 1",
+    [email]
+  );
+
+  if(!current_user.length)
+    return res.status(401).json("Nincs fiók ezzel az email címmel!");
+
+  if(current_password != current_user.password)
+    return res.status(401).json("Az email - jelszó párosítás nem megfelelő!")
+
+  return json(current_user);
+
+})
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
