@@ -24,6 +24,7 @@ app.get('/randomPosts', (req, res) => {
   });
 });
 
+
 app.get('/getComments/:post_id', (req, res) => {
   let post_id = parseInt(req.params.post_id);
 

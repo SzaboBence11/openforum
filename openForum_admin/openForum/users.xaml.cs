@@ -72,20 +72,40 @@ namespace openForum
         {
             if (dgUsers.SelectedItem != null)
             {
+                name.Opacity = 1;
+                displayname.Opacity = 1;
+                role.Opacity = 1;
+                email.Opacity = 1;
+                blocked.Opacity = 1;
                 DataRowView sor = (DataRowView)dgUsers.SelectedItem;
                 name.Text = sor["name"].ToString();
                 displayname.Text = sor["display_name"].ToString();
                 role.Text = sor["role"].ToString();
                 email.Text = sor["email"].ToString();
                 blocked.Text = sor["blocked"].ToString();
+                if (sor["blocked"].ToString() == "0")
+                {
+                    imageBan.Opacity = 1;
+                }
+                else
+                {
+                    imageBan.Opacity = 0.5;
+                }
             }
             else
             {
+                imageBan.Opacity = 0.5;
+                imageModify.Opacity = 0.5;
                 name.Text = "";
                 displayname.Text = "";
                 role.Text = "";
                 email.Text = "";
                 blocked.Text = "";
+                name.Opacity = 0.5;
+                displayname.Opacity = 0.5;
+                role.Opacity = 0.5;
+                email.Opacity = 0.5;
+                blocked.Opacity = 0.5;
             }
         }
 
