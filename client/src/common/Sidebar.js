@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 function Sidebar() {
     const [backendData, setBackendData] = useState({ communities: [] })
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
+    // Fetch randomCommunities (10)
     useEffect(() => {
         fetch('/randomCommunities')
             .then(res => res.json())
@@ -16,9 +17,13 @@ function Sidebar() {
 
     return (
         <div>
+
+            {/* Fix sidebar and change width based on isOpen */}
             <aside className={`fixed top-0 left-0 z-40 mt-16 h-full bg-blue-950
-                             text-white transition-all duration-300
+                               text-white transition-all duration-300
                                ${isOpen ? 'w-64' : 'w-14'}`}>
+
+                {/* Toggle sidebar */}
                 <button onClick={() => setIsOpen(prev => !prev)}
                         className="m-2 p-2 rounded-md hover:bg-blue-900"
                         aria-label="Toggle sidebar">
@@ -27,10 +32,15 @@ function Sidebar() {
                     </svg>
                 </button>
 
+                {/* Only have these elements when sidebar is shown */}
                 {isOpen && (
                     <div className="px-3 py-2 overflow-y-auto">
                         <ul className="space-y-2 font-medium">
+
+                            {/* Make a small thing on the sidebar for 
+                                the fetched communities */}
                             {backendData.communities.map(community => (
+                                
                                 // Random Community on sidebar
                                 <li className="hover:bg-blue-900 rounded-md transition-colors overflow-hidden"
                                     key={community.name}
@@ -73,7 +83,6 @@ function Sidebar() {
                         </ul>
                     </div>
                 )}
-
             </aside>
         </div>
     )
