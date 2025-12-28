@@ -216,5 +216,14 @@
   <ItemGroup>
     <Resource Include="btn_ban.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_unblock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_unvalidate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="btn_validate.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

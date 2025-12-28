@@ -17,6 +17,29 @@ namespace openForum
             query = $"UPDATE users SET blocked = 1 WHERE id = {id}";
             ExecuteQuery(query, connection);
         }
+        public static void UnBanUser(MySqlConnection connection, string id)
+        {
+            string query;
+            query = $"UPDATE users SET blocked = 0 WHERE id = {id}";
+            ExecuteQuery(query, connection);
+        }
+        public static void Validate(MySqlConnection connection, string id, string table)
+        {
+            string query;
+            query = $"UPDATE {table} SET valid = 'y' WHERE id = {id}";
+            ExecuteQuery(query, connection);
+        }
+        public static void UnValidate(MySqlConnection connection, string id, string table)
+        {
+            string query;
+            query = $"UPDATE {table} SET valid = 'n' WHERE id = {id}";
+            ExecuteQuery(query, connection);
+        }
+        public static void DeleteReport(MySqlConnection connection, string id)
+        {
+            string query = $"DELETE FROM reports WHERE id = {id}";
+            CommonMethods.ExecuteQuery(query, connection);
+        }
         public static void Modify(MySqlConnection connection, string table, List<string> newData, List<string> tableColumns, string id) {
             string query;
             query = $"UPDATE {table} SET";

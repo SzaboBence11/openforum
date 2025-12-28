@@ -72,55 +72,89 @@ namespace openForum
         {
             if (dgUsers.SelectedItem != null)
             {
+                name.IsReadOnly = false;
+                displayname.IsReadOnly = false;
+                role.IsReadOnly = false;
+                email.IsReadOnly = false;
                 name.Opacity = 1;
                 displayname.Opacity = 1;
                 role.Opacity = 1;
                 email.Opacity = 1;
-                blocked.Opacity = 1;
+
                 DataRowView sor = (DataRowView)dgUsers.SelectedItem;
                 name.Text = sor["name"].ToString();
                 displayname.Text = sor["display_name"].ToString();
                 role.Text = sor["role"].ToString();
                 email.Text = sor["email"].ToString();
-                blocked.Text = sor["blocked"].ToString();
                 if (sor["blocked"].ToString() == "0")
                 {
+                    imageBan.Visibility = Visibility.Visible;
                     imageBan.Opacity = 1;
+                    imageUnBan.Visibility = Visibility.Hidden;
+                    imageUnBan.Opacity = 0.5;
                 }
                 else
                 {
-                    imageBan.Opacity = 0.5;
+                    imageBan.Visibility= Visibility.Hidden;
+                    imageBan.Opacity= 0.5;
+                    imageUnBan.Visibility = Visibility.Visible;
+                    imageUnBan.Opacity = 1;
                 }
             }
             else
             {
+                name.IsReadOnly = true;
+                displayname.IsReadOnly = true;
+                role.IsReadOnly = true;
+                email.IsReadOnly = true;
+                imageBan.Visibility = Visibility.Visible;
                 imageBan.Opacity = 0.5;
+                imageUnBan.Visibility = Visibility.Hidden;
+                imageUnBan.Opacity = 0.5;
+
                 imageModify.Opacity = 0.5;
                 name.Text = "";
                 displayname.Text = "";
                 role.Text = "";
                 email.Text = "";
-                blocked.Text = "";
                 name.Opacity = 0.5;
                 displayname.Opacity = 0.5;
                 role.Opacity = 0.5;
                 email.Opacity = 0.5;
-                blocked.Opacity = 0.5;
             }
         }
 
         private void btnBan_Click(object sender, RoutedEventArgs e)
         {
             DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+            if (sor == null) { 
+                return;
+            }
+
             string userid = sor["id"].ToString();
-            CommonMethods.BanUser(connection, userid);
+            if (sor["blocked"].ToString() == "0")
+            {
+                CommonMethods.BanUser(connection, userid);
+            }
+            else
+            {
+                CommonMethods.UnBanUser(connection, userid);
+            }
             dgUsers.SelectedItem = null;
             getData();
+            name.IsReadOnly = true;
+            displayname.IsReadOnly = true;
+            role.IsReadOnly = true;
+            email.IsReadOnly= true;
         }
 
         private void btnModify_Click(object sender, RoutedEventArgs e)
         {
             DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+            if (sor == null)
+            {
+                return;
+            }
 
             List<string> dataList = new List<string>();
             dataList.Add(sor["id"].ToString());
@@ -128,7 +162,6 @@ namespace openForum
             dataList.Add(displayname.Text);
             dataList.Add(role.Text);
             dataList.Add(email.Text);
-            dataList.Add(blocked.Text);
 
             var columnList = CommonMethods.GenerateColumnList(sor);
             string id = sor["id"].ToString();

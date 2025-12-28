@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
 
 namespace openForum
 {
@@ -23,18 +24,11 @@ namespace openForum
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;database=openforum;uid=root");
         MySqlCommand command;
+        const string table = "communities";
         public Communities()
         {
             InitializeComponent();
             getData();
-        }
-        public void openConnection()
-        {
-            connection.Open();
-        }
-        public void closeConnection()
-        {
-            connection.Close();
         }
         public void getData()
         {
@@ -43,20 +37,20 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT c.name, c.description, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id GROUP BY c.id, c.name, c.description, c.date";
+                    query = $"SELECT c.id, c.name, c.description, c.valid, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id GROUP BY c.id, c.name, c.description, c.date";
                 }
                 else
                 {
-                    query = $"SELECT c.name, c.description, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id WHERE name LIKE \"%{tbSearch.Text}%\" GROUP BY c.id, c.name, c.description, c.date";
+                    query = $"SELECT c.id, c.name, c.description, c.valid, c.date, COUNT(cu.user_id) AS user_count, (SELECT u.name FROM users u WHERE u.id = MAX(CASE WHEN cu.role = 'O' THEN cu.user_id END)) AS owner_name FROM communities c LEFT JOIN community_users cu ON c.id = cu.community_id WHERE name LIKE \"%{tbSearch.Text}%\" GROUP BY c.id, c.name, c.description, c.date";
                 }
 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                openConnection();
+                connection.Open();
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
                 dgCommunities.ItemsSource = ds.Tables[0].DefaultView;
-                closeConnection();
+                connection.Close();
             }
             catch (Exception err)
             {
@@ -74,6 +68,53 @@ namespace openForum
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             getData();
+        }
+
+        private void btnValidate_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView sor = (DataRowView)dgCommunities.SelectedItem;
+            if(sor == null)
+            {
+                return;
+            }
+            string userId = sor["id"].ToString();
+            if (sor["valid"].ToString() == "y")
+            {
+                CommonMethods.UnValidate(connection, userId, table);
+            }
+            else
+            {
+                CommonMethods.Validate(connection, userId, table);
+            }
+            getData();
+        }
+
+        private void dgCommunities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgCommunities.SelectedItem != null) {
+                DataRowView sor = (DataRowView)dgCommunities.SelectedItem;
+                if (sor["valid"].ToString() == "y")
+                {
+                    imageValidate.Opacity = 0.5;
+                    imageValidate.Visibility = Visibility.Hidden;
+                    imageUnValidate.Opacity = 1;
+                    imageUnValidate.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    imageValidate.Opacity = 1;
+                    imageValidate.Visibility = Visibility.Visible;
+                    imageUnValidate.Opacity = 0.5;
+                    imageUnValidate.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                imageValidate.Opacity = 0.5;
+                imageUnValidate.Opacity = 0.5;
+                imageUnValidate.Visibility = Visibility.Visible;
+                imageValidate.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

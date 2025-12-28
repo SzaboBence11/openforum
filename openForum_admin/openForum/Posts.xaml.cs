@@ -23,18 +23,11 @@ namespace openForum
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;database=openforum;uid=root");
         MySqlCommand command;
+        string table = "posts";
         public Posts()
         {
             InitializeComponent();
             getData();
-        }
-        public void openConnection()
-        {
-            connection.Open();
-        }
-        public void closeConnection()
-        {
-            connection.Close();
         }
         public void getData()
         {
@@ -43,20 +36,20 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.title, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id";
+                    query = $"SELECT p.id, u.name AS user_name, c.name AS community_name, p.title, p.text, p.date, p.valid FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id";
                 }
                 else
                 {
-                    query = $"SELECT u.name AS user_name, c.name AS community_name, p.title, p.text, p.date FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id WHERE p.title LIKE \"%{tbSearch.Text}%\" OR u.name LIKE \"%{tbSearch.Text}%\" OR c.name LIKE \"%{tbSearch.Text}%\" or p.text LIKE \"%{tbSearch.Text}%\"";
+                    query = $"SELECT p.id, u.name AS user_name, c.name AS community_name, p.title, p.text, p.date, p.valid FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id WHERE p.title LIKE \"%{tbSearch.Text}%\" OR u.name LIKE \"%{tbSearch.Text}%\" OR c.name LIKE \"%{tbSearch.Text}%\" or p.text LIKE \"%{tbSearch.Text}%\"";
                 }
 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                openConnection();
+                connection.Open();
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
-                dgCommunities.ItemsSource = ds.Tables[0].DefaultView;
-                closeConnection();
+                dgPosts.ItemsSource = ds.Tables[0].DefaultView;
+                connection.Close();
             }
             catch (Exception err)
             {
@@ -74,6 +67,53 @@ namespace openForum
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             getData();
+        }
+
+        private void btnValidate_Click(object sender, RoutedEventArgs e)
+        {
+            if(dgPosts == null)
+            {
+                return;
+            }
+
+            DataRowView sor = (DataRowView)dgPosts.SelectedItem;
+            string post_id = sor["id"].ToString();
+            if (sor["valid"].ToString() == "y")
+            {
+                CommonMethods.UnValidate(connection, post_id, table);
+            }
+            else
+            {
+                CommonMethods.Validate(connection, post_id, table);
+            }
+            getData();
+        }
+
+        private void dgPosts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(dgPosts.SelectedItem == null)
+            {
+                imageUnValidate.Opacity = 0.5;
+                imageUnValidate.Visibility = Visibility.Visible;
+                imageValidate.Opacity = 0.5;
+                imageValidate.Visibility = Visibility.Hidden;
+                return;
+            }
+            DataRowView sor = (DataRowView)dgPosts.SelectedItem;
+            if (sor["valid"].ToString() == "y")
+            {
+                imageUnValidate.Visibility = Visibility.Visible;
+                imageValidate.Visibility = Visibility.Hidden;
+                imageUnValidate.Opacity = 1;
+                imageValidate.Opacity = 0.5;
+            }
+            else
+            {
+                imageUnValidate.Visibility = Visibility.Hidden;
+                imageValidate.Visibility = Visibility.Visible;
+                imageUnValidate.Opacity = 0.5;
+                imageValidate.Opacity = 1;
+            }
         }
     }
 }

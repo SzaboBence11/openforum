@@ -16,16 +16,11 @@
         </Grid.Background>
         <Image VerticalAlignment="Bottom" Margin="316,368,318,0" Source="/btn_vissza.png" MaxWidth="150" MaxHeight="70"/>
         <Button VerticalAlignment="Bottom" Name="btnBack" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="316,340,316,0" Opacity="0" Height="66"/>
-        <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20"/>
+        <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgCommunities" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20" SelectionChanged="dgCommunities_SelectionChanged"/>
         <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontSize="20" FontFamily="Eras ITC"/>
         <Image VerticalAlignment="Top" Margin="468,0,470,0" MaxWidth="220" MaxHeight="91" Width="270" Height="84" Source="/title_kereses.png"/>
-        <TextBox x:Name="usercount" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="556,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="description" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="242,0,0,102" TextWrapping="Wrap" Text="" Width="309" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="ownername" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="683,0,0,102" TextWrapping="Wrap" Text="" Width="124" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="812,0,0,83" Source="/btn_modify.png" Stretch="Fill"/>
-        <Image HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="962,0,0,83" Source="/btn_delete.png" Stretch="Fill"/>
-        <TextBox x:Name="name" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="167,0,0,102" TextWrapping="Wrap" Text="" Width="70" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <Button VerticalAlignment="Bottom" Name="btnModify" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="820,0,0,83" Opacity="0" Height="62" HorizontalAlignment="Left" Width="137"/>
-        <Button VerticalAlignment="Bottom" Name="btnDelete" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnBack_Click" Margin="971,0,0,87" Opacity="0" Height="62" HorizontalAlignment="Left" Width="141"/>
+        <Image x:Name="imageUnValidate" Opacity="0.5" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Top" Margin="0,443,0,0" Source="/btn_unvalidate.png" Stretch="Fill"/>
+        <Image x:Name="imageValidate" Opacity="0.5" Visibility="Hidden" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Top" Margin="0,443,0,0" Source="/btn_validate.png" Stretch="Fill"/>
+        <Button VerticalAlignment="Top" Name="btnValidate" MaxWidth="150" MaxHeight="70" Content="Back" Margin="0,447,0,0" Opacity="0" Height="62" HorizontalAlignment="Center" Width="140" Click="btnValidate_Click"/>
     </Grid>
 </Window>

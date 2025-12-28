@@ -19,14 +19,14 @@
         <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgUsers" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20" SelectionChanged="dgUsers_SelectionChanged"/>
         <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="TextBox_TextChanged" Height="31" FontSize="20" FontFamily="Eras ITC"/>
         <Image VerticalAlignment="Top" Margin="264,0,266,0" MaxWidth="220" MaxHeight="91" Width="270" Height="84" Source="/title_kereses.png"/>
-        <TextBox x:Name="name" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="169,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="displayname" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="298,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="role" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="425,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="email" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="467,0,0,102" TextWrapping="Wrap" Text="" Width="260" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <TextBox x:Name="blocked" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="732,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
-        <Image x:Name="imageModify" Opacity="0.5" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="774,0,0,83" Source="/btn_modify.png" Stretch="Fill"/>
-        <Button VerticalAlignment="Bottom" Name="btnModify" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnModify_Click" Margin="780,0,0,83" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
-        <Image x:Name="imageBan" Opacity="0.5" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="924,0,0,83" Source="/btn_ban.png" Stretch="Fill"/>
-        <Button VerticalAlignment="Bottom" Name="btnBan" MaxWidth="150" MaxHeight="70" Content="Ban" Click="btnBan_Click" Margin="930,0,0,88" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
+        <TextBox x:Name="name" Opacity="0.5" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="169,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <TextBox x:Name="displayname" Opacity="0.5" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="298,0,0,102" TextWrapping="Wrap" Text="" Width="122" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <TextBox x:Name="role" Opacity="0.5" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="425,0,0,102" TextWrapping="Wrap" Text="" Width="37" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <TextBox x:Name="email" Opacity="0.5" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="467,0,0,102" TextWrapping="Wrap" Text="" Width="260" Height="32" FontSize="20" FontFamily="Eras ITC"/>
+        <Image x:Name="imageModify" Opacity="0.5" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="738,0,0,83" Source="/btn_modify.png" Stretch="Fill"/>
+        <Button VerticalAlignment="Bottom" Name="btnModify" MaxWidth="150" MaxHeight="70" Content="Back" Click="btnModify_Click" Margin="744,0,0,83" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
+        <Image x:Name="imageBan" Opacity="0.5" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="888,0,0,83" Source="/btn_ban.png" Stretch="Fill"/>
+        <Image x:Name="imageUnBan" Opacity="0.5" Visibility="Hidden" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="888,0,0,83" Source="/btn_unblock.png" Stretch="Fill"/>
+        <Button VerticalAlignment="Bottom" Name="btnBan" MaxWidth="150" MaxHeight="70" Content="Ban" Click="btnBan_Click" Margin="894,0,0,88" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
     </Grid>
 </Window>

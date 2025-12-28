@@ -28,14 +28,6 @@ namespace openForum
             InitializeComponent();
             getData();
         }
-        public void openConnection()
-        {
-            connection.Open();
-        }
-        public void closeConnection()
-        {
-            connection.Close();
-        }
         public void getData()
         {
             try
@@ -43,20 +35,20 @@ namespace openForum
                 string query = "";
                 if (tbSearch.Text == "")
                 {
-                    query = $"SELECT r.id, u.name AS reported_user, r.reason FROM reports r LEFT JOIN users u ON u.id = r.user_id";
+                    query = $"SELECT r.id, u.id AS user_id, u.name AS reported_user, r.reason, u.blocked FROM reports r LEFT JOIN users u ON u.id = r.user_id";
                 }
                 else
                 {
-                    query = $"SELECT r.id, u.name AS reported_user, r.reason FROM reports r LEFT JOIN users u ON u.id = r.user_id WHERE u.name LIKE \"%{tbSearch.Text}%\" OR r.reason LIKE \"%{tbSearch.Text}%\"";
+                    query = $"SELECT r.id, u.id AS user_id, u.name AS reported_user, r.reason, u.blocked FROM reports r LEFT JOIN users u ON u.id = r.user_id WHERE u.name LIKE \"%{tbSearch.Text}%\" OR r.reason LIKE \"%{tbSearch.Text}%\"";
                 }
 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                openConnection();
+                connection.Open();
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
-                dgCommunities.ItemsSource = ds.Tables[0].DefaultView;
-                closeConnection();
+                dgReports.ItemsSource = ds.Tables[0].DefaultView;
+                connection.Close();
             }
             catch (Exception err)
             {
@@ -74,6 +66,54 @@ namespace openForum
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             getData();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if(dgReports.SelectedItem == null)
+            {
+                return;
+            }
+            DataRowView sor = (DataRowView)dgReports.SelectedItem;
+            string report_id = sor["id"].ToString();
+            CommonMethods.DeleteReport(connection, report_id);
+            getData();
+        }
+
+        private void btnBan_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgReports.SelectedItem == null)
+            {
+                return;
+            }
+            DataRowView sor = (DataRowView)dgReports.SelectedItem;
+            if(sor["blocked"].ToString() == "0")
+            {
+                string user_id = sor["user_id"].ToString();
+                string report_id = sor["id"].ToString();
+                CommonMethods.BanUser(connection, user_id);
+                CommonMethods.DeleteReport(connection, report_id);
+                getData();
+            }
+        }
+
+        private void dgReports_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgReports.SelectedItem == null)
+            {
+                imgDelete.Opacity = 0.5;
+                imgBan.Opacity = 0.5;
+                return;
+            }
+            DataRowView sor = (DataRowView)dgReports.SelectedItem;
+            if (sor["blocked"].ToString() == "0") {
+                imgBan.Opacity = 1;
+            }
+            else
+            {
+                imgBan.Opacity = 0.5;
+            }
+            imgDelete.Opacity = 1;
         }
     }
 }
