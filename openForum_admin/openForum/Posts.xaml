@@ -19,8 +19,8 @@
         <DataGrid VerticalAlignment="Top" MaxWidth="1600" MaxHeight="1000" Name="dgPosts" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="167,144,167,158" FontFamily="Eras ITC" FontSize="20" SelectionChanged="dgPosts_SelectionChanged"/>
         <TextBox Name="tbSearch" HorizontalAlignment="Center" Margin="0,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="204" TextChanged="tbSearch_TextChanged" Height="31" FontFamily="Eras ITC" FontSize="20"/>
         <Image VerticalAlignment="Top" Margin="468,0,470,0" MaxWidth="220" MaxHeight="91" Width="270" Height="84" Source="/title_kereses.png"/>
-        <Image x:Name="imageValidate" Opacity="0.5" Visibility="Hidden" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Top" Margin="0,443,0,0" Source="/btn_validate.png" Stretch="Fill"/>
-        <Image x:Name="imageUnValidate" Opacity="0.5" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Top" Margin="0,443,0,0" Source="/btn_unvalidate.png" Stretch="Fill"/>
-        <Button VerticalAlignment="Top" x:Name="btnValidate" MaxWidth="150" MaxHeight="70" Content="Back" Margin="0,447,0,0" Opacity="0" Height="62" HorizontalAlignment="Center" Width="140" Click="btnValidate_Click"/>
+        <Image x:Name="imageUnValidate" Opacity="0.5" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="0,443,0,70" Source="/btn_unvalidate.png" Stretch="Fill"/>
+        <Image x:Name="imageValidate" Opacity="0.5" Visibility="Hidden" HorizontalAlignment="Center" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="0,443,0,70" Source="/btn_validate.png" Stretch="Fill"/>
+        <Button VerticalAlignment="Bottom" Name="btnValidate" MaxWidth="150" MaxHeight="70" Content="Back" Margin="0,447,0,70" Opacity="0" Height="62" HorizontalAlignment="Center" Width="140" Click="btnValidate_Click"/>
     </Grid>
 </Window>
