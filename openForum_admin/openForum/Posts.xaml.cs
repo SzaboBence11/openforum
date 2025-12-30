@@ -71,7 +71,7 @@ namespace openForum
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
-            if(dgPosts == null)
+            if(dgPosts.SelectedItem == null)
             {
                 return;
             }

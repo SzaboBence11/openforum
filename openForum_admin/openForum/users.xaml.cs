@@ -156,18 +156,47 @@ namespace openForum
                 return;
             }
 
+            if (sor["name"].ToString() == name.Text &&
+                sor["display_name"].ToString() == displayname.Text &&
+                sor["role"].ToString() == role.Text &&
+                sor["email"].ToString() == email.Text)
+            {
+                return;
+            }
+
             List<string> dataList = new List<string>();
             dataList.Add(sor["id"].ToString());
             dataList.Add(name.Text);
             dataList.Add(displayname.Text);
             dataList.Add(role.Text);
             dataList.Add(email.Text);
+            dataList.Add(sor["blocked"].ToString());
 
             var columnList = CommonMethods.GenerateColumnList(sor);
             string id = sor["id"].ToString();
             CommonMethods.Modify(connection, "users", dataList, columnList, id);
             dgUsers.SelectedItem = null;
             getData();
+        }
+        private void isModifiable(object sender, RoutedEventArgs e)
+        {
+            if(dgUsers.SelectedItem == null)
+            {
+                return;
+            }
+
+            DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+            if (sor["name"].ToString() == name.Text &&
+                sor["display_name"].ToString() == displayname.Text &&
+                sor["role"].ToString() == role.Text &&
+                sor["email"].ToString() == email.Text)
+            {
+                imageModify.Opacity = 0.5;
+            }
+            else
+            {
+                imageModify.Opacity = 1;
+            }
         }
     }
 }

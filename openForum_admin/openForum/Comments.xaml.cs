@@ -98,7 +98,7 @@ namespace openForum
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
-            if (dgComments == null)
+            if (dgComments.SelectedItem == null)
             {
                 return;
             }
