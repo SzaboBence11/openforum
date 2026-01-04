@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 
 namespace openForum
@@ -65,6 +66,7 @@ namespace openForum
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            dgUsers.SelectedItem = null;
             getData();
         }
 
@@ -72,34 +74,43 @@ namespace openForum
         {
             if (dgUsers.SelectedItem != null)
             {
-                name.IsReadOnly = false;
-                displayname.IsReadOnly = false;
-                role.IsReadOnly = false;
-                email.IsReadOnly = false;
-                name.Opacity = 1;
-                displayname.Opacity = 1;
-                role.Opacity = 1;
-                email.Opacity = 1;
 
-                DataRowView sor = (DataRowView)dgUsers.SelectedItem;
-                name.Text = sor["name"].ToString();
-                displayname.Text = sor["display_name"].ToString();
-                role.Text = sor["role"].ToString();
-                email.Text = sor["email"].ToString();
-                if (sor["blocked"].ToString() == "0")
+                try
                 {
-                    imageBan.Visibility = Visibility.Visible;
-                    imageBan.Opacity = 1;
-                    imageUnBan.Visibility = Visibility.Hidden;
-                    imageUnBan.Opacity = 0.5;
+                    DataRowView sor = (DataRowView)dgUsers.SelectedItem;
+                    name.IsReadOnly = false;
+                    displayname.IsReadOnly = false;
+                    role.IsReadOnly = false;
+                    email.IsReadOnly = false;
+                    name.Opacity = 1;
+                    displayname.Opacity = 1;
+                    role.Opacity = 1;
+                    email.Opacity = 1;
+                    name.Text = sor["name"].ToString();
+                    displayname.Text = sor["display_name"].ToString();
+                    role.Text = sor["role"].ToString();
+                    email.Text = sor["email"].ToString();
+                    if (sor["blocked"].ToString() == "0")
+                    {
+                        imageBan.Visibility = Visibility.Visible;
+                        imageBan.Opacity = 1;
+                        imageUnBan.Visibility = Visibility.Hidden;
+                        imageUnBan.Opacity = 0.5;
+                    }
+                    else
+                    {
+                        imageBan.Visibility = Visibility.Hidden;
+                        imageBan.Opacity = 0.5;
+                        imageUnBan.Visibility = Visibility.Visible;
+                        imageUnBan.Opacity = 1;
+                    }
                 }
-                else
-                {
-                    imageBan.Visibility= Visibility.Hidden;
-                    imageBan.Opacity= 0.5;
-                    imageUnBan.Visibility = Visibility.Visible;
-                    imageUnBan.Opacity = 1;
+                catch(Exception ex){
+                    dgUsers.SelectedItem = null;
+                    MessageBox.Show("Üres sor!");
+                    return;
                 }
+
             }
             else
             {
@@ -163,6 +174,31 @@ namespace openForum
             {
                 return;
             }
+
+            if (name.Text.Replace(" ","").Length < 5)
+            {
+                MessageBox.Show("A 'name' hossza nem megfelelő! (Minimum 5 karakter!)");
+                return;
+            }
+            if (displayname.Text.Replace(" ", "").Length < 5)
+            {
+                MessageBox.Show("A 'displayname' hossza nem megfelelő! (Minimum 5 karakter!)");
+                return;
+            }
+            if (role.Text.Replace(" ", "").ToUpper() != "A" &&
+                role.Text.Replace(" ", "").ToUpper() != "U" &&
+                role.Text.Replace(" ", "").ToUpper() != "M")
+            {
+                MessageBox.Show("A 'role' a következők lehetnek: 'A', 'M', 'U')");
+                return;
+            }
+            if (!email.Text.Replace(" ", "").Contains("@") ||
+                !email.Text.Replace(" ", "").Contains("."))
+            {
+                MessageBox.Show("Az 'email'-nek tartalmaznia kell @-ot és .-ot!");
+                return;
+            }
+
 
             List<string> dataList = new List<string>();
             dataList.Add(sor["id"].ToString());

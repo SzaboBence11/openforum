@@ -65,6 +65,7 @@ namespace openForum
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            dgReports.SelectedItem = null;
             getData();
         }
 
@@ -105,15 +106,25 @@ namespace openForum
                 imgBan.Opacity = 0.5;
                 return;
             }
-            DataRowView sor = (DataRowView)dgReports.SelectedItem;
-            if (sor["blocked"].ToString() == "0") {
-                imgBan.Opacity = 1;
-            }
-            else
+            try
             {
-                imgBan.Opacity = 0.5;
+                DataRowView sor = (DataRowView)dgReports.SelectedItem;
+                if (sor["blocked"].ToString() == "0")
+                {
+                    imgBan.Opacity = 1;
+                }
+                else
+                {
+                    imgBan.Opacity = 0.5;
+                }
+                imgDelete.Opacity = 1;
             }
-            imgDelete.Opacity = 1;
+            catch (Exception ex) {
+                dgReports.SelectedItem = null;
+                MessageBox.Show("Üres sor!");
+                return;
+            }
+
         }
     }
 }

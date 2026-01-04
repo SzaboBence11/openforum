@@ -66,6 +66,7 @@ namespace openForum
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            dgPosts.SelectedItem = null;
             getData();
         }
 
@@ -99,21 +100,30 @@ namespace openForum
                 imageValidate.Visibility = Visibility.Hidden;
                 return;
             }
-            DataRowView sor = (DataRowView)dgPosts.SelectedItem;
-            if (sor["valid"].ToString() == "y")
+            try
             {
-                imageUnValidate.Visibility = Visibility.Visible;
-                imageValidate.Visibility = Visibility.Hidden;
-                imageUnValidate.Opacity = 1;
-                imageValidate.Opacity = 0.5;
+                DataRowView sor = (DataRowView)dgPosts.SelectedItem;
+                if (sor["valid"].ToString() == "y")
+                {
+                    imageUnValidate.Visibility = Visibility.Visible;
+                    imageValidate.Visibility = Visibility.Hidden;
+                    imageUnValidate.Opacity = 1;
+                    imageValidate.Opacity = 0.5;
+                }
+                else
+                {
+                    imageUnValidate.Visibility = Visibility.Hidden;
+                    imageValidate.Visibility = Visibility.Visible;
+                    imageUnValidate.Opacity = 0.5;
+                    imageValidate.Opacity = 1;
+                }
             }
-            else
-            {
-                imageUnValidate.Visibility = Visibility.Hidden;
-                imageValidate.Visibility = Visibility.Visible;
-                imageUnValidate.Opacity = 0.5;
-                imageValidate.Opacity = 1;
+            catch(Exception ex){
+                dgPosts.SelectedItem = null;
+                MessageBox.Show("Üres sor!");
+                return;
             }
+
         }
     }
 }

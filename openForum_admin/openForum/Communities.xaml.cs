@@ -67,6 +67,7 @@ namespace openForum
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            dgCommunities.SelectedItem = null;
             getData();
         }
 
@@ -92,21 +93,31 @@ namespace openForum
         private void dgCommunities_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgCommunities.SelectedItem != null) {
-                DataRowView sor = (DataRowView)dgCommunities.SelectedItem;
-                if (sor["valid"].ToString() == "y")
+                try
                 {
-                    imageValidate.Opacity = 0.5;
-                    imageValidate.Visibility = Visibility.Hidden;
-                    imageUnValidate.Opacity = 1;
-                    imageUnValidate.Visibility = Visibility.Visible;
+                    DataRowView sor = (DataRowView)dgCommunities.SelectedItem;
+                    if (sor["valid"].ToString() == "y")
+                    {
+                        imageValidate.Opacity = 0.5;
+                        imageValidate.Visibility = Visibility.Hidden;
+                        imageUnValidate.Opacity = 1;
+                        imageUnValidate.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        imageValidate.Opacity = 1;
+                        imageValidate.Visibility = Visibility.Visible;
+                        imageUnValidate.Opacity = 0.5;
+                        imageUnValidate.Visibility = Visibility.Hidden;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    imageValidate.Opacity = 1;
-                    imageValidate.Visibility = Visibility.Visible;
-                    imageUnValidate.Opacity = 0.5;
-                    imageUnValidate.Visibility = Visibility.Hidden;
+                    dgCommunities.SelectedItem = null;
+                    MessageBox.Show("Üres sor!");
+                    return;
                 }
+                
             }
             else
             {
