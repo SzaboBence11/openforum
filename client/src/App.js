@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Home from './Home';
-import Header from './common/Header';
-import Login from './Login';
-import Register from './Register';
+import Home from './pages/Home';
+import Header from './pages/common/Header';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
+
+    
     return (
 
         // Router

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-function Sidebar() {
+function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [backendData, setBackendData] = useState({ communities: [] })
-    const [isOpen, setIsOpen] = useState(true);
 
     // Fetch randomCommunities (10)
     useEffect(() => {
@@ -16,13 +15,13 @@ function Sidebar() {
     }, [])
 
     return (
-        // Fix sidebar and change width based on isOpen
+        // Fix sidebar and change width based on isSidebarOpen
         <aside className={`fixed top-0 left-0 z-40 mt-16 h-full bg-blue-950
                                text-white transition-all duration-300
-                               ${isOpen ? 'w-64' : 'w-14'}`}>
+                               ${isSidebarOpen ? 'w-64' : 'w-14'}`}>
 
             {/* Toggle sidebar */}
-            <button onClick={() => setIsOpen(prev => !prev)}
+            <button onClick={() => setIsSidebarOpen(prev => !prev)}
                 className="m-2 p-2 rounded-md hover:bg-blue-900"
                 aria-label="Toggle sidebar">
                 <svg className="w-6 h-6" stroke="currentColor" strokeWidth="2">
@@ -31,7 +30,7 @@ function Sidebar() {
             </button>
 
             {/* Only have these elements when sidebar is shown */}
-            {isOpen && (
+            {isSidebarOpen && (
                 <div className="px-3 py-2 overflow-y-auto">
                     <ul className="space-y-2 font-medium">
 
@@ -43,7 +42,7 @@ function Sidebar() {
                             <li className="hover:bg-blue-900 rounded-md
                                            transition-colors overflow-hidden"
                                 key={community.name}
-                                onClick={() => setIsOpen(false)}>
+                                onClick={() => setIsSidebarOpen(false)}>
                                 <a href="#"
                                     className="flex items-center px-2 py-1.5 gap-2">
 
