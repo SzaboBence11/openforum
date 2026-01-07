@@ -13,6 +13,7 @@ app.get('/randomCommunities', (req, res) => {
 
     let sql = `
         SELECT
+               communities.id,
                communities.name,
                COUNT(community_users.user_id) as member_count
         FROM communities
@@ -63,6 +64,60 @@ app.get('/randomPosts', (req, res) => {
     });
 });
 
+// Get community data
+app.get('/getCommunityData/:community_id', (req, res) => {
+    let community_id = parseInt(req.params.community_id);
+    let res1;
+    let res2;
+
+    let sql = `SELECT
+                    users.name AS owner,
+                    communities.description AS description,
+                    communities.date AS date
+               FROM communities
+               INNER JOIN community_users
+               ON communities.id = community_users.community_id
+               INNER JOIN users
+               ON users.id = community_users.user_id
+               WHERE communities.id = ? AND community_users.role = 'O'`;
+    
+    let sql2 = `SELECT
+                     COUNT(*) AS result_number
+                FROM community_users
+                WHERE community_id = ?`
+    db.query(sql, [community_id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res1 = result;
+        console.log(community_id);
+
+        db.query(sql2, [community_id], (err, result2) => {
+        if (err) return res.status(500).json({ error: err });
+        res2 = result2;
+
+        res1[0].member_count = res2[0].result_number;
+        res.json(res1);
+    })
+    })
+
+});
+
+// Get community posts
+app.get('/getCommunityPosts/:community_id', (req, res) => {
+    let community_id = parseInt(req.params.community_id);
+
+    let sql = `
+        SELECT
+            users.name AS username,
+            posts.title,
+            posts.text,
+            posts.date
+        FROM posts
+        INNER JOIN users
+        ON users.id = posts.user_id
+        WHERE posts.community_id = ? AND posts.valid = "y"
+    `
+});
+
 // Get comments API (for posts on the frontpage)
 app.get('/getComments/:post_id', (req, res) => {
 
@@ -70,7 +125,7 @@ app.get('/getComments/:post_id', (req, res) => {
     let post_id = parseInt(req.params.post_id);
 
     // Check if parsing failed
-    if (isNaN(postId)) {
+    if (isNaN(post_id)) {
         return res.status(400).json({ error: 'Hibás post_id' });
     }
 
@@ -85,6 +140,7 @@ app.get('/getComments/:post_id', (req, res) => {
         WHERE comments.post_id = ? AND comments.valid = 'y'
         ORDER BY comments.date ASC
     `;
+
 
     db.query(sql, [post_id], (err, results) => {
 
