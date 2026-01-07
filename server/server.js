@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import db from './db.js';
 import crypto from "crypto";
-import { queryObjects } from 'v8';
 
 dotenv.config();
 
@@ -13,10 +12,12 @@ app.use(express.json());
 app.get('/randomCommunities', (req, res) => {
 
     let sql = `
-        SELECT communities.name,
+        SELECT
+               communities.name,
                COUNT(community_users.user_id) as member_count
         FROM communities
         LEFT JOIN community_users ON community_users.community_id = communities.id
+        WHERE communities.valid = 'y'
         GROUP BY communities.id
         ORDER BY rand()
         LIMIT 10;
@@ -36,8 +37,9 @@ app.get('/randomCommunities', (req, res) => {
 app.get('/randomPosts', (req, res) => {
 
     let sql = `
-        SELECT users.id,
-               (SELECT name FROM users WHERE users.id = posts.user_id) AS poster_user,
+        SELECT 
+               users.id,
+               users.name AS poster_user,
                posts.title AS post_title,
                posts.text AS
                post_text,
@@ -46,6 +48,7 @@ app.get('/randomPosts', (req, res) => {
         FROM posts
         INNER JOIN communities ON posts.community_id = communities.id
         INNER JOIN users On users.id = posts.user_id
+        WHERE posts.valid = 'y' AND users.blocked = 0
         ORDER BY rand()
         LIMIT 10; 
     `;
@@ -79,7 +82,7 @@ app.get('/getComments/:post_id', (req, res) => {
             comments.date
         FROM comments
         INNER JOIN users ON comments.user_id = users.id
-        WHERE comments.post_id = ?
+        WHERE comments.post_id = ? AND comments.valid = 'y'
         ORDER BY comments.date ASC
     `;
 
@@ -99,7 +102,9 @@ app.post('/login', (req, res) => {
 
         // Get fetch data
         let { email, password } = req.body;
-        password = crypto.createHash('sha256').update(password).digest('base64');
+        password = crypto.createHash('sha256')
+                         .update(password)
+                         .digest('base64');
 
         // Look for user by email
         db.query("SELECT * FROM users WHERE email = ? LIMIT 1",
@@ -110,20 +115,23 @@ app.post('/login', (req, res) => {
 
             // If there's no account with that email
             if (!rows.length)
-                return res.status(401).json("Nincs fiók ezzel az email címmel!");
+                return res.status(400).json("Nincs fiók ezzel az email címmel!");
 
             // Save current user
             let current_user = rows[0];
 
             // Check password compatibility
             if (password != current_user.password)
-                return res.status(401).json("Az email - jelszó párosítás nem megfelelő!")
+                return res.status(400)
+                          .json("Az email - jelszó párosítás nem megfelelő!");
 
             // Remove password from the dict
             delete current_user.password;
 
             // Return user data
-            return res.json(current_user);
+            if(current_user.blocked == "0")
+                return res.json(current_user);
+            return res.status(400).json("A fiók blokkolva van!");
         });
     }
     catch (err) {
@@ -139,27 +147,31 @@ app.post('/register', (req, res) => {
         let { name, display_name, password, email, description } = req.body;
 
         // Search for user by name
-        db.query(`SELECT * FROM users WHERE name = ?`, [name], (err, name_check) => {
+        db.query(`SELECT * FROM users WHERE name = ?`,
+                    [name], (err, name_check) => {
 
             // If there's an error
             if (err) return res.status(500).json("Szerver hiba!");
 
             // Check if username already exists
             if (name_check.length)
-                return res.status(401).json("Ez a felhasználónév már foglalt!");
+                return res.status(400).json("Ez a felhasználónév már foglalt!");
 
             // Search for user by email
-            db.query("SELECT * FROM users WHERE email = ?", [email], (err, email_check) => {
+            db.query("SELECT * FROM users WHERE email = ?",
+                        [email], (err, email_check) => {
 
                 // If there's an error
                 if (err) return res.status(500).json("Szerver hiba!");
 
                 // If email already exists
                 if (email_check.length)
-                    return res.status(401).json("Ez az email már foglalt!");
+                    return res.status(400).json("Ez az email már foglalt!");
 
                 // Hash password
-                let hashed_password = crypto.createHash('sha256').update(password).digest('base64');
+                let hashed_password = crypto.createHash('sha256')
+                                            .update(password)
+                                            .digest('base64');
 
                 let sql = `
                     INSERT INTO users (name,
@@ -173,7 +185,12 @@ app.post('/register', (req, res) => {
                 `
 
                 // Insert new user
-                db.query(sql, [name, display_name, hashed_password, email, description], (err) => {
+                db.query(sql,[name,
+                              display_name,
+                              hashed_password,
+                              email,
+                              description],
+                        (err) => {
 
                     // If there's an error
                     if (err) return res.status(500).json("Szerver hiba!");
@@ -191,3 +208,5 @@ app.post('/register', (req, res) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
+
+
