@@ -27,7 +27,7 @@ app.get('/randomCommunities', (req, res) => {
     db.query(sql, (err, results) => {
 
         // If there's an error
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(400).json({ error: err });
 
         // Return results
         res.json(results);
@@ -57,7 +57,7 @@ app.get('/randomPosts', (req, res) => {
     db.query(sql, (err, results) => {
 
         // If there's an error
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(400).json({ error: err });
 
         // Return results
         res.json(results);
@@ -86,12 +86,12 @@ app.get('/getCommunityData/:community_id', (req, res) => {
                 FROM community_users
                 WHERE community_id = ?`
     db.query(sql, [community_id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(400).json({ error: err });
         res1 = result;
         console.log(community_id);
 
         db.query(sql2, [community_id], (err, result2) => {
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(400).json({ error: err });
         res2 = result2;
 
         res1[0].member_count = res2[0].result_number;
@@ -110,12 +110,19 @@ app.get('/getCommunityPosts/:community_id', (req, res) => {
             users.name AS username,
             posts.title,
             posts.text,
-            posts.date
+            posts.date,
+            COUNT(*) AS posts_count
         FROM posts
         INNER JOIN users
         ON users.id = posts.user_id
         WHERE posts.community_id = ? AND posts.valid = "y"
     `
+
+    db.query(sql, [community_id], (req, results) => {
+        if (err) return res.status(400).json({ error: err });
+        res.json(results);
+    })
+
 });
 
 // Get comments API (for posts on the frontpage)
@@ -145,7 +152,7 @@ app.get('/getComments/:post_id', (req, res) => {
     db.query(sql, [post_id], (err, results) => {
 
         // If there's an error
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(400).json({ error: err });
 
         // Return results
         res.json(results);
@@ -167,18 +174,18 @@ app.post('/login', (req, res) => {
                  [email], (err, rows) => {
 
             // If there's an error
-            if (err) return res.status(500).json("Szerver Hiba!");
+            if (err) return res.status(400).json({ error: err });
 
             // If there's no account with that email
             if (!rows.length)
-                return res.status(400).json("Nincs fiók ezzel az email címmel!");
+                return res.status(401).json("Nincs fiók ezzel az email címmel!");
 
             // Save current user
             let current_user = rows[0];
 
             // Check password compatibility
             if (password != current_user.password)
-                return res.status(400)
+                return res.status(401)
                           .json("Az email - jelszó párosítás nem megfelelő!");
 
             // Remove password from the dict
@@ -187,7 +194,7 @@ app.post('/login', (req, res) => {
             // Return user data
             if(current_user.blocked == "0")
                 return res.json(current_user);
-            return res.status(400).json("A fiók blokkolva van!");
+            return res.status(401).json("A fiók blokkolva van!");
         });
     }
     catch (err) {
@@ -207,22 +214,22 @@ app.post('/register', (req, res) => {
                     [name], (err, name_check) => {
 
             // If there's an error
-            if (err) return res.status(500).json("Szerver hiba!");
+            if (err) return res.status(400).json({ error: err });
 
             // Check if username already exists
             if (name_check.length)
-                return res.status(400).json("Ez a felhasználónév már foglalt!");
+                return res.status(401).json("Ez a felhasználónév már foglalt!");
 
             // Search for user by email
             db.query("SELECT * FROM users WHERE email = ?",
                         [email], (err, email_check) => {
 
                 // If there's an error
-                if (err) return res.status(500).json("Szerver hiba!");
+                if (err) return res.status(400).json({ error: err });
 
                 // If email already exists
                 if (email_check.length)
-                    return res.status(400).json("Ez az email már foglalt!");
+                    return res.status(401).json("Ez az email már foglalt!");
 
                 // Hash password
                 let hashed_password = crypto.createHash('sha256')
@@ -249,7 +256,7 @@ app.post('/register', (req, res) => {
                         (err) => {
 
                     // If there's an error
-                    if (err) return res.status(500).json("Szerver hiba!");
+                    if (err) return res.status(400).json({ error: err });
 
                     // Successful register!!
                     return res.json({ message: "Sikeres Regisztráció!" });
