@@ -207,60 +207,41 @@ app.post('/register', (req, res) => {
     try {
 
         // Get fetch data
-        let { name, display_name, password, email, description } = req.body;
+        let { display_name, password, email } = req.body;
 
-        // Search for user by name
-        db.query(`SELECT * FROM users WHERE name = ?`,
-                    [name], (err, name_check) => {
-
+        // Search for user by email
+        db.query("SELECT * FROM users WHERE email = ?",
+                    [email], (err, email_check) => {
             // If there's an error
             if (err) return res.status(400).json({ error: err });
-
-            // Check if username already exists
-            if (name_check.length)
-                return res.status(401).json("Ez a felhasználónév már foglalt!");
-
-            // Search for user by email
-            db.query("SELECT * FROM users WHERE email = ?",
-                        [email], (err, email_check) => {
-
+            // If email already exists
+            if (email_check.length)
+                return res.status(401).json("Ez az email már foglalt!");
+            // Hash password
+            let hashed_password = crypto.createHash('sha256')
+                                        .update(password)
+                                        .digest('base64');
+            let sql = `
+                INSERT INTO users (name,
+                                   display_name,
+                                   role,
+                                   password,
+                                   email,
+                                   description,
+                                   blocked)
+                VALUES (?, ?, 'U', ?, ?, ?, 0)
+            `
+            // Insert new user
+            db.query(sql,[name,
+                          display_name,
+                          hashed_password,
+                          email,
+                          description],
+                    (err) => {
                 // If there's an error
                 if (err) return res.status(400).json({ error: err });
-
-                // If email already exists
-                if (email_check.length)
-                    return res.status(401).json("Ez az email már foglalt!");
-
-                // Hash password
-                let hashed_password = crypto.createHash('sha256')
-                                            .update(password)
-                                            .digest('base64');
-
-                let sql = `
-                    INSERT INTO users (name,
-                                       display_name,
-                                       role,
-                                       password,
-                                       email,
-                                       description,
-                                       blocked)
-                    VALUES (?, ?, 'U', ?, ?, ?, 0)
-                `
-
-                // Insert new user
-                db.query(sql,[name,
-                              display_name,
-                              hashed_password,
-                              email,
-                              description],
-                        (err) => {
-
-                    // If there's an error
-                    if (err) return res.status(400).json({ error: err });
-
-                    // Successful register!!
-                    return res.json({ message: "Sikeres Regisztráció!" });
-                });
+                // Successful register!!
+                return res.json({ message: "Sikeres Regisztráció!" });
             });
         });
     }
@@ -290,6 +271,26 @@ app.get("/profile/:user_id", (req, res) => {
         if(err) res.status(400).json({ error: err });
 
         res.json(result)
+    })
+})
+
+app.get("/getUserCommunities/:user_id", (req, res) => {
+    let user_id = req.params.user_id;
+
+    if(isNaN(parseInt(user_id)))
+        res.status(400).json("Érvénytelen paraméter!");
+
+    let sql = `SELECT
+                    communities.name AS community_name,
+                    community_users.community_id AS community_id
+                FROM community_users
+                INNER JOIN users ON users.id = community_users.user_id
+                INNER JOIN communities ON communities.id = community_users.community_id
+                WHERE community_users.user_id = ?`
+
+    db.query(sql, [user_id], (err, result) => {
+        if(err) res.status(401).json("Érvénytelen Paraméter!")
+        res.json(result);
     })
 })
 
