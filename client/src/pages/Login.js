@@ -118,6 +118,7 @@ function Login() {
                                        id='password'
                                        name='password'
                                        placeholder='Example123'
+                                       autoComplete='true'
                                        onChange={(e) => setPassword(e.target.value)}
                                        className="w-full px-3 py-2 pr-10 rounded-lg border shadow-sm text-sm"
                                 />
