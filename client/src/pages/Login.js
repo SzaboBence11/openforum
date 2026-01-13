@@ -61,7 +61,7 @@ function Login() {
                     </h2>
                 </div>
 
-                {/*  */}
+                {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
                         className="space-y-6">

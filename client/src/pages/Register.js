@@ -2,6 +2,63 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function Register() {
+    // Input variables
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setconfirmPassword] = useState('')
+    const [nameTouched, setNameTouched] = useState(false)
+    const [emailTouched, setEmailTouched] = useState(false)
+    const [passwordTouch, setPasswordTouched] = useState(false)
+    const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    
+    // Name validation
+    const isNameValid = name.length >= 4
+
+    // Email validation
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    
+    // Password validation
+    const hasMinLength = password.length >= 8
+    const hasUppercase = /[A-Z]/.test(password)
+    const hasLowercase = /[a-z]/.test(password)
+    const hasNumber = /\d/.test(password)
+    
+    const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasLowercase
+
+    // Confirm Password validation
+    const isConfirmPasswordValid = confirmPassword == password
+    
+    // Form validation
+    const isFormValid = isEmailValid && isPasswordValid && isConfirmPasswordValid && isNameValid
+    
+    // Submit login
+    function loginSubmit(e) {
+        e.preventDefault();
+    
+        const formData = new FormData(e.target);
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const password = formData.get("password");
+    
+        // alert(`Logged in with ${email}`);
+    
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name, email: email, password: password })
+    
+        })
+        .then(res => res.json())
+        .then(data => {
+    
+            console.log(data)
+        })
+        .catch(err => console.error('Fetch /register failed:', err))
+    }
 
     return (
         <div>
@@ -18,10 +75,8 @@ function Register() {
 
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#"
-                          method="POST"
-                          className="space-y-6"
-                          name="loginForm">
+                    <form onSubmit={loginSubmit}
+                        className="space-y-6">
 
                         {/* Name */}
                         <div>
@@ -38,11 +93,23 @@ function Register() {
                                 <input type="text"
                                        className="px-3 py-2 rounded-lg text-black
                                                w-full border shadow-sm text-sm"
-                                       placeholder="John Doe"
-                                       id="name"
-                                       autoComplete='true'>
+                                       placeholder='John Doe'
+                                       id='name'
+                                       name='name'
+                                       autoComplete='true'
+                                       onChange={(e) => setName(e.target.value)}
+                                       onBlur={() => setNameTouched(true)}>
                                 </input>
                             </div>
+
+                            {/* Invalid name error */}
+                            {nameTouched && !isNameValid && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        Name has to be at least 4 characters!
+                                    </small>
+                                </div>
+                            )}
                         </div>
 
                         {/* Email */}
@@ -62,6 +129,7 @@ function Register() {
                                                w-full border shadow-sm text-sm"
                                        placeholder="john123@example.com"
                                        id="email"
+                                       name='email'
                                        autoComplete='true'>
                                 </input>
                             </div>
@@ -84,6 +152,7 @@ function Register() {
                                        className="px-3 py-2 rounded-lg text-black
                                                w-full border shadow-sm text-sm"
                                        placeholder="Example_123"
+                                       name='password'
                                        id="password">
                                 </input>
                             </div>
@@ -106,6 +175,7 @@ function Register() {
                                        className="px-3 py-2 rounded-lg text-black
                                                w-full border shadow-sm text-sm"
                                        placeholder="Example_123"
+                                       name='confirmPassword'
                                        id="confirmPassword">
                                 </input>
                             </div>
