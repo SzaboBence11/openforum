@@ -25,13 +25,19 @@ function Register() {
     const hasLowercase = /[a-z]/.test(password)
     const hasNumber = /\d/.test(password)
     
-    const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasLowercase
+    const isPasswordValid = hasMinLength &&
+                            hasUppercase &&
+                            hasNumber &&
+                            hasLowercase
 
     // Confirm Password validation
     const isConfirmPasswordValid = confirmPassword == password
     
     // Form validation
-    const isFormValid = isEmailValid && isPasswordValid && isConfirmPasswordValid && isNameValid
+    const isFormValid = isEmailValid &&
+                        isPasswordValid &&
+                        isConfirmPasswordValid &&
+                        isNameValid
     
     // Submit login
     function loginSubmit(e) {
@@ -76,7 +82,7 @@ function Register() {
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
-                        className="space-y-6">
+                          className="space-y-6">
 
                         {/* Name */}
                         <div>
@@ -84,7 +90,7 @@ function Register() {
                             {/* Name input */}
                             <label htmlFor="name"
                                 className="block text-sm/6 font-medium
-                                           text-gray-900">
+                                         text-gray-900">
                                 Név
                             </label>
 
@@ -92,7 +98,7 @@ function Register() {
                             <div className="mt-2">
                                 <input type="text"
                                        className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
+                                                  w-full border shadow-sm text-sm"
                                        placeholder='John Doe'
                                        id='name'
                                        name='name'
@@ -117,8 +123,8 @@ function Register() {
 
                             {/* Email label */}
                             <label htmlFor="email"
-                                className="block text-sm/6 font-medium
-                                           text-gray-900">
+                                   className="block text-sm/6 font-medium
+                                            text-gray-900">
                                 Email address
                             </label>
 
@@ -126,7 +132,7 @@ function Register() {
                             <div className="mt-2">
                                 <input type="email"
                                        className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
+                                                  w-full border shadow-sm text-sm"
                                        placeholder="john123@example.com"
                                        id="email"
                                        name='email'
@@ -152,7 +158,8 @@ function Register() {
                             {/* Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
-                                    className="block text-sm/6 font-medium text-gray-900">
+                                       className="text-sm/6 font-medium
+                                                text-gray-900 block">
                                     Password
                                 </label>
                             </div>
@@ -167,12 +174,16 @@ function Register() {
                                        autoComplete='true'
                                        onChange={(e) => setPassword(e.target.value)}
                                        onBlur={() => setPasswordTouched(true)}
-                                       className="w-full px-3 py-2 pr-10 rounded-lg border shadow-sm text-sm"
+                                       className="w-full px-3 pr-10 rounded-lg
+                                                  border shadow-sm text-sm py-2"
                                 />
 
-                                <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}
-                                               absolute right-3 top-1/2 -translate-y-1/2
-                                               cursor-pointer text-gray-500 hover:text-gray-700`}
+                                <i className={`${showPassword
+                                               ? 'fa-eye-slash'
+                                               : 'fa-eye'}
+                                               fa-solid absolute right-3 top-1/2
+                                               -translate-y-1/2 cursor-pointer
+                                             text-gray-500 hover:text-gray-700`}
                                    onClick={() => setShowPassword(prev => !prev)}
                                 />
                             </div>
@@ -220,7 +231,8 @@ function Register() {
                             {/* Confirm Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="confirmPassword"
-                                    className="block text-sm/6 font-medium text-gray-900">
+                                       className="block text-sm/6 font-medium
+                                                text-gray-900">
                                     Confirm Password
                                 </label>
                             </div>
@@ -228,7 +240,8 @@ function Register() {
                             {/* Confirm Password input */}
                             <div className="mt-2">
                                 <input type={showPassword ? 'text' : 'password'}
-                                       className="w-full px-3 py-2 pr-10 rounded-lg border shadow-sm text-sm"
+                                       className="w-full px-3 py-2 pr-10 rounded-lg
+                                                  border shadow-sm text-sm"
                                        placeholder="Example_123"
                                        name='confirmPassword'
                                        id="confirmPassword"
@@ -250,11 +263,12 @@ function Register() {
 
                         {/* Register btn */}
                         <div>
-                            <button className={`w-full py-2 px-4 rounded-full font-bold shadow-lg transition
+                            <button className={`w-full py-2 px-4 rounded-full
+                                                font-bold shadow-lg transition
                                                 ${isFormValid
-                                    ? 'bg-blue-950 text-white hover:bg-blue-900'
-                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                }`}
+                                                ? 'bg-blue-950 text-white hover:bg-blue-900'
+                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'}
+                                              `}
                                 type="submit"
                                 disabled={!isFormValid}>
                                 Register
@@ -267,7 +281,7 @@ function Register() {
                         Already have an account?
                         <Link to="/login"
                             className="font-semibold text-indigo-600
-                                       hover:text-indigo-500 ms-2">
+                                     hover:text-indigo-500 ms-2">
                             Login
                         </Link>
                     </p>

@@ -17,10 +17,14 @@ function Login() {
     const hasLowercase = /[a-z]/.test(password)
     const hasNumber = /\d/.test(password)
 
-    const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasLowercase
+    const isPasswordValid = hasMinLength &&
+                            hasUppercase &&
+                            hasNumber &&
+                            hasLowercase
 
     // Form validation
-    const isFormValid = isEmailValid && isPasswordValid
+    const isFormValid = isEmailValid &&
+                        isPasswordValid
 
     // Submit login
     function loginSubmit(e) {
@@ -64,14 +68,14 @@ function Login() {
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
-                        className="space-y-6">
+                          className="space-y-6">
 
                         {/* Email */}
                         <div>
 
                             {/* Email label */}
                             <label htmlFor="email"
-                                className="block text-sm/6 font-medium
+                                   className="block text-sm/6 font-medium
                                             text-gray-900">
                                 Email address
                             </label>
@@ -79,14 +83,14 @@ function Login() {
                             {/* Email input */}
                             <div className="mt-2">
                                 <input type="email"
-                                    className="px-3 py-2 rounded-lg text-black
+                                       className="px-3 py-2 rounded-lg text-black
                                                   w-full border shadow-sm text-sm"
-                                    placeholder="john123@example.com"
-                                    id="email"
-                                    autoComplete='true'
-                                    name="email"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    onBlur={() => setEmailTouched(true)}>
+                                       placeholder="john123@example.com"
+                                       id="email"
+                                       autoComplete='true'
+                                       name="email"
+                                       onChange={(e) => setEmail(e.target.value)}
+                                       onBlur={() => setEmailTouched(true)}>
                                 </input>
                             </div>
 
@@ -106,7 +110,7 @@ function Login() {
                             {/* Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
-                                    className="block text-sm/6 font-medium text-gray-900">
+                                       className="block text-sm/6 font-medium text-gray-900">
                                     Password
                                 </label>
                             </div>
@@ -120,7 +124,8 @@ function Login() {
                                        placeholder='Example123'
                                        autoComplete='true'
                                        onChange={(e) => setPassword(e.target.value)}
-                                       className="w-full px-3 py-2 pr-10 rounded-lg border shadow-sm text-sm"
+                                       className="w-full px-3 pr-10 rounded-lg
+                                                  border shadow-sm text-sm py-2"
                                 />
 
                                 <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}
@@ -130,55 +135,19 @@ function Login() {
                                 />
                             </div>
 
-                            {/* Not enough characters error
-                            {passwordTouched && !hasMinLength && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 8 characters required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No number in password error
-                            {passwordTouched && !hasNumber && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 number required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No uppercase character error
-                            {passwordTouched && !hasUppercase && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 uppercase character required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No lowercase character error
-                            {passwordTouched && !hasUppercase && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 lowercase character required!
-                                    </small>
-                                </div>
-                            )}
-                            */}
-
                         </div>
 
                         {/* Login btn */}
                         <div>
-                            <button className={`w-full py-2 px-4 rounded-full font-bold shadow-lg transition
+                            <button className={`w-full rounded-full font-bold
+                                                shadow-lg transition py-2 px-4
                                                 ${isFormValid
-                                    ? 'bg-blue-950 text-white hover:bg-blue-900'
-                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                }`}
-                                type="submit"
-                                disabled={!isFormValid}>
-                                Login
+                                                ? 'bg-blue-950 text-white hover:bg-blue-900'
+                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'}
+                                              `}
+                                    type="submit"
+                                    disabled={!isFormValid}>
+                                    Login
                             </button>
                         </div>
                     </form>
@@ -187,7 +156,7 @@ function Login() {
                     <p className="mt-10 text-center text-sm/6 text-gray-500">
                         You don't have an account?
                         <Link to="/register"
-                            className="font-semibold text-indigo-600
+                              className="font-semibold text-indigo-600
                                        hover:text-indigo-500 ms-2">
                             Register
                         </Link>
