@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Form } from 'react-router-dom';
 
 function Login() {
+    // Submit login
+    function loginSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+        alert(`Logged in with ${email}`);
+    }
 
     return (
         <div>
@@ -18,8 +28,7 @@ function Login() {
 
                 {/*  */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#"
-                          method="POST"
+                    <form onSubmit={loginSubmit}
                           className="space-y-6">
 
                         {/* Email */}
@@ -37,7 +46,10 @@ function Login() {
                                 <input type="email"
                                        className="px-3 py-2 rounded-lg text-black
                                                   w-full border shadow-sm text-sm"
-                                       placeholder="john123@example.com">
+                                       placeholder="john123@example.com"
+                                       id="email"
+                                       autoComplete='true'
+                                       name="email">
                                 </input>
                             </div>
                         </div>
@@ -55,10 +67,12 @@ function Login() {
 
                             {/* Password input */}
                             <div className="mt-2">
-                                <input type="email"
+                                <input type="password"
                                        className="px-3 py-2 rounded-lg text-black
                                                   w-full border shadow-sm text-sm"
-                                       placeholder="Example_123">
+                                       placeholder="Example_123"
+                                       id="password"
+                                       name="password">
                                 </input>
                             </div>
                         </div>
@@ -68,7 +82,8 @@ function Login() {
                             <button className="hover:bg-gray-100 hover:text-blue-950
                                                text-white bg-blue-950 font-bold py-2
                                                px-4 rounded-full transition-colors w-full
-                                               justify-center shadow-lg">
+                                               justify-center shadow-lg"
+                                    type="submit">
                                 Login
                             </button>
                         </div>

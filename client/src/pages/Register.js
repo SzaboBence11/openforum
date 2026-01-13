@@ -16,11 +16,34 @@ function Register() {
                     </h2>
                 </div>
 
-                {/*  */}
+                {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form action="#"
-                        method="POST"
-                        className="space-y-6">
+                          method="POST"
+                          className="space-y-6"
+                          name="loginForm">
+
+                        {/* Name */}
+                        <div>
+
+                            {/* Name input */}
+                            <label htmlFor="name"
+                                className="block text-sm/6 font-medium
+                                           text-gray-900">
+                                Név
+                            </label>
+
+                            {/* Name input */}
+                            <div className="mt-2">
+                                <input type="text"
+                                       className="px-3 py-2 rounded-lg text-black
+                                               w-full border shadow-sm text-sm"
+                                       placeholder="John Doe"
+                                       id="name"
+                                       autoComplete='true'>
+                                </input>
+                            </div>
+                        </div>
 
                         {/* Email */}
                         <div>
@@ -35,9 +58,11 @@ function Register() {
                             {/* Email input */}
                             <div className="mt-2">
                                 <input type="email"
-                                    className="px-3 py-2 rounded-lg text-black
+                                       className="px-3 py-2 rounded-lg text-black
                                                w-full border shadow-sm text-sm"
-                                    placeholder="john123@example.com">
+                                       placeholder="john123@example.com"
+                                       id="email"
+                                       autoComplete='true'>
                                 </input>
                             </div>
                         </div>
@@ -56,9 +81,32 @@ function Register() {
                             {/* Password input */}
                             <div className="mt-2">
                                 <input type="email"
-                                    className="px-3 py-2 rounded-lg text-black
+                                       className="px-3 py-2 rounded-lg text-black
                                                w-full border shadow-sm text-sm"
-                                    placeholder="Example_123">
+                                       placeholder="Example_123"
+                                       id="password">
+                                </input>
+                            </div>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div>
+
+                            {/* Confirm Password label */}
+                            <div className="flex items-center justify-between">
+                                <label htmlFor="confirmPassword"
+                                    className="block text-sm/6 font-medium text-gray-900">
+                                    Confirm Password
+                                </label>
+                            </div>
+
+                            {/* Confirm Password input */}
+                            <div className="mt-2">
+                                <input type="password"
+                                       className="px-3 py-2 rounded-lg text-black
+                                               w-full border shadow-sm text-sm"
+                                       placeholder="Example_123"
+                                       id="confirmPassword">
                                 </input>
                             </div>
                         </div>
