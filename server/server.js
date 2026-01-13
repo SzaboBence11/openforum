@@ -269,6 +269,30 @@ app.post('/register', (req, res) => {
     }
 });
 
+app.get("/profile/:user_id", (req, res) => {
+    let user_id = req.params.user_id;
+
+    if(isNaN(parseInt(user_id)))
+        res.status(400).json("Érvénytelen paraméter!");
+
+    let sql = `SELECT
+                    id,
+                    name,
+                    display_name,
+                    role,
+                    email,
+                    description
+                FROM users
+                WHERE id = ?
+                LIMIT 1`
+
+    db.query(sql, [user_id], (err, result) => {
+        if(err) res.status(400).json({ error: err });
+
+        res.json(result)
+    })
+})
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
 
