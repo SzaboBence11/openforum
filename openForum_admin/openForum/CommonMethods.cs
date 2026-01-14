@@ -26,13 +26,13 @@ namespace openForum
         public static void Validate(MySqlConnection connection, string id, string table)
         {
             string query;
-            query = $"UPDATE {table} SET valid = 'y' WHERE id = {id}";
+            query = $"UPDATE {table} SET valid = 1 WHERE id = {id}";
             ExecuteQuery(query, connection);
         }
         public static void UnValidate(MySqlConnection connection, string id, string table)
         {
             string query;
-            query = $"UPDATE {table} SET valid = 'n' WHERE id = {id}";
+            query = $"UPDATE {table} SET valid = 0 WHERE id = {id}";
             ExecuteQuery(query, connection);
         }
         public static void DeleteReport(MySqlConnection connection, string id)

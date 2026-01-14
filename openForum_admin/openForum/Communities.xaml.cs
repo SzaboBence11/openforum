@@ -79,7 +79,7 @@ namespace openForum
                 return;
             }
             string userId = sor["id"].ToString();
-            if (sor["valid"].ToString() == "y")
+            if (Convert.ToInt32(sor["valid"]) == 1)
             {
                 CommonMethods.UnValidate(connection, userId, table);
             }
@@ -96,7 +96,7 @@ namespace openForum
                 try
                 {
                     DataRowView sor = (DataRowView)dgCommunities.SelectedItem;
-                    if (sor["valid"].ToString() == "y")
+                    if (Convert.ToInt32(sor["valid"]) == 1)
                     {
                         imageValidate.Opacity = 0.5;
                         imageValidate.Visibility = Visibility.Hidden;

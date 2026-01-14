@@ -83,7 +83,7 @@ namespace openForum
             try
             {
                 DataRowView sor = (DataRowView)dgComments.SelectedItem;
-                if (sor["valid"].ToString() == "y")
+                if (Convert.ToInt32(sor["valid"]) == 1)
                 {
                     imageUnValidate.Visibility = Visibility.Visible;
                     imageValidate.Visibility = Visibility.Hidden;
@@ -114,7 +114,7 @@ namespace openForum
 
             DataRowView sor = (DataRowView)dgComments.SelectedItem;
             string post_id = sor["id"].ToString();
-            if (sor["valid"].ToString() == "y")
+            if (Convert.ToInt32(sor["valid"]) == 1)
             {
                 CommonMethods.UnValidate(connection, post_id, table);
             }
