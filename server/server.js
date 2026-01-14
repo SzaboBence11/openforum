@@ -221,27 +221,32 @@ app.post('/register', (req, res) => {
             let hashed_password = crypto.createHash('sha256')
                                         .update(password)
                                         .digest('base64');
-            let sql = `
-                INSERT INTO users (name,
-                                   display_name,
-                                   role,
-                                   password,
-                                   email,
-                                   description,
-                                   blocked)
-                VALUES (?, ?, 'U', ?, ?, ?, 0)
-            `
-            // Insert new user
-            db.query(sql,[name,
-                          display_name,
-                          hashed_password,
-                          email,
-                          description],
-                    (err) => {
-                // If there's an error
+            db.query("SELECT COUNT(*) FROM users", (err, users) => {
                 if (err) return res.status(400).json({ error: err });
-                // Successful register!!
-                return res.json({ message: "Sikeres Regisztráció!" });
+                let user_count = users;
+                let name = `${display_name}_${user_count + 1}`;
+                let sql = `
+                    INSERT INTO users (name,
+                                       display_name,
+                                       role,
+                                       password,
+                                       email,
+                                       description,
+                                       blocked)
+                    VALUES (?, ?, 'U', ?, ?, ?, 0)
+                `
+                // Insert new user
+                db.query(sql,[name,
+                              display_name,
+                              hashed_password,
+                              email,
+                              description],
+                        (err) => {
+                    // If there's an error
+                    if (err) return res.status(400).json({ error: err });
+                    // Successful register!!
+                    return res.json({ message: "Sikeres Regisztráció!" });
+                });
             });
         });
     }
