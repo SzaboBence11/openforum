@@ -6,10 +6,10 @@ function Register() {
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setconfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [nameTouched, setNameTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
-    const [passwordTouch, setPasswordTouched] = useState(false)
+    const [passwordTouched, setPasswordTouched] = useState(false)
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     
@@ -25,13 +25,19 @@ function Register() {
     const hasLowercase = /[a-z]/.test(password)
     const hasNumber = /\d/.test(password)
     
-    const isPasswordValid = hasMinLength && hasUppercase && hasNumber && hasLowercase
+    const isPasswordValid = hasMinLength &&
+                            hasUppercase &&
+                            hasNumber &&
+                            hasLowercase
 
     // Confirm Password validation
     const isConfirmPasswordValid = confirmPassword == password
     
     // Form validation
-    const isFormValid = isEmailValid && isPasswordValid && isConfirmPasswordValid && isNameValid
+    const isFormValid = isEmailValid &&
+                        isPasswordValid &&
+                        isConfirmPasswordValid &&
+                        isNameValid
     
     // Submit login
     function loginSubmit(e) {
@@ -76,7 +82,7 @@ function Register() {
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
-                        className="space-y-6">
+                          className="space-y-6">
 
                         {/* Name */}
                         <div>
@@ -84,7 +90,7 @@ function Register() {
                             {/* Name input */}
                             <label htmlFor="name"
                                 className="block text-sm/6 font-medium
-                                           text-gray-900">
+                                         text-gray-900">
                                 Név
                             </label>
 
@@ -92,7 +98,7 @@ function Register() {
                             <div className="mt-2">
                                 <input type="text"
                                        className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
+                                                  w-full border shadow-sm text-sm"
                                        placeholder='John Doe'
                                        id='name'
                                        name='name'
@@ -117,8 +123,8 @@ function Register() {
 
                             {/* Email label */}
                             <label htmlFor="email"
-                                className="block text-sm/6 font-medium
-                                           text-gray-900">
+                                   className="block text-sm/6 font-medium
+                                            text-gray-900">
                                 Email address
                             </label>
 
@@ -126,13 +132,24 @@ function Register() {
                             <div className="mt-2">
                                 <input type="email"
                                        className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
+                                                  w-full border shadow-sm text-sm"
                                        placeholder="john123@example.com"
                                        id="email"
                                        name='email'
-                                       autoComplete='true'>
+                                       autoComplete='true'
+                                       onBlur={() => setEmailTouched(true)}
+                                       onChange={(e) => setEmail(e.target.value)}>
                                 </input>
                             </div>
+
+                            {/* Invalid email error */}
+                            {emailTouched && !isEmailValid && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        Invalid email!
+                                    </small>
+                                </div>
+                            )}
                         </div>
 
                         {/* Password */}
@@ -141,21 +158,71 @@ function Register() {
                             {/* Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
-                                    className="block text-sm/6 font-medium text-gray-900">
+                                       className="text-sm/6 font-medium
+                                                text-gray-900 block">
                                     Password
                                 </label>
                             </div>
 
                             {/* Password input */}
-                            <div className="mt-2">
-                                <input type="email"
-                                       className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
-                                       placeholder="Example_123"
+                            <div className="relative">
+                                <input type={showPassword ? 'text' : 'password'}
+                                       value={password}
+                                       id='password'
                                        name='password'
-                                       id="password">
-                                </input>
+                                       placeholder='Example123'
+                                       autoComplete='true'
+                                       onChange={(e) => setPassword(e.target.value)}
+                                       onBlur={() => setPasswordTouched(true)}
+                                       className="w-full px-3 pr-10 rounded-lg
+                                                  border shadow-sm text-sm py-2"
+                                />
+
+                                <i className={`${showPassword
+                                               ? 'fa-eye-slash'
+                                               : 'fa-eye'}
+                                               fa-solid absolute right-3 top-1/2
+                                               -translate-y-1/2 cursor-pointer
+                                             text-gray-500 hover:text-gray-700`}
+                                   onClick={() => setShowPassword(prev => !prev)}
+                                />
                             </div>
+
+                            {/* Not enough characters error */}
+                            {passwordTouched && !hasMinLength && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        At least 8 characters required!
+                                    </small>
+                                </div>
+                            )}
+
+                            {/* No number in password error */}
+                            {passwordTouched && !hasNumber && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        At least 1 number required!
+                                    </small>
+                                </div>
+                            )}
+
+                            {/* No uppercase character error */}
+                            {passwordTouched && !hasUppercase && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        At least 1 uppercase character required!
+                                    </small>
+                                </div>
+                            )}
+
+                            {/* No lowercase character error */}
+                            {passwordTouched && !hasLowercase && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        At least 1 lowercase character required!
+                                    </small>
+                                </div>
+                            )}
                         </div>
 
                         {/* Confirm Password */}
@@ -164,29 +231,46 @@ function Register() {
                             {/* Confirm Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="confirmPassword"
-                                    className="block text-sm/6 font-medium text-gray-900">
+                                       className="block text-sm/6 font-medium
+                                                text-gray-900">
                                     Confirm Password
                                 </label>
                             </div>
 
                             {/* Confirm Password input */}
                             <div className="mt-2">
-                                <input type="password"
-                                       className="px-3 py-2 rounded-lg text-black
-                                               w-full border shadow-sm text-sm"
+                                <input type={showPassword ? 'text' : 'password'}
+                                       className="w-full px-3 py-2 pr-10 rounded-lg
+                                                  border shadow-sm text-sm"
                                        placeholder="Example_123"
                                        name='confirmPassword'
-                                       id="confirmPassword">
+                                       id="confirmPassword"
+                                       autoComplete='true'
+                                       onChange={(e) => setConfirmPassword(e.target.value)}
+                                       onBlur={() => setConfirmPasswordTouched(true)}>
                                 </input>
                             </div>
+
+                            {/* Incorrect password confirmation */}
+                            {password != confirmPassword && confirmPasswordTouched && (
+                                <div className="mt-1">
+                                    <small className="text-red-500">
+                                        Passwords don't match!
+                                    </small>
+                                </div>
+                            )}
                         </div>
 
                         {/* Register btn */}
                         <div>
-                            <button className="hover:bg-gray-100 hover:text-blue-950
-                                               text-white bg-blue-950 font-bold py-2
-                                               px-4 rounded-full transition-colors w-full
-                                               justify-center shadow-lg">
+                            <button className={`w-full py-2 px-4 rounded-full
+                                                font-bold shadow-lg transition
+                                                ${isFormValid
+                                                ? 'bg-blue-950 text-white hover:bg-blue-900'
+                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'}
+                                              `}
+                                type="submit"
+                                disabled={!isFormValid}>
                                 Register
                             </button>
                         </div>
@@ -197,7 +281,7 @@ function Register() {
                         Already have an account?
                         <Link to="/login"
                             className="font-semibold text-indigo-600
-                                       hover:text-indigo-500 ms-2">
+                                     hover:text-indigo-500 ms-2">
                             Login
                         </Link>
                     </p>
