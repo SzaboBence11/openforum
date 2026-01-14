@@ -18,7 +18,7 @@ app.get('/randomCommunities', (req, res) => {
                COUNT(community_users.user_id) as member_count
         FROM communities
         LEFT JOIN community_users ON community_users.community_id = communities.id
-        WHERE communities.valid = 'y'
+        WHERE communities.valid = 1
         GROUP BY communities.id
         ORDER BY rand()
         LIMIT 10;
@@ -212,19 +212,23 @@ app.post('/register', (req, res) => {
         // Search for user by email
         db.query("SELECT * FROM users WHERE email = ?",
                     [email], (err, email_check) => {
+
             // If there's an error
             if (err) return res.status(400).json({ error: err });
             // If email already exists
+
             if (email_check.length)
                 return res.status(401).json("Ez az email már foglalt!");
             // Hash password
             let hashed_password = crypto.createHash('sha256')
                                         .update(password)
                                         .digest('base64');
-            db.query("SELECT COUNT(*) FROM users", (err, users) => {
+            db.query("SELECT id FROM users", (err, users) => {
                 if (err) return res.status(400).json({ error: err });
-                let user_count = users;
-                let name = `${display_name}_${user_count + 1}`;
+                let user_count = users.length;
+                let name = `${display_name.replaceAll(' ', '').toLowerCase()}_${user_count + 1}`;
+                
+
                 let sql = `
                     INSERT INTO users (name,
                                        display_name,
@@ -233,14 +237,13 @@ app.post('/register', (req, res) => {
                                        email,
                                        description,
                                        blocked)
-                    VALUES (?, ?, 'U', ?, ?, ?, 0)
+                    VALUES (?, ?, 'U', ?, ?, '', 0)
                 `
                 // Insert new user
                 db.query(sql,[name,
                               display_name,
                               hashed_password,
-                              email,
-                              description],
+                              email],
                         (err) => {
                     // If there's an error
                     if (err) return res.status(400).json({ error: err });

@@ -47,6 +47,8 @@ function Register() {
         const name = formData.get("name");
         const email = formData.get("email");
         const password = formData.get("password");
+
+        console.log(JSON.stringify({ display_name: name, email: email, password: password }))
     
         // alert(`Logged in with ${email}`);
     
@@ -55,7 +57,7 @@ function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, email: email, password: password })
+            body: JSON.stringify({ display_name: name, password: password, email: email })
     
         })
         .then(res => res.json())
