@@ -49,7 +49,7 @@ app.get('/randomPosts', (req, res) => {
         FROM posts
         INNER JOIN communities ON posts.community_id = communities.id
         INNER JOIN users On users.id = posts.user_id
-        WHERE posts.valid = 'y' AND users.blocked = 0
+        WHERE posts.valid = 1 AND users.blocked = 0
         ORDER BY rand()
         LIMIT 10; 
     `;
@@ -115,7 +115,7 @@ app.get('/getCommunityPosts/:community_id', (req, res) => {
         FROM posts
         INNER JOIN users
         ON users.id = posts.user_id
-        WHERE posts.community_id = ? AND posts.valid = "y"
+        WHERE posts.community_id = ? AND posts.valid = 1
     `
 
     db.query(sql, [community_id], (req, results) => {
@@ -144,7 +144,7 @@ app.get('/getComments/:post_id', (req, res) => {
             comments.date
         FROM comments
         INNER JOIN users ON comments.user_id = users.id
-        WHERE comments.post_id = ? AND comments.valid = 'y'
+        WHERE comments.post_id = ? AND comments.valid = 1
         ORDER BY comments.date ASC
     `;
 
