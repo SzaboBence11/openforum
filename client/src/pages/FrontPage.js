@@ -6,7 +6,7 @@ function FrontPage({ isSidebarOpen }) {
 
     // Fetch random posts for the home page
     useEffect(() => {
-        if(!localStorage.getItem("selectedCommunity")){
+        if(localStorage.getItem("selectedCommunity") == 0){
             fetch('/api/community/randomPosts')
             .then(res => res.json())
             .then(data => {
