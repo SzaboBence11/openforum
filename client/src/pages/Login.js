@@ -36,7 +36,7 @@ function Login() {
 
         // alert(`Logged in with ${email}`);
 
-        fetch('/login', {
+        fetch('/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

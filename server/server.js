@@ -8,7 +8,7 @@ dotenv.config();
 
 // Get random communities for frontpage
 import randomCommunitiesRouter from './api/community/randomCommunities.js';
-app.use('/api/communities', randomCommunitiesRouter);
+app.use('/api/communities', randomCommunitiesRouter, );
 
 // Get random posts from different communities (For Frontpage)
 import randomPostsRouter from './api/community/randomPosts.js';

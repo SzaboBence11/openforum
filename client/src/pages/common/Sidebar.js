@@ -11,7 +11,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
     // Fetch randomCommunities (10)
     useEffect(() => {
-        fetch('/randomCommunities')
+        fetch('/api/community/randomCommunities')
             .then(res => res.json())
             .then(data => {
 
