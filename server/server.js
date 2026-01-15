@@ -64,6 +64,7 @@ app.use('/api/community', randomPostsRouter);
 import getCommunityDataRouter from './api/community/getCommunityData.js';
 app.use('/api/community', getCommunityDataRouter);
 
+<<<<<<< HEAD
 /*
     Fetches the data of a post by its ID
 
@@ -83,6 +84,37 @@ app.use('/api/community', getCommunityDataRouter);
 */
 import getCommunityPostsRouter from './api/community/getCommunityPosts.js';
 app.use('/api/community', getCommunityPostsRouter);
+=======
+// Get community posts
+app.get('/getCommunityPosts/:community_id', (req, res) => {
+    let community_id = parseInt(req.params.community_id);
+
+    if (isNaN(community_id)) {
+        return res.status(400).json({ error: 'Hibás post_id' });
+    }
+
+    let sql = `
+        SELECT
+            users.name AS poster_user,
+            posts.title AS post_title,
+            posts.text AS post_text,
+            posts.date AS post_date,
+            communities.name AS community
+        FROM posts
+        INNER JOIN users
+        ON users.id = posts.user_id
+        INNER JOIN communities
+        ON communities.id = posts.community_id
+        WHERE posts.community_id = ? AND posts.valid = 1
+    `
+
+    db.query(sql, [community_id], (err, results) => {
+        if (err) return res.status(400).json({ error: err });
+        res.json(results);
+    })
+
+});
+>>>>>>> 8bea5b21df83b71bf79973503dafc8bd44c5049a
 
 /*
     Fetches the data of a comment by its ID

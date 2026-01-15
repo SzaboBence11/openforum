@@ -46,8 +46,14 @@ function Login() {
         })
             .then(res => res.json())
             .then(data => {
-
-                console.log(data)
+                localStorage.setItem('user', JSON.stringify({
+                        id: data.id,
+                        name: data.name,
+                        display_name: data.display_name,
+                        email: data.email,
+                        role: data.role,
+                }))
+                window.location.assign("/");
             })
             .catch(err => console.error('Fetch /login failed:', err))
     }
