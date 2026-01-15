@@ -3,6 +3,12 @@ import React, { useEffect, useState } from 'react'
 function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [backendData, setBackendData] = useState({ communities: [] })
 
+    function getCommunity(community_id){
+        localStorage.setItem('selectedCommunity', community_id);
+        setIsSidebarOpen(false);
+        window.location.reload(true);
+    }
+
     // Fetch randomCommunities (10)
     useEffect(() => {
         fetch('/randomCommunities')
@@ -41,8 +47,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                             // Random Community on sidebar
                             <li className="hover:bg-blue-900 rounded-md
                                            transition-colors overflow-hidden"
-                                key={community.name}
-                                onClick={() => setIsSidebarOpen(false)}>
+                                key={community.id}
+                                onClick={() => getCommunity(community.id)}>
                                 <a href="#"
                                     className="flex items-center px-2 py-1.5 gap-2">
 
