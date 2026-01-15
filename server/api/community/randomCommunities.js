@@ -3,6 +3,8 @@ import express from 'express';
 
 const router = express.Router()
 
+console.log('🔥 community router mounted')
+
 // Get random communities (For Sidebar)
 router.get('/randomCommunities', (req, res) => {
 

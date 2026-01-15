@@ -20,7 +20,7 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
         WHERE posts.community_id = ? AND posts.valid = 1
     `
 
-    db.query(sql, [community_id], (req, results) => {
+    db.query(sql, [community_id], (err, results) => {
         if (err) return res.status(400).json({ error: err });
         res.json(results);
     })
