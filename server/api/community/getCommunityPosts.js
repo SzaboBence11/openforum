@@ -9,14 +9,16 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
 
     let sql = `
         SELECT
-            users.name AS username,
-            posts.title,
-            posts.text,
-            posts.date,
-            COUNT(*) AS posts_count
+            users.name AS poster_user,
+            posts.title as post_title,
+            posts.text as post_text,
+            posts.date as post_date,
+            communities.name AS community
         FROM posts
         INNER JOIN users
         ON users.id = posts.user_id
+        INNER JOIN communities
+        ON posts.community_id = communities.id
         WHERE posts.community_id = ? AND posts.valid = 1
     `
 
