@@ -11,7 +11,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
     // Fetch randomCommunities (10)
     useEffect(() => {
-        fetch('/randomCommunities')
+        fetch('/api/community/randomCommunities')
             .then(res => res.json())
             .then(data => {
 
@@ -84,6 +84,23 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 </a>
                             </li>
                         ))}
+                        <li className="hover:bg-blue-900 rounded-md
+                                       transition-colors overflow-hidden"
+                            key={0}
+                            onClick={() => getCommunity(0)}>
+                            <a href="#"
+                                className="flex items-center px-2 py-1.5 gap-2">
+                                {/* Community icon for later */}
+                                <div className="w-6 h-6 bg-white rounded-full" />
+                                {/* Community name (Capitalized) */}
+                                <span className="whitespace-nowrap overflow-hidden">
+                                    Random Posts
+                                </span>
+                                {/* Right area */}
+                                <span className="ml-auto flex items-center gap-1 text-xs">
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             )}

@@ -6,8 +6,8 @@ function FrontPage({ isSidebarOpen }) {
 
     // Fetch random posts for the home page
     useEffect(() => {
-        if(!localStorage.getItem("selectedCommunity")){
-            fetch('/randomPosts')
+        if(localStorage.getItem("selectedCommunity") == 0){
+            fetch('/api/community/randomPosts')
             .then(res => res.json())
             .then(data => {
                 setBackendData({ posts: data });
@@ -16,7 +16,7 @@ function FrontPage({ isSidebarOpen }) {
             
             return;
         }
-        fetch(`/getCommunityPosts/${localStorage.getItem('selectedCommunity')}`)
+        fetch(`/api/community/getCommunityPosts/${localStorage.getItem('selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
                 setBackendData({ posts: data })

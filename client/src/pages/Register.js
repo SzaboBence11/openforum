@@ -55,7 +55,7 @@ function Register() {
     
         // alert(`Logged in with ${email}`);
     
-        fetch('/register', {
+        fetch('/api/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
