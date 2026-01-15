@@ -4,29 +4,24 @@ import express from 'express';
 const router = express.Router()
 
 // Get random communities (For Sidebar)
-router.get('/randomCommunities', (req, res) => {
+router.get("/getUserCommunities/:user_id", (req, res) => {
+    let user_id = req.params.user_id;
 
-    let sql = `
-        SELECT
-               communities.id,
-               communities.name,
-               COUNT(community_users.user_id) as member_count
-        FROM communities
-        LEFT JOIN community_users ON community_users.community_id = communities.id
-        WHERE communities.valid = 1
-        GROUP BY communities.id
-        ORDER BY rand()
-        LIMIT 10;
-    `;
+    if(isNaN(parseInt(user_id)))
+        res.status(400).json("Érvénytelen paraméter!");
 
-    db.query(sql, (err, results) => {
+    let sql = `SELECT
+                    communities.name AS community_name,
+                    community_users.community_id AS community_id
+                FROM community_users
+                INNER JOIN users ON users.id = community_users.user_id
+                INNER JOIN communities ON communities.id = community_users.community_id
+                WHERE community_users.user_id = ?`
 
-        // If there's an error
-        if (err) return res.status(400).json({ error: err });
-
-        // Return results
-        res.json(results);
-    });
-});
+    db.query(sql, [user_id], (err, result) => {
+        if(err) res.status(401).json("Érvénytelen Paraméter!")
+        res.json(result);
+    })
+})
 
 export default router

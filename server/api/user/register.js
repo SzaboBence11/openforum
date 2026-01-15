@@ -16,21 +16,32 @@ router.post('/register', (req, res) => {
                     [email], (err, email_check) => {
 
             // If there's an error
-            if (err) return res.status(400).json({ error: err });
-            // If email already exists
+            if (err) return res.status(400)
+                               .json({ error: err });
 
+            // If email already exists
             if (email_check.length)
-                return res.status(401).json("Ez az email már foglalt!");
+                return res.status(401)
+                          .json("Ez az email már foglalt!");
+
             // Hash password
             let hashed_password = crypto.createHash('sha256')
                                         .update(password)
                                         .digest('base64');
+
+            // Get number of users
             db.query("SELECT id FROM users", (err, users) => {
-                if (err) return res.status(400).json({ error: err });
+                
+                // If error
+                if (err)
+                    return res.status(400)
+                              .json({ error: err });
+
+                // Generate name
                 let user_count = users.length;
                 let name = `${display_name.replaceAll(' ', '').toLowerCase()}_${user_count + 1}`;
                 
-
+                // Insert user sql
                 let sql = `
                     INSERT INTO users (name,
                                        display_name,
@@ -41,14 +52,19 @@ router.post('/register', (req, res) => {
                                        blocked)
                     VALUES (?, ?, 'U', ?, ?, '', 0)
                 `
+
                 // Insert new user
                 db.query(sql,[name,
                               display_name,
                               hashed_password,
                               email],
                         (err) => {
+
                     // If there's an error
-                    if (err) return res.status(400).json({ error: err });
+                    if (err)
+                        return res.status(400)
+                                  .json({ error: err });
+                                  
                     // Successful register!!
                     return res.json({ message: "Sikeres Regisztráció!" });
                 });

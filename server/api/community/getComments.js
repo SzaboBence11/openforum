@@ -27,6 +27,7 @@ router.get('/getComments/:post_id', (req, res) => {
     `;
 
 
+    // Do query
     db.query(sql, [post_id], (err, results) => {
 
         // If there's an error

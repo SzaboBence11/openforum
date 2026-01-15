@@ -3,11 +3,10 @@ import express from 'express';
 
 const router = express.Router()
 
-console.log('🔥 community router mounted')
-
 // Get random communities (For Sidebar)
 router.get('/randomCommunities', (req, res) => {
 
+    // Select 10 random communities
     let sql = `
         SELECT
                communities.id,
@@ -21,6 +20,7 @@ router.get('/randomCommunities', (req, res) => {
         LIMIT 10;
     `;
 
+    // Do the query
     db.query(sql, (err, results) => {
 
         // If there's an error

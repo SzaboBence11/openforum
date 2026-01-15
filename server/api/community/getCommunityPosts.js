@@ -5,8 +5,11 @@ const router = express.Router()
 
 // Get random communities (For Sidebar)
 router.get('/getCommunityPosts/:community_id', (req, res) => {
+
+    // Get params
     let community_id = parseInt(req.params.community_id);
 
+    // Select all things of a given post
     let sql = `
         SELECT
             users.name AS username,
@@ -20,8 +23,14 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
         WHERE posts.community_id = ? AND posts.valid = 1
     `
 
+    // Do the query
     db.query(sql, [community_id], (err, results) => {
-        if (err) return res.status(400).json({ error: err });
+
+        // If error
+        if (err)
+            return res.status(400).json({ error: err });
+        
+        // Return result
         res.json(results);
     })
 

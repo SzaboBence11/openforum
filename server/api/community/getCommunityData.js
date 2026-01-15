@@ -5,10 +5,11 @@ const router = express.Router()
 
 // Get random communities (For Sidebar)
 router.get('/getCommunityData/:community_id', (req, res) => {
-    let community_id = parseInt(req.params.community_id);
-    let res1;
-    let res2;
 
+    // Get input variable
+    let community_id = parseInt(req.params.community_id);
+
+    // Community details
     let sql = `SELECT
                     users.name AS owner,
                     communities.description AS description,
@@ -20,22 +21,33 @@ router.get('/getCommunityData/:community_id', (req, res) => {
                ON users.id = community_users.user_id
                WHERE communities.id = ? AND community_users.role = 'O'`;
     
+    // Community member count
     let sql2 = `SELECT
                      COUNT(*) AS result_number
                 FROM community_users
-                WHERE community_id = ?`
-    db.query(sql, [community_id], (err, result) => {
-        if (err) return res.status(400).json({ error: err });
-            res1 = result;
-            console.log(community_id);
-            db.query(sql2, [community_id], (err, result2) => {
-        if (err) return res.status(400).json({ error: err });
-            res2 = result2;
-            res1[0].member_count = res2[0].result_number;
-            res.json(res1);
-        })
-    })
+                WHERE community_id = ?`;
 
+    // Do first SQL command
+    db.query(sql, [community_id], (err, res1) => {
+
+        // In case of error
+        if (err)
+            return res.status(400).json({ error: err });
+
+        // Do the second query
+        db.query(sql2, [community_id], (err, res2) => {
+
+            // In case of an error
+            if (err)
+                return res.status(400).json({ error: err });
+
+            // Combine the 2 results
+            res1[0].member_count = res2[0].result_number;
+
+            // Go back with the result
+            res.json(res1);
+        });
+    });
 });
 
 export default router

@@ -6,6 +6,7 @@ const router = express.Router()
 // Get random communities (For Sidebar)
 router.get('/randomPosts', (req, res) => {
 
+    // Select all the things of a post
     let sql = `
         SELECT 
                users.id,
@@ -23,6 +24,7 @@ router.get('/randomPosts', (req, res) => {
         LIMIT 10; 
     `;
 
+    // Do the query
     db.query(sql, (err, results) => {
 
         // If there's an error

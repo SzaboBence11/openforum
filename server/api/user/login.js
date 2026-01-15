@@ -10,6 +10,8 @@ router.post('/login', (req, res) => {
 
         // Get fetch data
         let { email, password } = req.body;
+
+        // Hash password
         password = crypto.createHash('sha256')
                          .update(password)
                          .digest('base64');
@@ -19,11 +21,13 @@ router.post('/login', (req, res) => {
                  [email], (err, rows) => {
 
             // If there's an error
-            if (err) return res.status(400).json({ error: err });
+            if (err) return res.status(400)
+                               .json({ error: err });
 
             // If there's no account with that email
             if (!rows.length)
-                return res.status(401).json("Nincs fiók ezzel az email címmel!");
+                return res.status(401)
+                          .json("Nincs fiók ezzel az email címmel!");
 
             // Save current user
             let current_user = rows[0];
@@ -39,11 +43,13 @@ router.post('/login', (req, res) => {
             // Return user data
             if(current_user.blocked == "0")
                 return res.json(current_user);
-            return res.status(401).json("A fiók blokkolva van!");
+            return res.status(401)
+                      .json("A fiók blokkolva van!");
         });
     }
     catch (err) {
-        res.status(500).json("Szerver hiba!");
+        res.status(500)
+           .json("Szerver hiba!");
     }
 })
 
