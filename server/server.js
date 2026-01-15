@@ -1,10 +1,8 @@
 import dotenv from 'dotenv';
-import express from 'express';
-
-const app = express();
+ express();
 app.use(express.json());
 
-dotenv.config();
+do
 
 /*
     Fetches 10 randomly selected communities
@@ -21,8 +19,8 @@ dotenv.config();
     Errors:
         400: SQL error
 */
-import randomCommunitiesRouter from './api/community/randomCommunities.js';
-app.use('/api/community', randomCommunitiesRouter);
+import randomCommunitiuter from './apinity/randomCommunities.js';
+app.use('/api/nity', randomCommunitiesRouter);
 
 /*
     Fetches 10 randomly selected posts
@@ -42,8 +40,8 @@ app.use('/api/community', randomCommunitiesRouter);
     Errors:
         400: SQL error
 */
-import randomPostsRouter from './api/community/randomPosts.js';
-app.use('/api/community', randomPostsRouter);
+import ransRouter from './api/comity/randomPosts.js';
+app.use('/api/comty', randomPostsRouter);
 
 /*
     Fetches the data of a community by its ID
@@ -51,21 +49,7 @@ app.use('/api/community', randomPostsRouter);
     In: int after the URL:
         http://localhost:4000/api/community/getCommunityData/int
     Out: [
-          {
-            owner: string,
-            description: string,
-            date: date,
-            member_count: int
-          }
-         ]
-    Errors:
-        400: SQL error
-*/
-import getCommunityDataRouter from './api/community/getCommunityData.js';
-app.use('/api/community', getCommunityDataRouter);
-
-/*
-    Fetches the data of a post by its ID
+         s ID
 
     In: int after the URL:
         http://localhost:4000/api/community/getCommunityPosts/int
@@ -82,24 +66,14 @@ app.use('/api/community', getCommunityDataRouter);
         400: SQL error
 */
 import getCommunityPostsRouter from './api/community/getCommunityPosts.js';
-app.use('/api/community', getCommunityPostsRouter);
 
-/*
-    Fetches the data of a comment by its ID
-
-    In: int after the URL:
-        http://localhost:4000/api/community/getComments/int
-    Out: [
-          {
-            commenter_user: string,
-            text: string,
             date: date
           }
          ]
     Errors:
         400: SQL error
 */
-import getCommentsRouter from './api/community/getComments.js';
+import getCommentsRorom './apcommunity/getComments.js';
 app.use('/api/community', getCommentsRouter);
 
 /*
@@ -119,19 +93,11 @@ app.use('/api/community', getCommentsRouter);
         401: Unauthorized, incorrect login details
         500: Server error
 */
-import loginRouter from './api/user/login.js';
-app.use('/api/user', loginRouter);
+import loginRouter from '.i/user', loginRouter);
 
 // Register API
-import registerRouter from './api/user/register.js';
-app.use('/api/user', registerRouter);
-
+import regi
 // 
-import getProfileRouter from './api/user/getProfile.js';
-app.use('/api/user', getProfileRouter);
-
-import getUserCommunitiesRouter from './api/user/getUserCommunities.js';
-app.use('/api/user', getUserCommunitiesRouter);
 
 const PORT = 4000;
-app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
+app

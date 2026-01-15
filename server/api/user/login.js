@@ -19,8 +19,7 @@ router.post('/login', (req, res) => {
                  [email], (err, rows) => {
 
             // If there's an error
-            if (err) return res.status(400).json({ error: err });
-
+            if (err) return res.status(400).json({ a: "fasz" });
             // If there's no account with that email
             if (!rows.length)
                 return res.status(401).json("Nincs fiók ezzel az email címmel!");
