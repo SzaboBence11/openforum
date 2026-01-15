@@ -7,11 +7,14 @@ function Register() {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
     const [nameTouched, setNameTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
     const [passwordTouched, setPasswordTouched] = useState(false)
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
+
     const [showPassword, setShowPassword] = useState(false)
+    const [invalidRegister, setInvalidRegister] = useState(false)
     
     // Name validation
     const isNameValid = name.length >= 4
