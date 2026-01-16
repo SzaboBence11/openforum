@@ -57,11 +57,13 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
                                     {/* Community name (Capitalized) */}
                                     <span className="whitespace-nowrap overflow-hidden">
-                                        {community.name.charAt(0).toUpperCase() + community.name.slice(1)}
+                                        {community.name.charAt(0).toUpperCase()
+                                         + community.name.slice(1)}
                                     </span>
 
                                     {/* Right area */}
-                                    <span className="ml-auto flex items-center gap-1 text-xs">
+                                    <span className="ml-auto flex items-center gap-1
+                                    text-xs">
 
                                         {/* User Count */}
                                         {community.member_count}

@@ -118,7 +118,8 @@ function Login() {
                             {/* Password label */}
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
-                                       className="block text-sm/6 font-medium text-gray-900">
+                                       className="block text-sm/6 font-medium
+                                       text-gray-900">
                                     Password
                                 </label>
                             </div>
@@ -136,9 +137,11 @@ function Login() {
                                                   border shadow-sm text-sm py-2"
                                 />
 
-                                <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}
+                                <i className={`fa-solid ${showPassword ? 'fa-eye-slash' 
+                                                                       : 'fa-eye'}
                                                absolute right-3 top-1/2 -translate-y-1/2
-                                               cursor-pointer text-gray-500 hover:text-gray-700`}
+                                               cursor-pointer text-gray-500
+                                               hover:text-gray-700`}
                                    onClick={() => setShowPassword(prev => !prev)}
                                 />
                             </div>

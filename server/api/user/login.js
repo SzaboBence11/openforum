@@ -21,13 +21,9 @@ router.post('/login', (req, res) => {
                  [email], (err, rows) => {
 
             // If there's an error
-<<<<<<< HEAD
             if (err) return res.status(400)
                                .json({ error: err });
 
-=======
-            if (err) return res.status(400).json({ a: "fasz" });
->>>>>>> 6be60b31d38ab9737a2f5d6076b60a414f41aea5
             // If there's no account with that email
             if (!rows.length)
                 return res.status(401)

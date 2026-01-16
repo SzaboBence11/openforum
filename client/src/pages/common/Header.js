@@ -28,7 +28,8 @@ function Header() {
                     <div className={`${JSON.parse(localStorage.getItem('user'))
                                        ? "opacity-100"
                                        : "opacity-0"}
-                                    min-w-10 max-w-10 h-10 bg-white rounded-full ms-auto me-0`} />
+                                    min-w-10 max-w-10 h-10 bg-white rounded-full
+                                    ms-auto me-0`} />
                 }
 
                 
@@ -39,7 +40,8 @@ function Header() {
                         <Link to="/login">
                             <button className="hover:bg-white hover:text-blue-950
                                                text-white font-bold py-2
-                                               px-4 rounded-full transition-colors ms-auto me-0">
+                                               px-4 rounded-full transition-colors
+                                               ms-auto me-0">
                                 Login
                             </button>
                         </Link>

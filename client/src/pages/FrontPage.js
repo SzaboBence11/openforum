@@ -16,7 +16,8 @@ function FrontPage({ isSidebarOpen }) {
             
             return;
         }
-        fetch(`/api/community/getCommunityPosts/${localStorage.getItem('selectedCommunity')}`)
+        fetch(`/api/community/getCommunityPosts/${localStorage
+                                                .getItem('selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
                 setBackendData({ posts: data })
@@ -38,7 +39,8 @@ function FrontPage({ isSidebarOpen }) {
 
                         // Post card
                         <div className="flex flex-col items-center border shadow-md
-                                        mb-4 rounded-lg border-gray-400 p-3 max-h-100 min-h-52"
+                                        mb-4 rounded-lg border-gray-400 p-3 max-h-100
+                                        min-h-52"
                              key={i}>
                             
                             {/* Post text content */}
