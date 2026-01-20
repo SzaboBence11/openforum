@@ -21,7 +21,7 @@ router.get("/profile/:user_id", (req, res) => {
                     role,
                     email,
                     description
-                FROM usersó
+                FROM users
                 WHERE id = ?
                 LIMIT 1`
 
