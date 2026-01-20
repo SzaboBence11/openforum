@@ -8,6 +8,7 @@ function Header() {
         localStorage.removeItem('user');
         window.location.assign("/");
     }
+    
     return (
 
         // Main header element
@@ -32,9 +33,8 @@ function Header() {
                                     ms-auto me-0`} />
                 }
 
-                
+                {/* Login btn */}
                 {
-                    /* Login btn */
                     !JSON.parse(localStorage.getItem('user')) && 
                     <div className='ms-3'>
                         <Link to="/login">
@@ -48,16 +48,16 @@ function Header() {
                     </div>
                 }
 
+                {/* Logout btn */}
                 {
                     JSON.parse(localStorage.getItem('user')) && 
                     <div className='ms-3'>
-                            <button className="hover:bg-white hover:text-blue-950
-                                               text-white font-bold py-2
-                                               px-4 rounded-full transition-colors"
-                                               onClick={() => logout()}>
-                                Logout
-                                    
-                            </button>
+                        <button className="hover:bg-white hover:text-blue-950
+                                           text-white font-bold py-2
+                                           px-4 rounded-full transition-colors"
+                                           onClick={() => logout()}>
+                            Logout 
+                        </button>
                     </div>
                 }
             </div>
