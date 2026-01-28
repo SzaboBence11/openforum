@@ -44,20 +44,20 @@ function Login() {
             body: JSON.stringify({ email: email, password: password })
 
         })
-            .then(res => res.json())
-            .then(data => {
-                if(data.id){
-                    localStorage.setItem('user', JSON.stringify({
-                            id: data.id,
-                            name: data.name,
-                            display_name: data.display_name,
-                            email: data.email,
-                            role: data.role,
-                    }))
-                    window.location.assign("/");
-                }
-            })
-            .catch(err => console.error('Fetch /login failed:', err))
+        .then(res => res.json())
+        .then(data => {
+            if(data.id){
+                localStorage.setItem('user', JSON.stringify({
+                        id: data.id,
+                        name: data.name,
+                        display_name: data.display_name,
+                        email: data.email,
+                        role: data.role
+                }))
+                window.location.assign("/");
+            }
+        })
+        .catch(err => console.error('Fetch /login failed:', err))
     }
 
     return (

@@ -25,18 +25,21 @@ function Header() {
                 <Searchbar />
 
                 {/* User image */}
-                {
-                    <div className={`${JSON.parse(localStorage.getItem('user'))
-                                       ? "opacity-100"
-                                       : "opacity-0"}
-                                    min-w-10 max-w-10 h-10 bg-white rounded-full
-                                    ms-auto me-0`} />
+                { JSON.parse(localStorage.getItem('user')) &&
+                    <div className='ms-auto flex'>
+                        <div className='my-2 ms-3 me-3'>
+                            <h3 className='font-semibold'>
+                                {JSON.parse(localStorage.getItem('user')).name}
+                            </h3>
+                        </div>
+                        <div className="w-10 h-10 bg-white rounded-full" />
+                    </div>
                 }
 
                 {/* Login btn */}
                 {
                     !JSON.parse(localStorage.getItem('user')) && 
-                    <div className='ms-3'>
+                    <div className='ms-auto'>
                         <Link to="/login">
                             <button className="hover:bg-white hover:text-blue-950
                                                text-white font-bold py-2

@@ -65,8 +65,30 @@ function Register() {
         })
         .then(res => res.json())
         .then(data => {
-    
-            console.log(data)
+            if (data.message) {
+                fetch('/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email, password: password })
+                
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.id){
+                        localStorage.setItem('user', JSON.stringify({
+                                id: data.id,
+                                name: data.name,
+                                display_name: data.display_name,
+                                email: data.email,
+                                role: data.role,
+                        }))
+                        window.location.assign("/");
+                    }
+                })
+                .catch(err => console.error('Fetch /login failed:', err))
+            }
         })
         .catch(err => console.error('Fetch /register failed:', err))
     }
