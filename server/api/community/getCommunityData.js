@@ -13,7 +13,8 @@ router.get('/getCommunityData/:community_id', (req, res) => {
     let sql = `SELECT
                     users.name AS owner,
                     communities.description AS description,
-                    communities.date AS date
+                    communities.date AS date,
+                    communities.name
                FROM communities
                INNER JOIN community_users
                ON communities.id = community_users.community_id
