@@ -14,7 +14,8 @@ router.get('/getCommunityData/:community_id', (req, res) => {
                     users.name AS owner,
                     communities.description AS description,
                     communities.date AS date,
-                    communities.name
+                    communities.name,
+                    communities.img
                FROM communities
                INNER JOIN community_users
                ON communities.id = community_users.community_id

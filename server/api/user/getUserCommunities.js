@@ -12,7 +12,8 @@ router.get("/getUserCommunities/:user_id", (req, res) => {
 
     let sql = `SELECT
                     communities.name AS community_name,
-                    community_users.community_id AS community_id
+                    community_users.community_id AS community_id,
+                    communities.img
                 FROM community_users
                 INNER JOIN users ON users.id = community_users.user_id
                 INNER JOIN communities ON communities.id = community_users.community_id

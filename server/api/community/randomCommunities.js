@@ -11,7 +11,8 @@ router.get('/randomCommunities', (req, res) => {
         SELECT
                communities.id,
                communities.name,
-               COUNT(community_users.user_id) as member_count
+               COUNT(community_users.user_id) as member_count,
+               communities.img
         FROM communities
         LEFT JOIN community_users ON community_users.community_id = communities.id
         WHERE communities.valid = 1

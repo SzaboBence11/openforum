@@ -15,7 +15,8 @@ router.get('/randomPosts', (req, res) => {
                posts.text AS
                post_text,
                posts.date AS post_date,
-               communities.name AS community
+               communities.name AS community,
+               posts.img
         FROM posts
         INNER JOIN communities ON posts.community_id = communities.id
         INNER JOIN users On users.id = posts.user_id

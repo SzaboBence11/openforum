@@ -78,11 +78,7 @@ function Register() {
                 .then(data => {
                     if(data.id){
                         localStorage.setItem('user', JSON.stringify({
-                                id: data.id,
-                                name: data.name,
-                                display_name: data.display_name,
-                                email: data.email,
-                                role: data.role,
+                                id: data.id
                         }))
                         window.location.assign("/");
                     }

@@ -20,7 +20,8 @@ router.get("/profile/:user_id", (req, res) => {
                     display_name,
                     role,
                     email,
-                    description
+                    description,
+                    img
                 FROM users
                 WHERE id = ?
                 LIMIT 1`

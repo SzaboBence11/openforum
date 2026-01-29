@@ -37,11 +37,7 @@ function Login() {
         .then(data => {
             if (data.id) {
                 localStorage.setItem('user', JSON.stringify({
-                        id: data.id,
-                        name: data.name,
-                        display_name: data.display_name,
-                        email: data.email,
-                        role: data.role
+                        id: data.id
                 }))
                 alert('Logged in successfully!');
                 window.location.assign("/");
