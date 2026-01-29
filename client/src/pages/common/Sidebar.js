@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import FrontPage from '../FrontPage';
 
 function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [randomCommunities, setRandomCommunities] = useState({ communities: [] })
@@ -12,19 +13,25 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
     // Fetch randomCommunities (10)
     useEffect(() => {
-        fetch('/api/community/randomCommunities')
+        if(!localStorage.getItem('randomCommunities')){
+            fetch('/api/community/randomCommunities')
             .then(res => res.json())
             .then(data => {
-
+                console.log(data)
+                localStorage.setItem('randomCommunities', JSON.stringify(data))
                 setRandomCommunities({ communities: data })
             })
             .catch(err => console.error('Fetch /randomCommunities failed:', err))
+        } else{
+            let data = JSON.parse(localStorage.getItem('randomCommunities'));
+            setRandomCommunities({communities: data});
+        }
+
 
         if (localStorage.getItem('user')) {
             fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
             .then(res => res.json())
             .then(data => {
-
                 setUserCommunities({ communities: data })
             })
             .catch(err => console.error('Fetch /getUserCommunities failed:', err))
