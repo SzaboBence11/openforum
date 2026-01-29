@@ -1,8 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Searchbar from './Searchbar';
 
 function Header() {
+    const [userData, setUserData] = useState({ user: [] });
+
+    useEffect(() => {
+        fetch(`/api/user/profile/${JSON.parse(localStorage.getItem('user')).id}`)
+        .then(res => res.json())
+        .then(data => {
+            setUserData({ user: data[0] })
+        })
+    }, [])
+
     function logout() {
         if (window.confirm('Are you sure you want to log out?')) {
             localStorage.removeItem('user');
@@ -30,10 +40,12 @@ function Header() {
                     <div className='ms-auto flex'>
                         <div className='my-2 ms-3 me-5'>
                             <h3 className='font-semibold'>
-                                {JSON.parse(localStorage.getItem('user')).name}
+                                {userData.user.name}
                             </h3>
                         </div>
-                        <div className="w-10 h-10 bg-white rounded-full" />
+                        <div className="w-10 h-10 rounded-full">
+                            <img className="rounded-full" src={userData.user.img}></img>
+                        </div>
                     </div>
                 }
 
