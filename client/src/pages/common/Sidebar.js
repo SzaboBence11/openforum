@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
-    const [backendData, setBackendData] = useState({ communities: [] })
+    const [randomCommunities, setRandomCommunities] = useState({ communities: [] })
+    const [userCommunities, setUserCommunities] = useState({ communities: [] })
 
     function getCommunity(community_id){
         localStorage.setItem('selectedCommunity', community_id);
@@ -15,9 +16,19 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             .then(res => res.json())
             .then(data => {
 
-                setBackendData({ communities: data })
+                setRandomCommunities({ communities: data })
             })
             .catch(err => console.error('Fetch /randomCommunities failed:', err))
+
+        if (localStorage.getItem('user')) {
+            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+            .then(res => res.json())
+            .then(data => {
+
+                setUserCommunities({ communities: data })
+            })
+            .catch(err => console.error('Fetch /getUserCommunities failed:', err))
+        }
     }, [])
 
     return (
@@ -38,9 +49,49 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 <div className="px-3 py-2 overflow-y-auto">
                     <ul className="space-y-2 font-medium">
 
+                        <li className="hover:bg-blue-900 rounded-md
+                                       transition-colors overflow-hidden"
+                            key={0}
+                            onClick={() => getCommunity(0)}>
+                            <a href="#"
+                                className="flex items-center px-2 py-1.5 gap-2">
+                                {/* Random icon */}
+                                <i className="fa-solid fa-shuffle"/>
+
+                                {/* Community name (Capitalized) */}
+                                <span className="whitespace-nowrap overflow-hidden">
+                                    Random Posts
+                                </span>
+                            </a>
+                        </li>
+
+                        <div className='border-2 border-t-white'/>
+
+                        {localStorage.getItem('user') &&
+                            <div>
+                                <h1 className='mb-2'>
+                                    <i className="fa-solid fa-users"/>
+                                    <span className='ms-2'>
+                                        Joined communities
+                                    </span>
+                                </h1>
+
+                                { userCommunities.communities.length == 0 &&
+                                    <ul>
+                                        <li>
+                                            <i className="fa-solid fa-caret-right"/>
+                                            No communities joined!
+                                        </li>
+                                    </ul>
+                                }
+                                
+                                <div className='border-2 border-t-white mt-2'/>
+                            </div>
+                        }
+
                         {/* Make a small thing on the sidebar for 
                                 the fetched communities */}
-                        {backendData.communities.map(community => (
+                        {randomCommunities.communities.map(community => (
 
                             // Random Community on sidebar
                             <li className="hover:bg-blue-900 rounded-md
@@ -72,23 +123,6 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 </a>
                             </li>
                         ))}
-                        <li className="hover:bg-blue-900 rounded-md
-                                       transition-colors overflow-hidden"
-                            key={0}
-                            onClick={() => getCommunity(0)}>
-                            <a href="#"
-                                className="flex items-center px-2 py-1.5 gap-2">
-                                {/* Community icon for later */}
-                                <div className="w-6 h-6 bg-white rounded-full" />
-                                {/* Community name (Capitalized) */}
-                                <span className="whitespace-nowrap overflow-hidden">
-                                    Random Posts
-                                </span>
-                                {/* Right area */}
-                                <span className="ml-auto flex items-center gap-1 text-xs">
-                                </span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             )}

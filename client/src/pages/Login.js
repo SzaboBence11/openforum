@@ -11,20 +11,9 @@ function Login() {
     // Email validation
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
-    // Password validation
-    const hasMinLength = password.length >= 8
-    const hasUppercase = /[A-Z]/.test(password)
-    const hasLowercase = /[a-z]/.test(password)
-    const hasNumber = /\d/.test(password)
-
-    const isPasswordValid = hasMinLength &&
-                            hasUppercase &&
-                            hasNumber &&
-                            hasLowercase
-
     // Form validation
     const isFormValid = isEmailValid &&
-                        isPasswordValid
+                        password.length > 0
 
     // Submit login
     function loginSubmit(e) {
@@ -46,7 +35,7 @@ function Login() {
         })
         .then(res => res.json())
         .then(data => {
-            if(data.id){
+            if (data.id) {
                 localStorage.setItem('user', JSON.stringify({
                         id: data.id,
                         name: data.name,
@@ -54,7 +43,11 @@ function Login() {
                         email: data.email,
                         role: data.role
                 }))
+                alert('Logged in successfully!');
                 window.location.assign("/");
+            }
+            else {
+                alert('Invalid login details!');
             }
         })
         .catch(err => console.error('Fetch /login failed:', err))
@@ -76,7 +69,7 @@ function Login() {
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
-                          className="space-y-6">
+                          className="">
 
                         {/* Email */}
                         <div>
@@ -103,17 +96,15 @@ function Login() {
                             </div>
 
                             {/* Invalid email error */}
-                            {emailTouched && !isEmailValid && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        Invalid email!
-                                    </small>
-                                </div>
-                            )}
+                            <div className={`${emailTouched && !isEmailValid ? "opacity-100": "opacity-0"}`}>
+                                <small className="text-red-500">
+                                    Invalid email!
+                                </small>
+                            </div>
                         </div>
 
                         {/* Password */}
-                        <div>
+                        <div className='mb-4'>
 
                             {/* Password label */}
                             <div className="flex items-center justify-between">

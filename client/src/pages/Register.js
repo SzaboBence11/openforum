@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 function Register() {
     // Input variables
@@ -14,7 +14,6 @@ function Register() {
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
 
     const [showPassword, setShowPassword] = useState(false)
-    const [invalidRegister, setInvalidRegister] = useState(false)
     
     // Name validation
     const isNameValid = name.length >= 4
@@ -66,6 +65,7 @@ function Register() {
         .then(res => res.json())
         .then(data => {
             if (data.message) {
+                alert('Successful register!')
                 fetch('/api/user/login', {
                     method: 'POST',
                     headers: {
@@ -109,7 +109,7 @@ function Register() {
                 {/* Form container */}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={loginSubmit}
-                          className="space-y-6">
+                          className="">
 
                         {/* Name */}
                         <div>
@@ -135,14 +135,11 @@ function Register() {
                                 </input>
                             </div>
 
-                            {/* Invalid name error */}
-                            {nameTouched && !isNameValid && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        Name has to be at least 4 characters!
-                                    </small>
-                                </div>
-                            )}
+                            <div className={`${nameTouched && !isNameValid ? "opacity-100": "opacity-0"}`}>
+                                <small className="text-red-500">
+                                    Name has to be at least 4 characters!
+                                </small>
+                            </div>
                         </div>
 
                         {/* Email */}
@@ -169,14 +166,11 @@ function Register() {
                                 </input>
                             </div>
 
-                            {/* Invalid email error */}
-                            {emailTouched && !isEmailValid && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        Invalid email!
-                                    </small>
-                                </div>
-                            )}
+                            <div className={`${emailTouched && !isEmailValid ? "opacity-100": "opacity-0"}`}>
+                                <small className="text-red-500">
+                                    Invalid email!
+                                </small>
+                            </div>
                         </div>
 
                         {/* Password */}
@@ -186,9 +180,19 @@ function Register() {
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
                                        className="text-sm/6 font-medium
-                                                text-gray-900 block">
+                                                text-gray-900">
                                     Password
                                 </label>
+
+                                <i className="fa-solid fa-circle-info me-auto ms-1 tooltip relative">
+                                    <span className="tooltiptext bg-white text-gray-500 font-light py-3 px-4 text-start
+                                                 border border-gray-200 transition shadow-md rounded-lg ms-1">
+                                        At least 8 characters.<br/>
+                                        At least 1 number.<br/>
+                                        At least 1 uppercase letter.<br/>
+                                        At least 1 lowercase letter.
+                                    </span>
+                                </i>
                             </div>
 
                             {/* Password input */}
@@ -215,41 +219,11 @@ function Register() {
                                 />
                             </div>
 
-                            {/* Not enough characters error */}
-                            {passwordTouched && !hasMinLength && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 8 characters required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No number in password error */}
-                            {passwordTouched && !hasNumber && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 number required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No uppercase character error */}
-                            {passwordTouched && !hasUppercase && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 uppercase character required!
-                                    </small>
-                                </div>
-                            )}
-
-                            {/* No lowercase character error */}
-                            {passwordTouched && !hasLowercase && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        At least 1 lowercase character required!
-                                    </small>
-                                </div>
-                            )}
+                            <div className={`${passwordTouched && !isPasswordValid ? "opacity-100": "opacity-0"}`}>
+                                <small className="text-red-500">
+                                    Invalid password!
+                                </small>
+                            </div>
                         </div>
 
                         {/* Confirm Password */}
@@ -279,17 +253,15 @@ function Register() {
                             </div>
 
                             {/* Incorrect password confirmation */}
-                            {password != confirmPassword && confirmPasswordTouched && (
-                                <div className="mt-1">
-                                    <small className="text-red-500">
-                                        Passwords don't match!
-                                    </small>
-                                </div>
-                            )}
+                            <div className={`${confirmPasswordTouched && !isConfirmPasswordValid ? "opacity-100": "opacity-0"}`}>
+                                <small className="text-red-500">
+                                    Passwords don't match!
+                                </small>
+                            </div>
                         </div>
 
                         {/* Register btn */}
-                        <div>
+                        <div className='mt-4'>
                             <button className={`w-full py-2 px-4 rounded-full
                                                 font-bold shadow-lg transition
                                                 ${isFormValid

@@ -37,7 +37,7 @@ function FrontPage({ isSidebarOpen }) {
     return (
 
         // The whole frontpage area
-        <div className={`p-4 ${isSidebarOpen ? "ml-64": "ml-16"}`}>
+        <div className={`p-4 ${isSidebarOpen ? "ml-16": "ml-16"}`}>
             <div className="p-4 border-1 rounded-base">
                 {/* Make space for each post */}
                 {backendData.posts.length > 0 ? (
