@@ -40,16 +40,18 @@ function Header() {
                 <button className='hover:bg-blue-900 px-2 py-1.5 transition-all ms-auto rounded-full'>
                     {/* User image and name */}
                     { JSON.parse(localStorage.getItem('user')) &&
-                        <div className='ms-auto flex'>
-                            <div className='my-2 ms-3 me-3'>
-                                <h3 className='font-semibold'>
-                                    {userData.user.name}
-                                </h3>
+                        <Link to="/profile">
+                            <div className='ms-auto flex'>
+                                <div className='my-2 ms-3 me-3'>
+                                    <h3 className='font-semibold'>
+                                        {userData.user.name}
+                                    </h3>
+                                </div>
+                                <div className="w-10 h-10 rounded-full">
+                                    <img className="rounded-full" src={userData.user.img}></img>
+                                </div>
                             </div>
-                            <div className="w-10 h-10 rounded-full">
-                                <img className="rounded-full" src={userData.user.img}></img>
-                            </div>
-                        </div>
+                        </Link>
                     }
                 </button>
 
