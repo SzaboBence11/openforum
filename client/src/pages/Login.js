@@ -52,7 +52,8 @@ function Login() {
     return (
         <div>
             <div className="flex min-h-full flex-col justify-center
-                            px-6 py-12 lg:px-8">
+                            px-6 py-12 lg:px-8 bg-gradient-to-br from-blue-950
+                          via-blue-900 to-indigo-950">
 
                 {/* Top title */}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
