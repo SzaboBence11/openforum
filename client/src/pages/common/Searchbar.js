@@ -4,7 +4,7 @@ function Searchbar() {
     return (
 
         // Form for the input
-        <form className="ms-6"
+        <form className="ms-6 mt-2"
               name="searchBar"
               id="searchBar">
             <div className="shadow-md rounded-md">
