@@ -45,21 +45,21 @@ function FrontPage({ isSidebarOpen }) {
 
                         // Post card
                         <div className="flex flex-col items-center border shadow-md
-                                        mb-4 rounded-lg border-gray-400 p-3 max-h-100
-                                        min-h-52"
+                                        mb-4 rounded-lg p-3 border-white/15
+                                        min-h-52 bg-white/10 backdrop-blur-xl w-5/6"
                              key={i}>
                             
                             {/* Post text content */}
-                            <p className='text-blue-950 text-3xl'>
+                            <p className='text-white text-3xl'>
                                 {post.post_title}
                             </p>
-                            <p className='text-blue-950 text-2x1'>
+                            <p className='text-white text-2x1'>
                                 by: {post.poster_user} in {post.community}
                             </p>
-                            <p className='text-blue-950 mt-3 overflow-hidden'>
+                            <p className='text-white mt-3 overflow-hidden'>
                                 {post.post_text}
                             </p>
-                            <p className='text-blue-950 mt-auto'>
+                            <p className='text-white mt-auto'>
                                 Posted at: {post.post_date}
                             </p>
                         </div>

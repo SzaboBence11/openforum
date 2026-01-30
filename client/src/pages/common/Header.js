@@ -26,7 +26,7 @@ function Header() {
 
         // Main header element
         <header className="bg-blue-950 text-white py-3 px-6 flex top-0
-                           sticky transition-all duration-300">
+                           sticky transition-all duration-300 z-40">
             <div className='flex flex-1 w-full'>
 
                 {/* Home page link */}

@@ -57,8 +57,6 @@ function Profile() {
 
     return (
         <div className="min-h-screen flex items-center justify-center
-                        bg-gradient-to-br
-                        from-blue-950 via-blue-900 to-indigo-950
                         px-4 transition-colors duration-700">
 
             {/* Main Card */}
