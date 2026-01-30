@@ -11,6 +11,7 @@ router.get('/randomPosts', (req, res) => {
         SELECT 
                users.id,
                users.name AS poster_user,
+               users.img AS poster_img,
                posts.title AS post_title,
                posts.text AS
                post_text,

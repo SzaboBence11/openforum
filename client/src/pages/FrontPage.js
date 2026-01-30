@@ -37,7 +37,7 @@ function FrontPage({ isSidebarOpen }) {
     return (
 
         // The whole frontpage area
-        <div className={`p-4 ${isSidebarOpen ? "ml-16": "ml-16"}`}>
+        <div className={`p-4 ${isSidebarOpen ? "ms-64": "ms-64"}`}>
             <div className="p-4 border-1 rounded-base">
                 {/* Make space for each post */}
                 {backendData.posts.length > 0 ? (
@@ -53,10 +53,11 @@ function FrontPage({ isSidebarOpen }) {
                             <p className='text-white text-3xl'>
                                 {post.post_title}
                             </p>
-                            <p className='text-white text-2x1'>
-                                by: {post.poster_user} in {post.community}
+                            <img className='rounded-full w-6 h-6' src={post.poster_img}></img>
+                            <p className='text-white inline-block'>
+                                {post.poster_user} in {post.community}
                             </p>
-                            <p className='text-white mt-3 overflow-hidden'>
+                            <p className='text-white mt-3 overflow-hidden w-5/6'>
                                 {post.post_text}
                             </p>
                             <p className='text-white mt-auto'>
