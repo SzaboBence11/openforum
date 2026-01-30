@@ -188,5 +188,8 @@ app.use('/api/user', getProfileRouter);
 import getUserCommunitiesRouter from './api/user/getUserCommunities.js';
 app.use('/api/user', getUserCommunitiesRouter);
 
+import getMemberCountRouter from './api/community/getMemberCount.js';
+app.use('/api/community', getMemberCountRouter);
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
