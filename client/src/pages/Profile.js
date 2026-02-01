@@ -56,13 +56,13 @@ function Profile() {
     if (!user) return null
 
     return (
-        <div className="m-0 p-0 top-0 scroll- flex items-center justify-center
+        <div className="m-0 p-0 top-0 flex items-center justify-center
                         px-4 transition-colors duration-700
                         bg-gradient-to-br from-blue-950
                         via-blue-900 to-indigo-950 h-[920.5px]">
 
             {/* Main Card */}
-            <div className="relative max-w-4xl w-full rounded-3xl
+            <div className="relative max-w-4xl animate-fadeIn w-full rounded-3xl
                             bg-white/10 backdrop-blur-xl
                             border border-white/15
                             shadow-[0_30px_80px_rgba(0,0,0,0.45)]
@@ -79,7 +79,7 @@ function Profile() {
 
                     {/* Header */}
                     <div className="flex flex-col md:flex-row items-center
-                                    gap-8 mb-10 animate-fadeIn">
+                                    gap-6 mb-10">
 
                         {/* Avatar */}
                         <div className="relative group">
@@ -129,6 +129,23 @@ function Profile() {
                                        transition-all duration-300">
                             {editMode ? 'Mégse' : 'Profil szerkesztése'}
                         </button>
+
+                        {/* Save */}
+                        {editMode && 
+                            <button
+                                onClick={saveProfile}
+                                className="px-6 py-2 rounded-full
+                                           bg-gradient-to-r
+                                           from-blue-500 to-indigo-500
+                                           text-white font-bold
+                                           shadow-lg
+                                           hover:shadow-xl
+                                           hover:scale-105
+                                           active:scale-95
+                                           transition-all duration-300">
+                                Mentés
+                            </button>
+                        }
                     </div>
 
                     {/* Form */}
@@ -171,25 +188,6 @@ function Profile() {
                             />
                         </div>
 
-                        {/* Avatar URL */}
-                        {editMode && (
-                            <div>
-                                <label className="text-sm text-blue-200">
-                                    Profilkép URL
-                                </label>
-                                <input
-                                    name="img"
-                                    value={formData.img}
-                                    onChange={handleChange}
-                                    className="mt-1 w-full px-4 py-2 rounded-xl
-                                               bg-blue-950/60 text-white
-                                               border border-white/15
-                                               focus:ring-2 focus:ring-blue-400/40
-                                               transition-all duration-300"
-                                />
-                            </div>
-                        )}
-
                         {/* Bio */}
                         <div className="md:col-span-2">
                             <label className="text-sm text-blue-200">
@@ -210,25 +208,6 @@ function Profile() {
                             />
                         </div>
                     </div>
-
-                    {/* Save */}
-                    {editMode && (
-                        <div className="mt-8 text-right animate-slideUp">
-                            <button
-                                onClick={saveProfile}
-                                className="px-8 py-3 rounded-full
-                                           bg-gradient-to-r
-                                           from-blue-500 to-indigo-500
-                                           text-white font-bold
-                                           shadow-lg
-                                           hover:shadow-xl
-                                           hover:scale-105
-                                           active:scale-95
-                                           transition-all duration-300">
-                                Mentés
-                            </button>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
