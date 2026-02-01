@@ -18,6 +18,8 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
             posts.text as post_text,
             posts.date as post_date,
             communities.name AS community,
+            communities.img AS community_img,
+            communities.id AS community_id,
             posts.img
         FROM posts
         INNER JOIN users

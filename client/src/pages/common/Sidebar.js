@@ -21,7 +21,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     useEffect(() => {
 
         // If random communities are already stored
-        if(!localStorage.getItem('randomCommunities')){
+        if (!localStorage.getItem('randomCommunities')) {
             fetch('/api/community/randomCommunities')
             .then(res => res.json())
             .then(data => {
@@ -33,7 +33,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
         } 
         
         // If random communities aren't stored
-        else{
+        else {
             let data = JSON.parse(localStorage.getItem('randomCommunities'));
             setRandomCommunities({communities: data});
         }

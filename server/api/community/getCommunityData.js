@@ -14,14 +14,15 @@ router.get('/getCommunityData/:community_id', (req, res) => {
                     users.name AS owner,
                     communities.description AS description,
                     communities.date AS date,
-                    communities.name,
-                    communities.img
+                    communities.name AS name,
+                    communities.img AS img
                FROM communities
                INNER JOIN community_users
                ON communities.id = community_users.community_id
                INNER JOIN users
                ON users.id = community_users.user_id
-               WHERE communities.id = ? AND community_users.role = 'O'`;
+               WHERE communities.id = ? AND community_users.role = 'O'
+               LIMIT 1`;
     
     // Community member count
     let sql2 = `SELECT

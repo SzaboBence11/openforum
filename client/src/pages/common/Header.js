@@ -31,6 +31,7 @@ function Header() {
 
                 {/* Home page link */}
                 <Link to="/" className='text-xl font-bold pt-0.5 mt-2'>
+                    <i className="fa-solid fa-comments me-2"/>
                     Openforum
                 </Link>
 
