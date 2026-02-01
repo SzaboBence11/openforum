@@ -16,6 +16,7 @@ function Profile() {
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user')
+
         if (!storedUser) {
             navigate('/login')
             return
@@ -26,16 +27,17 @@ function Profile() {
         fetch(`/api/user/profile/${id}`)
             .then(res => res.json())
             .then(data => {
-                const u = data[0]
-                setUser(u)
+                const user = data[0]
+                setUser(user)
                 setFormData({
-                    name: u.name,
-                    display_name: u.display_name,
-                    email: u.email,
-                    description: u.description || '',
-                    img: u.img
+                    name: user.name,
+                    display_name: user.display_name,
+                    email: user.email,
+                    description: user.description || '',
+                    img: user.img
                 })
             })
+            .catch(err => console.log(err))
     }, [navigate])
 
     function handleChange(e) {
@@ -53,7 +55,7 @@ function Profile() {
         })
     }
 
-    if (!user) return null
+    // if (!user) return null
 
     return (
         <div className="m-0 p-0 top-0 flex items-center justify-center
@@ -61,8 +63,10 @@ function Profile() {
                         bg-gradient-to-br from-blue-950
                         via-blue-900 to-indigo-950 h-[920.5px]">
 
-            {/* Main Card */}
-            <div className="relative max-w-4xl animate-fadeIn w-full rounded-3xl
+            { !user ? (
+                <div className='text-xl text-white'>Loading...</div>
+            ) : (
+                <div className="relative max-w-4xl animate-fadeIn w-full rounded-3xl
                             bg-white/10 backdrop-blur-xl
                             border border-white/15
                             shadow-[0_30px_80px_rgba(0,0,0,0.45)]
@@ -75,7 +79,7 @@ function Profile() {
                                 via-transparent to-indigo-500/10
                                 pointer-events-none" />
 
-                <div className="relative p-10">
+                    <div className="relative p-10">
 
                     {/* Header */}
                     <div className="flex flex-col md:flex-row items-center
@@ -123,7 +127,7 @@ function Profile() {
                             onClick={() => setEditMode(prev => !prev)}
                             className="md:ml-auto px-6 py-2 rounded-full
                                        bg-white/15 text-white font-semibold
-                                       hover:bg-white/25
+                                       hover:bg-white/25 border border-white/20
                                        hover:scale-105
                                        active:scale-95
                                        transition-all duration-300">
@@ -208,8 +212,10 @@ function Profile() {
                             />
                         </div>
                     </div>
+                    </div>
                 </div>
-            </div>
+            )}
+            {/* Main Card */}
         </div>
     )
 }

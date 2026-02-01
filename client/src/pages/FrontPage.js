@@ -107,8 +107,8 @@ function FrontPage({ isSidebarOpen }) {
 
                         // Post card
                         <div className="flex flex-col border shadow-md mx-auto
-                                        mb-4 rounded-lg p-3 border-white/15 animate-fadeIn
-                                        min-h-52 bg-white/10 backdrop-blur-xl w-5/6"
+                                        mb-4 rounded-3xl p-3 border-white/15 animate-fadeIn
+                                        min-h-52 bg-white/10 backdrop-blur-xl w-4/6"
                              key={i}>
                             
                             {/* Post text content */}
