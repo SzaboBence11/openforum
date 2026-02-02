@@ -37,7 +37,7 @@ router.get('/randomPosts/:limit', (req, res) => {
     `;
 
     // Do the query
-    db.query(sql, (err, [limit], results) => {
+    db.query(sql, [limit], (err, results) => {
 
         // If there's an error
         if (err) return res.status(400).json({ error: err });
