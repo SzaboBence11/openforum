@@ -9,7 +9,7 @@ function FrontPage({ isSidebarOpen }) {
     useEffect(() => {
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
-            fetch('/api/community/randomPosts')
+            fetch('/api/community/randomPosts/10')
             .then(res => res.json())
             .then(data => {
                 setPosts({ posts: data });

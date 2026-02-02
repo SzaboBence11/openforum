@@ -6,8 +6,7 @@ function Home() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
     return (
-        <div className='bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 p-5 min-h-[920.5px]'>
-
+        <div>
             {/* Link sidebar and Frontpage together */}
             <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
             <FrontPage isSidebarOpen={isSidebarOpen}/>

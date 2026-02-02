@@ -22,7 +22,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
         // If random communities are already stored
         if (!localStorage.getItem('randomCommunities')) {
-            fetch('/api/community/randomCommunities')
+            fetch('/api/community/randomCommunities/10')
             .then(res => res.json())
             .then(data => {
                 console.log(data)

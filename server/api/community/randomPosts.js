@@ -4,7 +4,15 @@ import express from 'express';
 const router = express.Router()
 
 // Get random communities (For Sidebar)
-router.get('/randomPosts', (req, res) => {
+router.get('/randomPosts/:limit', (req, res) => {
+
+    // Turn post_id to int
+    let limit = parseInt(req.params.limit);
+
+    // Check if parsing failed
+    if (isNaN(limit)) {
+        return res.status(400).json({ error: 'Hibás limit' });
+    }
 
     // Select all the things of a post
     let sql = `
@@ -25,11 +33,11 @@ router.get('/randomPosts', (req, res) => {
         INNER JOIN users On users.id = posts.user_id
         WHERE posts.valid = 'y' AND users.blocked = 0
         ORDER BY rand()
-        LIMIT 10; 
+        LIMIT ?; 
     `;
 
     // Do the query
-    db.query(sql, (err, results) => {
+    db.query(sql, (err, [limit], results) => {
 
         // If there's an error
         if (err) return res.status(400).json({ error: err });
