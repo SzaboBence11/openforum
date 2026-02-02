@@ -51,20 +51,20 @@ function Login() {
 
     return (
         <div>
-            <div className="flex min-h-full flex-col justify-center
-                            px-6 py-12 lg:px-8 bg-gradient-to-br from-blue-950
-                          via-blue-900 to-indigo-950">
+            <div className="flex flex-col justify-center
+                            px-6 py-12 lg:px-8 mt-16">
 
                 {/* Top title */}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl/9 font-bold
-                                   tracking-tight text-gray-900">
+                                   tracking-tight text-white">
                         Sign in to your account
                     </h2>
                 </div>
 
                 {/* Form container */}
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/10 p-5
+                                rounded-2xl shadow-lg border border-white/15">
                     <form onSubmit={loginSubmit}
                           className="">
 
@@ -74,15 +74,15 @@ function Login() {
                             {/* Email label */}
                             <label htmlFor="email"
                                    className="block text-sm/6 font-medium
-                                            text-gray-900">
+                                            text-white">
                                 Email address
                             </label>
 
                             {/* Email input */}
                             <div className="mt-2">
                                 <input type="email"
-                                       className="px-3 py-2 rounded-lg text-black
-                                                  w-full border shadow-sm text-sm"
+                                       className="px-3 py-2 rounded-lg border-white/15 text-white
+                                                  w-full border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl"
                                        placeholder="john123@example.com"
                                        id="email"
                                        autoComplete='true'
@@ -107,7 +107,7 @@ function Login() {
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
                                        className="block text-sm/6 font-medium
-                                       text-gray-900">
+                                       text-white">
                                     Password
                                 </label>
                             </div>
@@ -121,15 +121,15 @@ function Login() {
                                        placeholder='Example123'
                                        autoComplete='true'
                                        onChange={(e) => setPassword(e.target.value)}
-                                       className="w-full px-3 pr-10 rounded-lg
-                                                  border shadow-sm text-sm py-2"
+                                       className="px-3 py-2 rounded-lg border-white/15 text-white
+                                                  w-full border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl"
                                 />
 
                                 <i className={`fa-solid ${showPassword ? 'fa-eye-slash' 
                                                                        : 'fa-eye'}
                                                absolute right-3 top-1/2 -translate-y-1/2
-                                               cursor-pointer text-gray-500
-                                               hover:text-gray-700`}
+                                               cursor-pointer text-gray-200
+                                               hover:text-gray-300 transition-all duration-300`}
                                    onClick={() => setShowPassword(prev => !prev)}
                                 />
                             </div>
@@ -137,25 +137,27 @@ function Login() {
                         </div>
 
                         {/* Login btn */}
-                        <div>
-                            <button className={`w-full rounded-full font-bold
-                                                shadow-lg transition py-2 px-4
+                        <div className='justify-center mx-auto w-auto flex'>
+                            <button className={`w-52 rounded-full font-bold text-white group
+                                                shadow-lg transition py-2 px-4 border border-white/15
                                                 ${isFormValid
-                                                ? 'bg-blue-950 text-white hover:bg-blue-900'
-                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'}
+                                                ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900'
+                                                : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                               `}
                                     type="submit"
                                     disabled={!isFormValid}>
                                     Login
+                                    <i className={`${isFormValid ? 'group-hover:ms-2': ''}
+                                                  fa-solid fa-angles-right ms-1 transition-all`}/>
                             </button>
                         </div>
                     </form>
 
                     {/* Bottom text */}
-                    <p className="mt-10 text-center text-sm/6 text-gray-500">
+                    <p className="mt-6 text-center text-sm/6 text-gray-300">
                         You don't have an account?
                         <Link to="/register"
-                              className="font-semibold text-indigo-600
+                              className="font-semibold text-blue-400
                                        hover:text-indigo-500 ms-2">
                             Register
                         </Link>

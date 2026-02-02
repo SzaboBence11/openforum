@@ -13,17 +13,21 @@ function App() {
         // Router
         <BrowserRouter>
 
-            {/* Link header */}
-            <Header />
+            <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-950
+                            via-blue-900 to-indigo-950">
+                <Header />
 
-            {/* Define routes */}
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/feed" element={<Feed />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
-            </Routes>
+                {/* Main content */}
+                <main className="flex-1">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/feed" element={<Feed />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/profile" element={<Profile />} />
+                    </Routes>
+                </main>
+            </div>
         </BrowserRouter>
     )
 }
