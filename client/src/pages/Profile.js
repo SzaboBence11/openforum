@@ -14,6 +14,14 @@ function Profile() {
         img: ''
     })
 
+    const profilePictureStyleInput = {
+        backgroundImage: `url(${formData.img})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        outline: 'none',
+        textIndent: '-999em',
+    };
+
     useEffect(() => {
         const storedUser = localStorage.getItem('user')
 
@@ -41,10 +49,25 @@ function Profile() {
     }, [navigate])
 
     function handleChange(e) {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        if(e.target.type != 'file'){
+            setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+            return;
+        }
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        
+        reader.onloadend = function() {
+            reader.result;
+        }
+
+        let profileBase64 = reader.readAsDataURL(file);
+        setFormData({img: profileBase64})
+
+        
     }
 
     function saveProfile() {
+
         fetch('/api/user/updateProfile', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -61,7 +84,7 @@ function Profile() {
         <div className="m-0 p-0 top-0 flex items-center justify-center
                         px-4 transition-colors duration-700
                         bg-gradient-to-br from-blue-950
-                        via-blue-900 to-indigo-950 h-[920.5px]">
+                        via-blue-900 to-indigo-950 h-[877px]">
 
             { !user ? (
                 <div className='text-xl text-white'>Loading...</div>
@@ -86,6 +109,7 @@ function Profile() {
                                     gap-6 mb-10">
 
                         {/* Avatar */}
+                        
                         <div className="relative group">
                             <div className="w-36 h-36 rounded-full
                                             bg-gradient-to-tr
@@ -93,8 +117,13 @@ function Profile() {
                                             p-[3px]
                                             group-hover:scale-105
                                             transition-transform duration-500">
-                                <img
+                                <input
+                                    type='file'
+                                    accept='image/*'
+                                    style={profilePictureStyleInput}
                                     src={formData.img}
+                                    size={4 * 1024 * 1024}
+                                    onChange={handleChange}
                                     className="w-full h-full rounded-full
                                                object-cover bg-blue-950"
                                 />
@@ -122,34 +151,35 @@ function Profile() {
                             </p>
                         </div>
 
-                        {/* Edit button */}
-                        <button
-                            onClick={() => setEditMode(prev => !prev)}
-                            className="md:ml-auto px-6 py-2 rounded-full
-                                       bg-white/15 text-white font-semibold
-                                       hover:bg-white/25 border border-white/20
-                                       hover:scale-105
-                                       active:scale-95
-                                       transition-all duration-300">
-                            {editMode ? 'Mégse' : 'Profil szerkesztése'}
-                        </button>
-
-                        {/* Save */}
-                        {editMode && 
+                        <div className='flex gap-4 md:ms-auto'>
+                            {/* Edit button */}
                             <button
-                                onClick={saveProfile}
-                                className="px-6 py-2 rounded-full
-                                           bg-gradient-to-r
-                                           from-blue-500 to-indigo-500
-                                           text-white font-bold
-                                           shadow-lg
-                                           hover:shadow-xl
+                                onClick={() => setEditMode(prev => !prev)}
+                                className="md:ml-auto px-6 py-2 rounded-full
+                                           bg-white/15 text-white font-semibold
+                                           hover:bg-white/25 border border-white/20
                                            hover:scale-105
                                            active:scale-95
                                            transition-all duration-300">
-                                Mentés
+                                {editMode ? 'Mégse' : 'Adatok szerkesztése'}
                             </button>
-                        }
+                            {/* Save */}
+                            {editMode &&
+                                <button
+                                    onClick={saveProfile}
+                                    className="px-6 py-2 rounded-full
+                                               bg-gradient-to-r
+                                               from-blue-500 to-indigo-500
+                                               text-white font-bold
+                                               shadow-lg
+                                               hover:shadow-xl
+                                               hover:scale-105
+                                               active:scale-95
+                                               transition-all duration-300">
+                                    Mentés
+                                </button>
+                            }
+                        </div>
                     </div>
 
                     {/* Form */}
@@ -179,7 +209,7 @@ function Profile() {
                         ))}
 
                         {/* Email */}
-                        <div>
+                        <div className='md:col-span-2 sm:text-center'>
                             <label className="text-sm text-blue-200">
                                 Email
                             </label>
@@ -208,14 +238,14 @@ function Profile() {
                                            border border-white/15
                                            focus:ring-2 focus:ring-blue-400/40
                                            transition-all duration-300
-                                           disabled:opacity-60"
+                                           disabled:opacity-60 resize-none
+                                           overflow-y-auto"
                             />
                         </div>
                     </div>
                     </div>
                 </div>
             )}
-            {/* Main Card */}
         </div>
     )
 }
