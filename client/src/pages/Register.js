@@ -91,20 +91,20 @@ function Register() {
 
     return (
         <div>
-            <div className="flex min-h-full flex-col justify-center
-                            px-6 py-12 lg:px-8 bg-gradient-to-br from-blue-950
-                        via-blue-900 to-indigo-950">
+            <div className="flex flex-col justify-center
+                            px-6 py-12 lg:px-8 mt-20 animate-fadeIn">
 
                 {/* Top title */}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-5 text-center text-2xl/9 font-bold
-                                   tracking-tight text-gray-900">
+                                   tracking-tight text-white">
                         Register your new account
                     </h2>
                 </div>
 
                 {/* Form container */}
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/10 p-5
+                                rounded-2xl shadow-lg border border-white/15">
                     <form onSubmit={loginSubmit}
                           className="">
 
@@ -114,15 +114,15 @@ function Register() {
                             {/* Name input */}
                             <label htmlFor="name"
                                 className="block text-sm/6 font-medium
-                                         text-gray-900">
-                                Név
+                                         text-white">
+                                Name
                             </label>
 
                             {/* Name input */}
                             <div className="mt-2">
-                                <input type="text"
-                                       className="px-3 py-2 rounded-lg text-black
-                                                  w-full border shadow-sm text-sm"
+                                <input type="text" 
+                                       className="px-3 py-2 rounded-lg border-white/15 text-white
+                                                  w-full border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl"
                                        placeholder='John Doe'
                                        id='name'
                                        name='name'
@@ -145,15 +145,15 @@ function Register() {
                             {/* Email label */}
                             <label htmlFor="email"
                                    className="block text-sm/6 font-medium
-                                            text-gray-900">
+                                            text-white">
                                 Email address
                             </label>
 
                             {/* Email input */}
                             <div className="mt-2">
                                 <input type="email"
-                                       className="px-3 py-2 rounded-lg text-black
-                                                  w-full border shadow-sm text-sm"
+                                       className="px-3 py-2 rounded-lg border-white/15 text-white
+                                                  w-full border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl"
                                        placeholder="john123@example.com"
                                        id="email"
                                        name='email'
@@ -177,11 +177,11 @@ function Register() {
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password"
                                        className="text-sm/6 font-medium
-                                                text-gray-900">
+                                                text-white">
                                     Password
                                 </label>
 
-                                <i className="fa-solid fa-circle-info me-auto ms-1 tooltip relative">
+                                <i className="fa-solid fa-circle-info me-auto ms-1 tooltip relative text-white">
                                     <span className="tooltiptext bg-white text-gray-500 font-light py-3 px-4 text-start
                                                  border border-gray-200 transition shadow-md rounded-lg ms-1">
                                         At least 8 characters.<br/>
@@ -202,16 +202,15 @@ function Register() {
                                        autoComplete='true'
                                        onChange={(e) => setPassword(e.target.value)}
                                        onBlur={() => setPasswordTouched(true)}
-                                       className="w-full px-3 pr-10 rounded-lg
-                                                  border shadow-sm text-sm py-2"
+                                       className="w-full px-3 pr-10 rounded-lg bg-blue-950/60 backdrop-blur-xl
+                                                  border shadow-sm text-sm py-2 border-white/15 text-white"
                                 />
 
-                                <i className={`${showPassword
-                                               ? 'fa-eye-slash'
-                                               : 'fa-eye'}
-                                               fa-solid absolute right-3 top-1/2
-                                               -translate-y-1/2 cursor-pointer
-                                             text-gray-500 hover:text-gray-700`}
+                                <i className={`fa-solid ${showPassword ? 'fa-eye-slash' 
+                                                                       : 'fa-eye'}
+                                               absolute right-3 top-1/2 -translate-y-1/2
+                                               cursor-pointer text-gray-200
+                                               hover:text-gray-300 transition-all duration-300`}
                                    onClick={() => setShowPassword(prev => !prev)}
                                 />
                             </div>
@@ -230,7 +229,7 @@ function Register() {
                             <div className="flex items-center justify-between">
                                 <label htmlFor="confirmPassword"
                                        className="block text-sm/6 font-medium
-                                                text-gray-900">
+                                                text-white">
                                     Confirm Password
                                 </label>
                             </div>
@@ -238,8 +237,8 @@ function Register() {
                             {/* Confirm Password input */}
                             <div className="mt-2">
                                 <input type={showPassword ? 'text' : 'password'}
-                                       className="w-full px-3 py-2 pr-10 rounded-lg
-                                                  border shadow-sm text-sm"
+                                       className="w-full px-3 py-2 pr-10 rounded-lg border-white/15 text-white
+                                                  border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl"
                                        placeholder="Example_123"
                                        name='confirmPassword'
                                        id="confirmPassword"
@@ -258,16 +257,18 @@ function Register() {
                         </div>
 
                         {/* Register btn */}
-                        <div className='mt-4'>
-                            <button className={`w-full py-2 px-4 rounded-full
-                                                font-bold shadow-lg transition
+                        <div className='mt-4 justify-center mx-auto w-auto flex'>
+                            <button className={`w-52 rounded-full font-bold group
+                                                shadow-lg transition py-2 px-4 border border-white/15
                                                 ${isFormValid
-                                                ? 'bg-blue-950 text-white hover:bg-blue-900'
-                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'}
+                                                ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
+                                                : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                               `}
                                 type="submit"
                                 disabled={!isFormValid}>
                                 Register
+                                <i className={`${isFormValid ? 'group-hover:ms-2': ''}
+                                                  fa-solid fa-angles-right ms-1 transition-all`}/>
                             </button>
                         </div>
                     </form>
@@ -276,7 +277,7 @@ function Register() {
                     <p className="mt-10 text-center text-sm/6 text-gray-500">
                         Already have an account?
                         <Link to="/login"
-                            className="font-semibold text-indigo-600
+                            className="font-semibold text-blue-400
                                      hover:text-indigo-500 ms-2">
                             Login
                         </Link>

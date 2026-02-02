@@ -56,9 +56,9 @@ function Profile() {
         let file = e.target.files[0];
         let reader = new FileReader();
         
-        reader.onloadend = function() {
-            reader.result;
-        }
+        // reader.onloadend = function() {
+        //     reader.result;
+        // }
 
         let profileBase64 = reader.readAsDataURL(file);
         setFormData({img: profileBase64})

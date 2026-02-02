@@ -52,7 +52,7 @@ function Login() {
     return (
         <div>
             <div className="flex flex-col justify-center
-                            px-6 py-12 lg:px-8 mt-16">
+                            px-6 py-12 lg:px-8 mt-16 animate-fadeIn">
 
                 {/* Top title */}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -138,10 +138,10 @@ function Login() {
 
                         {/* Login btn */}
                         <div className='justify-center mx-auto w-auto flex'>
-                            <button className={`w-52 rounded-full font-bold text-white group
+                            <button className={`w-52 rounded-full font-bold group
                                                 shadow-lg transition py-2 px-4 border border-white/15
                                                 ${isFormValid
-                                                ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900'
+                                                ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
                                                 : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                               `}
                                     type="submit"
