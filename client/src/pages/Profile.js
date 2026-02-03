@@ -55,7 +55,7 @@ function Profile() {
         }
         let file = e.target.files[0];
         let reader = new FileReader();
-        
+
         reader.onload = function() {
             let profileBase64 = reader.result;
             console.log(profileBase64);
@@ -69,10 +69,11 @@ function Profile() {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                            imgBase64: profileBase64,
-                            id: JSON.parse(localStorage.getItem('user')).id
+                    imgBase64: profileBase64,
+                    id: JSON.parse(localStorage.getItem('user')).id
+                })
             })
-            }).then(() => {
+            .then(() => {
                 setUser(prev => ({ ...prev, img: profileBase64 }));
                 let avatarHeader = document.querySelector("#headerAvatarPicture");
                 avatarHeader.src = profileBase64;
@@ -99,10 +100,8 @@ function Profile() {
     // if (!user) return null
 
     return (
-        <div className="m-0 p-0 top-0 flex items-center justify-center
-                        px-4 transition-colors duration-700
-                        bg-gradient-to-br from-blue-950
-                        via-blue-900 to-indigo-950 h-[877px]">
+        <div className="mt-32 flex items-center justify-center
+                        px-4 transition-colors duration-700 flex-col">
 
             { !user ? (
                 <div className='text-xl text-white'>Loading...</div>

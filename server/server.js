@@ -195,5 +195,8 @@ app.use('/api/community', getMemberCountRouter);
 import updateAvatarRouter from './api/user/updateAvatar.js';
 app.use('/api/user', updateAvatarRouter);
 
+import addCommunityRouter from './api/community/addCommunity.js';
+app.use('/api/community', addCommunityRouter);
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));

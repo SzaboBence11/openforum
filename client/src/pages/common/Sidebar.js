@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FrontPage from '../FrontPage';
+import { Link } from 'react-router-dom';
 
 function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [randomCommunities, setRandomCommunities] = useState({ communities: [] })
@@ -72,16 +73,17 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 {/* Create Community */}
                                 <li className="hover:bg-blue-900 rounded-md
                                                transition-colors overflow-hidden">
-                                    <a href="#"
+                                    <Link to='/newcommunity'
                                         className="flex items-center px-2 py-1.5 gap-2">
                                         {/* Plus icon */}
                                         <i className="fa-solid fa-plus"/>
 
-                                        {/* Create Community (Capitalized) */}
+                                        {/* Create Community */}
+
                                         <span className="whitespace-nowrap overflow-hidden">
                                             Create Community
                                         </span>
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 {/* My Communities */}
@@ -92,7 +94,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                         {/* Folder Icon */}
                                         <i className="fa-solid fa-folder"/>
 
-                                        {/* My Communities (Capitalized) */}
+                                        {/* My Communities */}
                                         <span className="whitespace-nowrap overflow-hidden">
                                             My Communities
                                         </span>
@@ -114,7 +116,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 {/* Random icon */}
                                 <i className="fa-solid fa-shuffle"/>
 
-                                {/* Community name (Capitalized) */}
+                                {/* Community name */}
                                 <span className="whitespace-nowrap overflow-hidden">
                                     Random Posts
                                 </span>
@@ -167,7 +169,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                                         <img src={community.img} className='rounded-full' />
                                                     </div>
 
-                                                    {/* Community name (Capitalized) */}
+                                                    {/* Community name */}
                                                     <span className="whitespace-nowrap overflow-hidden">
                                                         {community.community_name.charAt(0).toUpperCase() +
                                                          community.community_name.slice(1)}
@@ -222,7 +224,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                         <img src={community.img} className='rounded-full' />
                                     </div>
 
-                                    {/* Community name (Capitalized) */}
+                                    {/* Community name */}
                                     <span className="whitespace-nowrap overflow-hidden">
                                         {community.name.charAt(0).toUpperCase() +
                                          community.name.slice(1)}

@@ -139,11 +139,10 @@ function FrontPage({ isSidebarOpen }) {
                     posts.posts.map((post, i) => (
 
                         // Post card
-                        <div>
+                        <div key={i}>
                             <div className="flex flex-col border shadow-md mx-auto
                                             mb-4 rounded-3xl p-3 border-white/15 animate-fadeIn
-                                            min-h-52 bg-white/10 backdrop-blur-xl w-4/6"
-                                 key={i}>
+                                            min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
                                 
                                 {/* Post text content */}
                                 <button className='max-w-fit hover:bg-white/20 px-2 py-2 rounded-full
