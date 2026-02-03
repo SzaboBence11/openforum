@@ -56,12 +56,29 @@ function Profile() {
         let file = e.target.files[0];
         let reader = new FileReader();
         
-        // reader.onloadend = function() {
-        //     reader.result;
-        // }
+        reader.onload = function() {
+            let profileBase64 = reader.result;
+            console.log(profileBase64);
+            setFormData(prev => ({
+                ...prev,
+                img: profileBase64
+            }));
 
-        let profileBase64 = reader.readAsDataURL(file);
-        setFormData({img: profileBase64})
+
+            fetch('/api/user/updateAvatar', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                            imgBase64: profileBase64,
+                            id: JSON.parse(localStorage.getItem('user')).id
+            })
+            }).then(() => {
+                setUser(prev => ({ ...prev, img: profileBase64 }));
+                window.location.reload();
+            })
+        }
+
+        let readerUrl = reader.readAsDataURL(file);
 
         
     }
