@@ -31,7 +31,7 @@ router.get('/randomPosts/:limit', (req, res) => {
         FROM posts
         INNER JOIN communities ON posts.community_id = communities.id
         INNER JOIN users On users.id = posts.user_id
-        WHERE posts.valid = 'y' AND users.blocked = 0
+        WHERE posts.valid = 1 AND users.blocked = 0
         ORDER BY rand()
         LIMIT ?; 
     `;

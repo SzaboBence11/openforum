@@ -18,11 +18,12 @@ router.get('/getComments/:post_id', (req, res) => {
     let sql = `
         SELECT
             users.name AS commenter_user,
+            users.img AS commenter_img,
             comments.text,
             comments.date
         FROM comments
-        INNER JOIN users ON comments.user_id = users.id
-        WHERE comments.post_id = ? AND comments.valid = 'y'
+        INNER JOIN users ON users.id = comments.user_id
+        WHERE comments.post_id = ? AND comments.valid = 1
         ORDER BY comments.date ASC
     `;
 
