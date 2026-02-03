@@ -12,6 +12,7 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
     // Select all things of a given post
     let sql = `
         SELECT
+            posts.id AS id,
             users.name AS poster_user,
             users.img AS poster_img,
             posts.title as post_title,
