@@ -65,7 +65,44 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             {/* Only have these elements when sidebar is shown */}
             {isSidebarOpen && (
                 <div className="px-3 py-2 overflow-y-auto">
+
                     <ul className="space-y-2 font-medium">
+                        {localStorage.getItem('user') && (
+                            <>
+                                {/* Create Community */}
+                                <li className="hover:bg-blue-900 rounded-md
+                                               transition-colors overflow-hidden">
+                                    <a href="#"
+                                        className="flex items-center px-2 py-1.5 gap-2">
+                                        {/* Plus icon */}
+                                        <i className="fa-solid fa-plus"/>
+
+                                        {/* Create Community (Capitalized) */}
+                                        <span className="whitespace-nowrap overflow-hidden">
+                                            Create Community
+                                        </span>
+                                    </a>
+                                </li>
+
+                                {/* My Communities */}
+                                <li className="hover:bg-blue-900 rounded-md
+                                               transition-colors overflow-hidden">
+                                    <a href="#"
+                                        className="flex items-center px-2 py-1.5 gap-2">
+                                        {/* Folder Icon */}
+                                        <i className="fa-solid fa-folder"/>
+
+                                        {/* My Communities (Capitalized) */}
+                                        <span className="whitespace-nowrap overflow-hidden">
+                                            My Communities
+                                        </span>
+                                    </a>
+                                </li>
+
+                                {/* Divider */}
+                                <div className='border-2 border-t-white'/>
+                            </>
+                        )}
 
                         {/* Get random posts */}
                         <li className="hover:bg-blue-900 rounded-md
