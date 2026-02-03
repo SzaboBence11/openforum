@@ -74,7 +74,8 @@ function Profile() {
             })
             }).then(() => {
                 setUser(prev => ({ ...prev, img: profileBase64 }));
-                window.location.reload();
+                let avatarHeader = document.querySelector("#headerAvatarPicture");
+                avatarHeader.src = profileBase64;
             })
         }
 
