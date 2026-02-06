@@ -9,9 +9,9 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF67B59D"/>
-                <GradientStop Color="#FF387D7B" Offset="1"/>
-                <GradientStop Color="#FF65BDB7" Offset="0.508"/>
+                <GradientStop Color="#172759"/>
+                <GradientStop Color="#1C3378" Offset="1"/>
+                <GradientStop Color="#1E3988" Offset="0.508"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Image VerticalAlignment="Bottom" Margin="316,368,318,0" Source="/btn_vissza.png" MaxWidth="150" MaxHeight="70"/>
