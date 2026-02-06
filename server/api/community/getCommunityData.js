@@ -45,7 +45,7 @@ router.get('/getCommunityData/:community_id', (req, res) => {
                 return res.status(400).json({ error: err });
 
             // Combine the 2 results
-            console.log(res2[0].result_number, res1[0])
+            // console.log(res2[0].result_number, res1[0])
 
             res1[0].member_count = res2[0].result_number;
 

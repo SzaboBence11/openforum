@@ -21,16 +21,16 @@ function Profile() {
         outline: 'none',
         textIndent: '-999em',
     };
-
+    const storedUser = JSON.parse(localStorage.getItem('user')).id;
+    
     useEffect(() => {
-        const storedUser = localStorage.getItem('user')
 
         if (!storedUser) {
             navigate('/login')
             return
         }
 
-        const id = JSON.parse(storedUser).id
+        const id = JSON.parse(storedUser);
 
         fetch(`/api/user/profile/${id}`)
             .then(res => res.json())
@@ -64,13 +64,18 @@ function Profile() {
                 img: profileBase64
             }));
 
+            let isConfirmed = window.confirm("Biztos Módosítod a profilképed?");
 
+            if(!isConfirmed){
+                alert("Folyamat megszakytva!");
+                return;
+            }
             fetch('/api/user/updateAvatar', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     imgBase64: profileBase64,
-                    id: JSON.parse(localStorage.getItem('user')).id
+                    id: storedUser
                 })
             })
             .then(() => {
@@ -86,11 +91,23 @@ function Profile() {
     }
 
     function saveProfile() {
+        let isConfirmed = window.confirm("Biztos Módosítod az adataid?");
+
+        if(!isConfirmed){
+            alert("Folyamat megszakytva!");
+            return;
+        }
 
         fetch('/api/user/updateProfile', {
-            method: 'PUT',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                name: formData.name,
+                display_name: formData.display_name,
+                email: formData.email,
+                description: formData.description,
+                id: storedUser
+            })
         }).then(() => {
             setUser(formData)
             setEditMode(false)

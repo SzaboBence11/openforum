@@ -69,42 +69,48 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
                     <ul className="space-y-2 font-medium">
                         {localStorage.getItem('user') && (
-                            <>
-                                {/* Create Community */}
-                                <li className="hover:bg-blue-900 rounded-md
-                                               transition-colors overflow-hidden">
-                                    <Link to='/newcommunity'
-                                        className="flex items-center px-2 py-1.5 gap-2">
-                                        {/* Plus icon */}
-                                        <i className="fa-solid fa-plus"/>
+                            <div>
+                                <div>
+                                    {/* Create Community */}
+                                    <li className="hover:bg-blue-900 rounded-md
+                                                transition-colors overflow-hidden">
+                                        <Link to='/newcommunity'
+                                            className="flex items-center px-2 py-1.5 gap-2">
+                                            {/* Plus icon */}
+                                            <i className="fa-solid fa-plus"/>
 
-                                        {/* Create Community */}
+                                            {/* Create Community */}
 
-                                        <span className="whitespace-nowrap overflow-hidden">
-                                            Create Community
-                                        </span>
-                                    </Link>
-                                </li>
+                                            <span className="whitespace-nowrap overflow-hidden">
+                                                Create Community
+                                            </span>
+                                        </Link>
+                                    </li>
+                                </div>
 
-                                {/* My Communities */}
-                                <li className="hover:bg-blue-900 rounded-md
-                                               transition-colors overflow-hidden">
-                                    <a href="#"
-                                        className="flex items-center px-2 py-1.5 gap-2">
-                                        {/* Folder Icon */}
-                                        <i className="fa-solid fa-folder"/>
+                                <div className='border-2 border-t-white my-2'/>
 
-                                        {/* My Communities */}
-                                        <span className="whitespace-nowrap overflow-hidden">
-                                            My Communities
-                                        </span>
-                                    </a>
-                                </li>
+                                <div>
+                                    {/* My Communities */}
+                                    <li className="hover:bg-blue-900 rounded-md
+                                                transition-colors overflow-hidden">
+                                        <a href="#"
+                                            className="flex items-center px-2 py-1.5 gap-2">
+                                            {/* Folder Icon */}
+                                            <i className="fa-solid fa-folder"/>
 
-                                {/* Divider */}
-                                <div className='border-2 border-t-white'/>
-                            </>
+                                            {/* My Communities */}
+                                            <span className="whitespace-nowrap overflow-hidden">
+                                                My Communities
+                                            </span>
+                                        </a>
+                                    </li>
+                                </div>
+                            </div>
                         )}
+
+                        {/* Divider */}
+                        <div className='border-2 border-t-white'/>
 
                         {/* Get random posts */}
                         <li className="hover:bg-blue-900 rounded-md

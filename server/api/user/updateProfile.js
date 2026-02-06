@@ -4,22 +4,25 @@ import express from 'express';
 const router = express.Router()
 
 // Get random communities (For Sidebar)
-router.post('/updateAvatar', (req, res) => {
+router.post('/updateProfile', (req, res) => {
     try {
 
         // Get fetch data
-        // console.log(req.body)
-        let { imgBase64, id } = req.body;
+        console.log(req.body)
+        let { name, display_name, email, description, id } = req.body;
 
         let sql = `UPDATE users
-                   SET img = ?
+                   SET name = ?,
+                       display_name = ?,
+                       email = ?,
+                       description = ?
                    WHERE id = ?`;
 
 
 
         // Search for user by email
         db.query(sql,
-                    [imgBase64, id], (err, result) => {
+                    [name, display_name, email, description, id], (err, result) => {
 
             // If there's an error
             if (err) return res.status(400)

@@ -19,9 +19,32 @@ router.get("/getUserCommunities/:user_id", (req, res) => {
                 INNER JOIN communities ON communities.id = community_users.community_id
                 WHERE community_users.user_id = ?`
 
-    db.query(sql, [user_id], (err, result) => {
+    // Community member count
+    let sql2 = `SELECT
+                     COUNT(*) AS result_number
+                FROM community_users
+                WHERE community_id = ?`;
+
+    db.query(sql, [user_id], (err, res1) => {
         if(err) res.status(401).json("Érvénytelen Paraméter!")
-        res.json(result);
+
+        db.query(sql2, [res1.community_id], (err, res2) => {
+
+            // In case of an error
+            if (err)
+                return res.status(400).json({ error: err });
+
+            // Combine the 2 results
+            // console.log(res2[0].result_number, res1[0])
+
+            console.log(res1.community_id, res2.result_number)
+            console.log(res1.community_id)
+
+            res1[0].member_count = res2[0].result_number;
+
+            // Go back with the result
+            res.json(res1);
+        });
     })
 })
 
