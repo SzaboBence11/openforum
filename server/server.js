@@ -201,5 +201,8 @@ app.use('/api/community', addCommunityRouter);
 import updateProfileRouter from './api/user/updateProfile.js';
 app.use('/api/user', updateProfileRouter);
 
+import getOwnedCommunities from './api/user/getOwnedCommunities.js';
+app.use('/api/user', getOwnedCommunities);
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
