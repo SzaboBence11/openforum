@@ -28,5 +28,9 @@
         <Image x:Name="imageBan" Opacity="0.5" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="888,0,0,83" Source="/btn_ban.png" Stretch="Fill"/>
         <Image x:Name="imageUnBan" Opacity="0.5" Visibility="Hidden" HorizontalAlignment="Left" MaxWidth="150" MaxHeight="70" VerticalAlignment="Bottom" Margin="888,0,0,83" Source="/btn_unblock.png" Stretch="Fill"/>
         <Button VerticalAlignment="Bottom" Name="btnBan" MaxWidth="150" MaxHeight="70" Content="Ban" Click="btnBan_Click" Margin="894,0,0,88" Opacity="0" Height="62" HorizontalAlignment="Left" Width="138"/>
+        <Label Content="Felhasználónév" HorizontalAlignment="Left" Height="48" Margin="167,438,0,0" VerticalAlignment="Top" Width="233" FontFamily="Eras ITC" FontSize="14" Background="#00000000" Foreground="White"/>
+        <Label Content="MegjelenőNév" HorizontalAlignment="Left" Height="48" Margin="298,437,0,0" VerticalAlignment="Top" Width="233" FontFamily="Eras ITC" FontSize="14" Background="#00000000" Foreground="White"/>
+        <Label Content="Szerep" HorizontalAlignment="Left" Height="48" Margin="414,438,0,0" VerticalAlignment="Top" Width="234" FontFamily="Eras ITC" FontSize="14" Background="#00000000" Foreground="White"/>
+        <Label Content="Email&#xD;&#xA;" HorizontalAlignment="Left" Height="48" Margin="467,438,0,0" VerticalAlignment="Top" Width="234" FontFamily="Eras ITC" FontSize="14" Background="#00000000" Foreground="White"/>
     </Grid>
 </Window>

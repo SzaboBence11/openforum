@@ -1,51 +1,64 @@
 import db from '../../db.js';
 import express from 'express';
 
-const router = express.Router()
+const router = express.Router();
 
-// Get random communities (For Sidebar)
-router.get("/getUserCommunities/:user_id", (req, res) => {
-    let user_id = req.params.user_id;
+// Simple Promise wrapper for db.query
+// Makes async/await possible
+const query = (sql, params = []) =>
+  new Promise((resolve, reject) => {
+    db.query(sql, params, (err, results) => {
+      if (err) reject(err);
+      else resolve(results);
+    });
+  });
 
-    if(isNaN(parseInt(user_id)))
-        res.status(400).json("Érvénytelen paraméter!");
+// Get communities for a user (sidebar)
+router.get('/getUserCommunities/:user_id', async (req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
 
-    let sql = `SELECT
-                    communities.name AS community_name,
-                    community_users.community_id AS community_id,
-                    communities.img
-                FROM community_users
-                INNER JOIN users ON users.id = community_users.user_id
-                INNER JOIN communities ON communities.id = community_users.community_id
-                WHERE community_users.user_id = ?`
+  // Invalid user id
+  if (isNaN(user_id)) {
+    return res.status(400).json({ error: 'Invalid parameter' });
+  }
 
-    // Community member count
-    let sql2 = `SELECT
-                     COUNT(*) AS result_number
-                FROM community_users
-                WHERE community_id = ?`;
+  // Fetch user's communities
+  const sql = `
+    SELECT
+      communities.name AS community_name,
+      community_users.community_id,
+      communities.img
+    FROM community_users
+    INNER JOIN communities ON communities.id = community_users.community_id
+    WHERE community_users.user_id = ?
+  `;
 
-    db.query(sql, [user_id], (err, res1) => {
-        if(err) res.status(401).json("Érvénytelen Paraméter!")
+  // Count members in a community
+  const sql2 = `
+    SELECT COUNT(*) AS result_number
+    FROM community_users
+    WHERE community_id = ?
+  `;
 
-        db.query(sql2, [res1.community_id], (err, res2) => {
+  try {
+    const communities = await query(sql, [user_id]);
 
-            // In case of an error
-            if (err)
-                return res.status(400).json({ error: err });
+    // Add member count to each community
+    const communitiesWithCount = await Promise.all(
+      communities.map(async (community) => {
+        const countResult = await query(sql2, [community.community_id]);
+        return {
+          ...community,
+          member_count: countResult[0].result_number
+        };
+      })
+    );
 
-            // Combine the 2 results
-            // console.log(res2[0].result_number, res1[0])
+    res.json(communitiesWithCount);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
 
-            console.log(res1.community_id, res2.result_number)
-            console.log(res1.community_id)
-
-            res1[0].member_count = res2[0].result_number;
-
-            // Go back with the result
-            res.json(res1);
-        });
-    })
-})
-
-export default router
+export default router;
