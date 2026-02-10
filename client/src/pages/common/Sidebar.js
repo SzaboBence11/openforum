@@ -162,7 +162,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                                         
                                                         {/* Community icon for later */}
                                                         <div className="w-6 h-6">
-                                                            <img src={community.img} className='rounded-full' />
+                                                            <img src={community.img} className='rounded-full w-full h-full' />
                                                         </div>
 
                                                         {/* Community name */}
@@ -233,7 +233,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                                     
                                                     {/* Community icon for later */}
                                                     <div className="w-6 h-6">
-                                                        <img src={community.img} className='rounded-full' />
+                                                        <img src={community.img} className='rounded-full w-full h-full' />
                                                     </div>
 
                                                     {/* Community name */}
@@ -288,7 +288,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
                                     {/* Community icon for later */}
                                     <div className="w-6 h-6">
-                                        <img src={community.img} className='rounded-full' />
+                                        <img src={community.img} className='rounded-full w-full h-full' />
                                     </div>
 
                                     {/* Community name */}
