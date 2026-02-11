@@ -9,7 +9,8 @@ function CommunityAdd() {
         img: ''
     })
     const isFormValid = formData.name !== '' &&
-                        formData.description !== ''
+                        formData.description !== '' &&
+                        formData.img !== ''
 
     const profilePictureStyleInput = {
         backgroundImage: `url(${formData.img})`,
@@ -31,6 +32,7 @@ function CommunityAdd() {
     function handleChange(e) {
         if(e.target.type != 'file'){
             setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+            console.log(formData);
             return;
         }
         let file = e.target.files[0];
@@ -38,29 +40,15 @@ function CommunityAdd() {
         
         reader.onload = function() {
             let profileBase64 = reader.result;
-            console.log(profileBase64);
             setFormData(prev => ({
                 ...prev,
                 img: profileBase64
             }));
-
-
-            fetch('/api/user/updateAvatar', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                            imgBase64: profileBase64,
-                            id: JSON.parse(localStorage.getItem('user')).id
-            })
-            }).then(() => {
-                let avatarHeader = document.querySelector("#headerAvatarPicture");
-                avatarHeader.src = profileBase64;
-            })
         }
 
         let readerUrl = reader.readAsDataURL(file);
 
-        
+        console.log(formData);
     }
 
     function addCommunity() {
@@ -78,12 +66,12 @@ function CommunityAdd() {
         .then(data => {
             if (!data.error) {
                 setTimeout(() => {
-                    alert('Community created successfully!')
-                    goToCommunity(data.insertId)
+                    alert('Community created successfully!');
+                    goToCommunity(data.insertId);
                 }, 5);
             }
             else {
-                alert(data.error)
+                alert(data.error);
             }
             // goToCommunity()
         })
@@ -91,8 +79,8 @@ function CommunityAdd() {
     }
 
     function goToCommunity(id) {
-        localStorage.setItem('selectedCommunity', id)
-        navigate('/feed')
+        localStorage.setItem('selectedCommunity', id);
+        navigate('/feed');
     }
 
     return (
@@ -199,21 +187,19 @@ function CommunityAdd() {
                     </div>
 
                     <div className='mt-4 justify-center mx-auto w-auto flex'>
-                        <Link to='/feed'>
-                            <button className={`w-52 rounded-full font-bold group
-                                                shadow-lg transition py-2 px-4 border border-white/15
-                                                ${isFormValid
-                                                ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
-                                                : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
-                                              `}
-                                type="submit"
-                                onClick={addCommunity}
-                                disabled={!isFormValid}>
-                                Create
-                                <i className={`${isFormValid ? 'group-hover:ms-2': ''}
-                                                  fa-solid fa-angles-right ms-1 transition-all`}/>
-                            </button>
-                        </Link>
+                        <button className={`w-52 rounded-full font-bold group
+                                            shadow-lg transition py-2 px-4 border border-white/15
+                                            ${isFormValid
+                                            ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
+                                            : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
+                                            `}
+                            type="submit"
+                            onClick={addCommunity}
+                            disabled={!isFormValid}>
+                            Create
+                            <i className={`${isFormValid ? 'group-hover:ms-2': ''}
+                                                fa-solid fa-angles-right ms-1 transition-all`}/>
+                        </button>
                     </div>
                 </div>
             </div>
