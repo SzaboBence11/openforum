@@ -11,6 +11,7 @@ router.get('/getCommunityData/:community_id', (req, res) => {
 
     // Community details
     let sql = `SELECT
+                    communities.id AS id,
                     users.name AS owner,
                     communities.description AS description,
                     communities.date AS date,

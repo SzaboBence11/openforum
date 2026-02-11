@@ -207,5 +207,8 @@ app.use('/api/user', getOwnedCommunitiesRouter);
 import addCommentRouter from './api/community/addComment.js';
 app.use('/api/community', addCommentRouter);
 
+import communityActionRouter from './api/user/communityAction.js';
+app.use('/api/user', communityActionRouter);
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));

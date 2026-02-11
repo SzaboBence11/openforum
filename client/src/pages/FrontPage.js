@@ -5,6 +5,7 @@ function FrontPage({ isSidebarOpen }) {
     const [posts, setPosts] = useState({ posts: [] })
     const [communityData, setCommunityData] = useState({ community: [] })
     const [comments, setComments] = useState({})
+    const [joinedCommunities, setJoinedCommunities] = useState()
 
     // Fetch random posts for the home page
     useEffect(() => {
@@ -37,6 +38,22 @@ function FrontPage({ isSidebarOpen }) {
             })
             .catch(err => console.error('Fetch /getCommunityData failed:', err))
         }
+    }, [])
+
+    useEffect(() => {
+        if(localStorage.getItem('user')){
+            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                let idArray = [];
+                for(let i = 0; i < res.length; i++){
+                    idArray.push(res[i].community_id);
+                }
+                setJoinedCommunities(idArray);
+            })
+        }
+
     }, [])
 
     useEffect(() => {
@@ -102,6 +119,33 @@ function FrontPage({ isSidebarOpen }) {
         .catch(err => console.log(err))
     }
 
+    function communityAction(cMehtod, community_id){
+        let user_id = JSON.parse(localStorage.getItem('user')).id;
+        alert(community_id)
+
+        fetch('api/user/communityAction', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                    community_id: communityData.community.id,
+                    user_id: user_id,
+                    method: cMehtod
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res){
+                alert("Sikeres");
+                return;
+            }
+            alert("Sikertelen")
+        })
+        .catch(err => alert(err))
+
+    }
+
     return (
 
         // The whole frontpage area
@@ -120,10 +164,51 @@ function FrontPage({ isSidebarOpen }) {
                                      communityData.community.name.slice(1)}
                                 </h1>
 
-                                <h1 className='mt-4 font-xl justify-center'>
-                                    <i className="fa-solid fa-user me-1" />
-                                    {communityData.community.member_count} Members
-                                </h1>
+                                <div className='flex justify-center gap-5'>
+                                    <h1 className='mt-4 font-xl justify-center'>
+                                        <i className="fa-solid fa-user me-1" />
+                                        {communityData.community.member_count} Members
+                                    </h1>
+                                    
+                                    {joinedCommunities != undefined ? (
+                                        <>
+                                            {/* Leave community button, if user is joined */}
+                                            {joinedCommunities.includes(communityData.community.id) &&
+                                            localStorage.getItem("user") &&
+                                            (
+                                                <button className="mt-1.5 px-6 py-2 rounded-full
+                                                    bg-white/15 text-white font-semibold
+                                                    hover:bg-white/25 border border-white/20
+                                                    hover:scale-105
+                                                    active:scale-95
+                                                    transition-all duration-300"
+                                                        onClick={() => communityAction('leave', communityData.community.id)}>Leave</button>
+                                            )
+                                            }
+
+                                            {/* Join community button, if user is not joined */}
+                                            {!joinedCommunities.includes(communityData.community.id) &&
+                                            localStorage.getItem("user") &&
+
+                                            (
+                                                <button className="mt-1.5 px-6 py-2 rounded-full
+                                                        bg-gradient-to-r
+                                                        from-blue-500 to-indigo-500
+                                                        text-white font-bold
+                                                        shadow-lg
+                                                        hover:shadow-xl
+                                                        hover:scale-105
+                                                        active:scale-95
+                                                        transition-all duration-300"
+                                                        onClick={() => communityAction('join')}>Join</button>
+                                            )
+
+                                            }
+                                        </>
+                                    ) : (
+                                        <div>Betöltés</div>
+                                    )}
+                                </div>
 
                                 <h1 className='mt-4 font-xl text-gray-300'>
                                     {communityData.community.description}
