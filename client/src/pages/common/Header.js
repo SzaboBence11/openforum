@@ -49,7 +49,7 @@ function Header() {
                                     </h3>
                                 </div>
                                 <div className="w-10 h-10 rounded-full justify-center">
-                                    <img id='headerAvatarPicture' className="rounded-full w-full h-full " src={userData.user.img}></img>
+                                    <img id='headerAvatarPicture' className="rounded-full w-full h-full object-cover" src={userData.user.img}></img>
                                 </div>
                             </div>
                         </Link>

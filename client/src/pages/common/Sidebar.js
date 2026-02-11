@@ -64,7 +64,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
         // Fix sidebar and change width based on isSidebarOpen
         <aside className={`fixed top-0 left-0 z-40 mt-16 h-full bg-blue-950
                          text-white transition-all duration-300 select-none overflow-y-auto
-                           ${isSidebarOpen ? 'w-[16%]' : 'w-14'} overflow-y-scroll`}>
+                           ${isSidebarOpen ? 'w-80 overflow-y-scroll' : 'w-14'}`}>
 
             {/* Toggle sidebar */}
             <button onClick={() => setIsSidebarOpen(prev => !prev)}
@@ -130,7 +130,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                         <span className='ms-2'>
                                             Owned Communities
                                         </span>
-                                        <i className={`fa-solid ms-9 hover:bg-blue-900
+                                        <i className={`fa-solid ms-8 hover:bg-blue-900
                                                     transition-all rounded-full p-3 w-10 h-10 cursor-pointer
                                                     ${showOwnedCommunities ? "fa-angle-down": "fa-angle-up"}`}
                                         onClick={() => setShowOwnedCommunities(prev => !prev)}/>

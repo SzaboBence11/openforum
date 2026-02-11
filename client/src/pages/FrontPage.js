@@ -107,12 +107,15 @@ function FrontPage({ isSidebarOpen }) {
         // The whole frontpage area
         <div className={`p-4`}>
             <div className="p-4 border-1 rounded-base">
-                {localStorage.getItem('selectedCommunity') !== "0" && localStorage.getItem('selectedCommunity') && (
+
+                {/* Community details */}
+                {localStorage.getItem('selectedCommunity') !== "0" &&
+                 localStorage.getItem('selectedCommunity') && (
                     <div className='text-white text-center'>
                         {communityData.community && communityData.community.name ? (
                             <div className='mb-8 justify-center animate-fadeIn'>
                                 <h1 className='text-4xl flex items-center justify-center'>
-                                    <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full' />
+                                    <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
                                     {communityData.community.name.charAt(0).toUpperCase() + 
                                      communityData.community.name.slice(1)}
                                 </h1>
@@ -134,73 +137,107 @@ function FrontPage({ isSidebarOpen }) {
                     </div>
                 )}
 
-                {/* Make space for each post */}
+                {/* Each post */}
                 {posts.posts.length > 0 ? (
                     posts.posts.map((post, i) => (
 
                         // Post card
                         <div key={i}>
                             <div className="flex flex-col border shadow-md mx-auto
-                                            mb-4 rounded-3xl p-3 border-white/15 animate-fadeIn
+                                            mb-12 rounded-3xl p-3 border-white/15 animate-fadeIn
                                             min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
                                 
                                 {/* Post text content */}
-                                <button className='max-w-fit hover:bg-white/20 px-2 py-2 rounded-full
-                                                   transition-all duration-300'
-                                        onClick={() => goToCommunity(post.community_id)}>
-                                    <p className='text-white text-xl text-left flex'>
-                                        <img src={post.community_img} className='rounded-full w-8 h-8 me-2' />
-                                        {post.community.charAt(0).toUpperCase() +
-                                         post.community.slice(1)}
+                                <div className='flex flex-1'>
+                                    <button className='max-w-fit hover:bg-white/20 px-2 py-2 rounded-full
+                                                    transition-all duration-300'
+                                            onClick={() => goToCommunity(post.community_id)}>
+                                        <p className='text-white text-xl text-left flex'>
+                                            <img src={post.community_img} className='rounded-full w-8 h-8 me-2 object-cover' />
+                                            {post.community.charAt(0).toUpperCase() +
+                                            post.community.slice(1)}
+                                        </p>
+                                    </button>
+                                    <p className='text-white ms-auto'>
+                                        {timeAgo(post.post_date)}
                                     </p>
-                                </button>
+                                </div>
+
+                                {/* Post title */}
                                 <p className='text-white text-3xl text-center'>
                                     {post.post_title}
                                 </p>
+
+                                {/* Poster user img */}
                                 <p className='text-white flex mx-auto mt-1.5'>
-                                    <img src={post.poster_img} className='rounded-full w-6 h-6 me-2' />
+                                    <img src={post.poster_img} className='rounded-full w-6 h-6 me-2 object-cover' />
                                     {post.poster_user}
                                 </p>
-                                <p className='text-white mt-3 overflow-hidden w-5/6 ms-3'>
+
+                                {/* Post text */}
+                                <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
                                     {post.post_text}
                                 </p>
-                                <p className='text-white ms-auto mt-auto'>
-                                    {timeAgo(post.post_date)}
-                                </p>
-                            </div>
 
-                            {comments[post.id] ? (
-                              comments[post.id].map((comment, j) => (
-                                <div className='flex flex-col border shadow-md ms-[18vw]
-                                            mb-4 rounded-3xl p-3 border-white/10 animate-fadeIn
-                                            min-h-20 bg-white/5 backdrop-blur-xl w-3/6'
-                                     key={j}>
-                                    <p className='text-white flex mt-1.5'>
-                                        <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2' />
-                                        {comment.commenter_user}
-                                    </p>
-                                    <p className="text-gray-300 text-sm mt-2">
-                                      {comment.text}
-                                    </p>
-                                    <p className='text-white ms-auto mt-auto'>
-                                        {timeAgo(comment.date)}
-                                    </p>
+                                {/* Each comment */}
+                                {comments[post.id] ? (
+                                 comments[post.id].map((comment, j) => (
+
+                                    // Comment card
+                                    <div className='flex flex-col border shadow-md ms-4 mb-4
+                                                    rounded-3xl p-3 border-white/10 animate-fadeIn
+                                                    min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
+                                        key={j}>
+
+                                        {/* User img and name */}
+                                        <p className='text-white flex mt-1.5'>
+                                            <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                            {comment.commenter_user}
+                                        </p>
+
+                                        {/* Comment text */}
+                                        <p className="text-gray-300 text-sm mt-2">
+                                        {comment.text}
+                                        </p>
+
+                                        {/* Comment date */}
+                                        <p className='text-white ms-auto mt-auto'>
+                                            {timeAgo(comment.date)}
+                                        </p>
+                                    </div>
+                                ))
+                                ) : (
+                                <p className="text-gray-500 text-sm">Loading comments...</p>
+                                )}
+
+                                <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
+                                                border border-white/15'>
+                                    <div className='flex'>
+                                        <div className='flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                        rounded-full hover:cursor-pointer'>
+                                            <i className="fa-solid fa-arrow-up mt-0.5" />
+                                        </div>
+                                        <p className='mx-1 mt-1.5'>
+                                            12
+                                        </p>
+                                        <div className='flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                        rounded-full hover:cursor-pointer'>
+                                            <i className="fa-solid fa-arrow-down mt-0.5" />
+                                        </div>
+                                    </div>
                                 </div>
-                              ))
-                            ) : (
-                              <p className="text-gray-500 text-sm">Loading comments...</p>
-                            )}
 
-                            <input type="text"
-                                   className="px-3 py-2 rounded-lg border-white/15 text-white ms-[18vw] mb-8 w-3/6
-                                              border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl animate-fadeIn"
-                                   placeholder='Comment...'
-                                   autoComplete='true'>
-                            </input>
+                                {/* <input type="text"
+                                    className="px-3 py-1 rounded-lg border-white/15 text-white ms-[18vw] mb-4 w-3/6
+                                                border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl animate-fadeIn"
+                                    placeholder='Comment...'
+                                    autoComplete='true'>
+                                </input> */}
+                            </div>
                         </div>
                     ))
                 ) : (
-                    <p>Betöltés...</p>
+                    <p>Loading...</p>
                 )}
             </div>
         </div>
