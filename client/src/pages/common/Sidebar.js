@@ -61,11 +61,11 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     }, [])
 
     return (
+        
         // Fix sidebar and change width based on isSidebarOpen
-        <aside className={`fixed top-0 left-0 z-40 mt-16 h-full bg-blue-950
+        <aside className={`fixed top-0 left-0 z-40 h-[calc(100vh-85px)] mt-[85px] bg-blue-950
                          text-white transition-all duration-300 select-none overflow-y-auto
                            ${isSidebarOpen ? 'w-80 overflow-y-scroll' : 'w-14'}`}>
-
             {/* Toggle sidebar */}
             <button onClick={() => setIsSidebarOpen(prev => !prev)}
                     className="m-2 p-2 rounded-md hover:bg-blue-900"
