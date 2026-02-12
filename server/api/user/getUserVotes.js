@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router()
 
 // Get random communities (For Sidebar)
-router.get('/getComments/:user_id', (req, res) => {
+router.get('/getUserVotes/:user_id', (req, res) => {
 
     // Turn post_id to int
     let user_id = parseInt(req.params.user_id);

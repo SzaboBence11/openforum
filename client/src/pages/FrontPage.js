@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { act, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function FrontPage({ isSidebarOpen }) {
@@ -8,6 +8,7 @@ function FrontPage({ isSidebarOpen }) {
     const [joinedCommunities, setJoinedCommunities] = useState()
 
     const [votes, setVotes] = useState({})
+    const [userVotes, setUserVotes] = useState({})
 
     // Fetch random posts for the home page
     useEffect(() => {
@@ -67,20 +68,46 @@ function FrontPage({ isSidebarOpen }) {
     useEffect(() => {
         if (posts.posts.length === 0) return;
 
+        getAllPostVotes();
+    }, [posts.posts]);
+
+    function getAllPostVotes() {
+        setVotes({})
         posts.posts.forEach(post => {
             if (!votes[post.id]) {
-            fetch(`/api/community/getVoteCount/${post.id}`)
-            .then(res => res.json())
-            .then(data => {
-                setVotes(prev => ({
-                    ...prev,
-                    [post.id]: data[0].vote_count
-                }));
-            })
-            .catch(err => console.log(err));
+                fetch(`/api/community/getVoteCount/${post.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setVotes(prev => ({
+                        ...prev,
+                        [post.id]: data[0].vote_count
+                    }));
+                })
+                .catch(err => console.log(err));
             }
         });
-    }, [posts.posts]);
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            getUserVotes(JSON.parse(localStorage.getItem('user')).id)
+        }
+    }, [posts.posts])
+
+    function getUserVotes(user_id) {
+        setUserVotes({})
+        fetch(`/api/user/getUserVotes/${user_id}`)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(e => {
+                setUserVotes(prev => ({
+                    ...prev,
+                    [e.post_id]: e.type
+                }))
+            })
+        })
+        .catch(err => console.log(err))
+    }
 
     function goToCommunity(id) {
         localStorage.setItem('selectedCommunity', id)
@@ -168,6 +195,40 @@ function FrontPage({ isSidebarOpen }) {
                 setJoinedCommunities(idArray);
             })
         }
+    }
+
+    function vote(post_id, action, state) {
+
+        console.log({
+            post: post_id,
+            user: JSON.parse(localStorage.getItem('user')).id,
+            action: action,
+            state: state
+        })
+        if (!localStorage.getItem('user')) return;
+
+        fetch(`/api/user/vote`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user_id: JSON.parse(localStorage.getItem('user')).id,
+                post_id: post_id,
+                action: action,
+                state: state
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.error) {
+                alert(res.error)
+            }
+        })
+        .catch(err => console.log(err))
+
+        getUserVotes(JSON.parse(localStorage.getItem('user')).id);
+        getAllPostVotes();
     }
 
     return (
@@ -322,16 +383,48 @@ function FrontPage({ isSidebarOpen }) {
                                 <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
                                                 border border-white/15'>
                                     <div className='flex'>
-                                        <div className='flex flex-1 align-middle justify-center p-2 hover:bg-white/25
-                                                        rounded-full hover:cursor-pointer'>
-                                            <i className="fa-solid fa-arrow-up mt-0.5" />
+                                        <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                        rounded-full hover:cursor-pointer`}>
+                                            {
+                                                Object.keys(userVotes).includes(String(post.id)) ?
+                                                (
+                                                    <>
+                                                        {userVotes[`${post.id}`] == 'U' ? (
+                                                            <i className="fa-solid fa-arrow-up text-white mt-0.5"
+                                                               onClick={() => vote(post.id, 'U', 'U')} />
+                                                        ) : (
+                                                            <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                               onClick={() => vote(post.id, 'U', 'D')} />
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                       onClick={() => vote(post.id, 'U', 'N')} />
+                                                )
+                                            }
                                         </div>
                                         <p className='mx-1 mt-1.5'>
                                             {votes[post.id] ?? 0}
                                         </p>
-                                        <div className='flex flex-1 align-middle justify-center p-2 hover:bg-white/25
-                                                        rounded-full hover:cursor-pointer'>
-                                            <i className="fa-solid fa-arrow-down mt-0.5" />
+                                        <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                        rounded-full hover:cursor-pointer`}>
+                                            {
+                                                Object.keys(userVotes).includes(String(post.id)) ?
+                                                (
+                                                    <>
+                                                        {userVotes[post.id] == 'D' ? (
+                                                            <i className="fa-solid fa-arrow-down text-white mt-0.5"
+                                                               onClick={() => vote(post.id, 'D', 'D')} />
+                                                        ) : (
+                                                            <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                               onClick={() => vote(post.id, 'D', 'U')} />
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                       onClick={() => vote(post.id, 'D', 'N')} />
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>

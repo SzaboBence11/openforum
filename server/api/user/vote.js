@@ -8,20 +8,16 @@ router.post('/vote', (req, res) => {
     try {
         // Get fetch data
         let { user_id, post_id, action, state } = req.body;
+
+        console.log(req.body)
+
         let sql;
         let type = action;
-        let oppositeAction;
-
-        if(action == "U"){
-            oppositeAction = "D";
-        }else{
-            oppositeAction = "U"
-        }
 
         if(state == action){
             sql = `DELETE FROM votes
                    WHERE user_id = ? AND
-                         post_id = ?
+                         post_id = ? AND
                          type = ?`
         }
         else if(state == 'N'){
@@ -33,7 +29,7 @@ router.post('/vote', (req, res) => {
             `
         }
         else if(state == 'U'){
-            type = oppositeAction;
+            type = type == 'U' ? 'D' : 'U';
             sql = `UPDATE votes
                    SET type = 'D'
                    WHERE user_id = ? AND
@@ -41,13 +37,15 @@ router.post('/vote', (req, res) => {
                          type = ?`
         }
         else if(state == 'D'){
-            type = oppositeAction;
+            type = type == 'U' ? 'D' : 'U'
             sql = `UPDATE votes
                    SET type = 'U'
                    WHERE user_id = ? AND
-                         post_id = ?
+                         post_id = ? AND
                          type = ?`
         }
+
+        console.log('asd')
 
         db.query(sql,[user_id,
                       post_id,
