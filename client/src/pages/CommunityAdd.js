@@ -37,6 +37,11 @@ function CommunityAdd() {
         }
         let file = e.target.files[0];
         let reader = new FileReader();
+
+        if(file.size > 64 * 1024){
+            alert("Túl nagy fájl!");
+            return;
+        }
         
         reader.onload = function() {
             let profileBase64 = reader.result;
@@ -128,7 +133,7 @@ function CommunityAdd() {
                                     accept='image/*'
                                     style={profilePictureStyleInput}
                                     src={formData.img || null}
-                                    size={4 * 1024 * 1024}
+                                    size={64 * 1024}
                                     onChange={handleChange}
                                     className="w-full h-full rounded-full
                                                object-cover bg-blue-950"
