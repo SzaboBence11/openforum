@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react'
+import { useNavigate, Link } from 'react-router-dom';
 
 function Searchbar() {
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
 
     function onSubmit(search) {
-        
+        localStorage.setItem('searchTerm', searchTerm)
+        navigate('/search');
     }
 
     return (
@@ -16,10 +20,12 @@ function Searchbar() {
             <div className="relative">
                 <input type='text'
                        required
-                       id='password'
-                       name='password'
+                       id='search'
+                       name='search'
                        placeholder='Search communities...'
                        autoComplete='true'
+                       value={searchTerm}
+                       onChange={(e) => setSearchTerm(e.currentTarget.value)}
                        className="w-full px-3 pr-10 rounded-lg bg-blue-950/60 backdrop-blur-xl
                                   border shadow-sm text-sm py-2 border-white/15 text-white"
                 />

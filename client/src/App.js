@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Feed from './pages/Feed';
 import CommunityAdd from './pages/CommunityAdd';
+import Search from './pages/Search';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/newcommunity" element={<CommunityAdd />} />
+                        <Route path="/search" element={<Search />} />
                     </Routes>
                 </main>
             </div>
