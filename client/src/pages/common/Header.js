@@ -26,7 +26,7 @@ function Header() {
     }
 
     return (
-        <header className="bg-blue-950 text-white py-3 px-6 min-h-[85px] sticky top-0 z-50 relative">
+        <header className="bg-blue-950 text-white py-3 px-6 min-h-[85px] sticky top-0 z-50">
             <div className="flex items-center w-full relative mt-2">
 
                 {/* LEFT */}
