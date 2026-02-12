@@ -19,7 +19,7 @@ router.post('/communityAction', (req, res) => {
                                    community_id,
                                    user_id,
                                    role)
-                VALUES (?, ?, U)`
+                VALUES (?, ?, 'U')`
         } else{
             sql = `
                 DELETE FROM community_users 
@@ -36,8 +36,8 @@ router.post('/communityAction', (req, res) => {
                 return res.status(400)
                           .json({ error: err });
                           
-            // Successful register!!
-            return res.json({ message: "Sikeres Regisztráció!" });
+            // Successful
+            return res.json({ message: "Siker " });
         });
 
     }

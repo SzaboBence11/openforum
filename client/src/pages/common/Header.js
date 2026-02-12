@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import Searchbar from './Searchbar';
 
 function Header() {
     const [userData, setUserData] = useState({ user: [] });
+    const [isOpen, setIsOpen] = useState(false);
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
-        if (localStorage.getItem('user')) {
-            fetch(`/api/user/profile/${JSON.parse(localStorage.getItem('user')).id}`)
+        if (storedUser) {
+            fetch(`/api/user/profile/${storedUser.id}`)
             .then(res => res.json())
             .then(data => {
                 setUserData({ user: data[0] })
@@ -21,72 +24,165 @@ function Header() {
             window.location.assign("/");
         }
     }
-    
+
     return (
+        <header className="bg-blue-950 text-white py-3 px-6 min-h-[85px] sticky top-0 z-50 relative">
+            <div className="flex items-center w-full relative mt-2">
 
-        // Main header element
-        <header className="bg-blue-950 text-white py-3 px-6 flex top-0
-                           sticky transition-all duration-300 z-40">
-            <div className='flex flex-1 w-full'>
-
-                {/* Home page link */}
-                <Link to="/" className='text-xl font-bold pt-0.5 mt-2'>
+                {/* LEFT */}
+                <Link to="/" className='text-xl font-bold mt-2 md:mt-0 items-center z-10'>
                     <i className="fa-solid fa-comments me-2"/>
                     Openforum
                 </Link>
 
-                {/* Searchbar element */}
-                <Searchbar  />
+                {/* CENTER SEARCHBAR */}
+                <div
+                    className="
+                        absolute
+                        left-1/3
+                        lg:left-1/2
+                        -translate-x-1/2
+                        hidden md:block
+                        px-4
+                        mb-2
+                        ms-2
+                        w-[30vw]
+                        lg:w-[37vw]
+                        lg:ms-0
+                        min-w-[180px]
+                    "
+                >
+                    <Searchbar />
+                </div>
 
-                <button className='hover:bg-blue-900 px-2 py-1.5 transition-all ms-auto rounded-full'>
-                    {/* User image and name */}
-                    { JSON.parse(localStorage.getItem('user')) &&
+                {/* RIGHT SIDE */}
+                <div className="ms-auto flex items-center z-10">
+
+                    {/* Desktop */}
+                    <div className="hidden md:flex items-center">
+
+                        {storedUser &&
+                            <Link to="/profile">
+                                <div className='flex items-center hover:bg-blue-900 px-2 py-1.5 transition-all rounded-full'>
+                                    <div className='my-2 ms-3 me-3'>
+                                        <h3 className='font-semibold whitespace-nowrap'>
+                                            {userData.user.name}
+                                        </h3>
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full">
+                                        <img
+                                            className="rounded-full w-full h-full object-cover"
+                                            src={userData.user.img}
+                                            alt=""
+                                        />
+                                    </div>
+                                </div>
+                            </Link>
+                        }
+
+                        {!storedUser &&
+                            <div>
+                                <Link to="/login">
+                                    <button className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                                        Login
+                                    </button>
+                                </Link>
+
+                                <Link to="/register">
+                                    <button className="hover:bg-gray-300 text-blue-950 bg-white py-2 px-4 rounded-full transition-colors ms-3 font-bold">
+                                        Register
+                                    </button>
+                                </Link>
+                            </div>
+                        }
+
+                        {storedUser &&
+                            <div className='ms-3'>
+                                <button
+                                    className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors"
+                                    onClick={logout}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        }
+                    </div>
+
+                    {/* Hamburger */}
+                    <button
+                        className="md:hidden text-2xl px-3 mt-3"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        <i className="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            {/* FLOATING MOBILE DROPDOWN */}
+            <div
+                className={`
+                    md:hidden
+                    absolute
+                    left-0
+                    top-full
+                    w-full
+                    bg-blue-950
+                    overflow-hidden
+                    transition-all
+                    duration-300
+                    ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-3 pointer-events-none"}
+                `}
+            >
+                <div className="flex flex-col items-center text-center px-6 pb-4">
+
+                    <div className="w-full max-w-xl mt-3">
+                        <Searchbar />
+                    </div>
+
+                    {storedUser &&
                         <Link to="/profile">
-                            <div className='ms-auto flex'>
-                                <div className='my-2 ms-3 me-3'>
+                            <div className='flex items-center hover:bg-blue-900 px-2 py-1.5 transition-all rounded-full mt-4'>
+                                <div className='my-2 me-3'>
                                     <h3 className='font-semibold'>
                                         {userData.user.name}
                                     </h3>
                                 </div>
-                                <div className="w-10 h-10 rounded-full justify-center">
-                                    <img id='headerAvatarPicture' className="rounded-full w-full h-full object-cover" src={userData.user.img}></img>
+                                <div className="w-10 h-10 rounded-full">
+                                    <img
+                                        className="rounded-full w-full h-full object-cover"
+                                        src={userData.user.img}
+                                        alt=""
+                                    />
                                 </div>
                             </div>
                         </Link>
                     }
-                </button>
 
-                {/* Login btn */}
-                {
-                    !JSON.parse(localStorage.getItem('user')) && 
-                    <div className='ms-auto mt-1.5'>
-                        <Link to="/login">
-                            <button className="hover:bg-blue-900 text-white font-bold py-2
-                                               px-4 rounded-full transition-colors ms-auto">
-                                Login
-                            </button>
-                        </Link>
+                    {!storedUser &&
+                        <div className='flex flex-col items-center mt-4'>
+                            <Link to="/login">
+                                <button className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                                    Login
+                                </button>
+                            </Link>
 
-                        <Link to="/register">
-                            <button className="hover:bg-gray-300 text-blue-950 bg-white py-2
-                                               px-4 rounded-full transition-colors ms-3 font-bold">
-                                Register
-                            </button>
-                        </Link>
-                    </div>
-                }
+                            <Link to="/register">
+                                <button className="hover:bg-gray-300 text-blue-950 bg-white py-2 px-4 rounded-full transition-colors mt-2 font-bold">
+                                    Register
+                                </button>
+                            </Link>
+                        </div>
+                    }
 
-                {/* Logout btn */}
-                {
-                    JSON.parse(localStorage.getItem('user')) && 
-                    <div className='ms-3 mt-1.5'>
-                        <button className="hover:bg-blue-900 text-white font-bold py-2
-                                           px-4 rounded-full transition-colors ms-auto"
-                                           onClick={() => logout()}>
-                            Logout 
+                    {storedUser &&
+                        <button
+                            className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors mt-4"
+                            onClick={logout}
+                        >
+                            Logout
                         </button>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </header>
     )

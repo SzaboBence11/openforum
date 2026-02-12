@@ -41,19 +41,7 @@ function FrontPage({ isSidebarOpen }) {
     }, [])
 
     useEffect(() => {
-        if(localStorage.getItem('user')){
-            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
-            .then(res => res.json())
-            .then(res => {
-                console.log(res);
-                let idArray = [];
-                for(let i = 0; i < res.length; i++){
-                    idArray.push(res[i].community_id);
-                }
-                setJoinedCommunities(idArray);
-            })
-        }
-
+        getUserJoins()
     }, [])
 
     useEffect(() => {
@@ -121,7 +109,6 @@ function FrontPage({ isSidebarOpen }) {
 
     function communityAction(cMehtod, community_id){
         let user_id = JSON.parse(localStorage.getItem('user')).id;
-        alert(community_id)
 
         fetch('api/user/communityAction', {
             method: 'POST',
@@ -138,12 +125,28 @@ function FrontPage({ isSidebarOpen }) {
         .then(res => {
             if(res){
                 alert("Sikeres");
+                getUserJoins();
                 return;
             }
             alert("Sikertelen")
+            getUserJoins();
         })
         .catch(err => alert(err))
 
+    }
+    function getUserJoins(){
+        if(localStorage.getItem('user')){
+            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                let idArray = [];
+                for(let i = 0; i < res.length; i++){
+                    idArray.push(res[i].community_id);
+                }
+                setJoinedCommunities(idArray);
+            })
+        }
     }
 
     return (
@@ -200,7 +203,7 @@ function FrontPage({ isSidebarOpen }) {
                                                         hover:scale-105
                                                         active:scale-95
                                                         transition-all duration-300"
-                                                        onClick={() => communityAction('join')}>Join</button>
+                                                        onClick={() => communityAction('join', communityData.community.id)}>Join</button>
                                             )
 
                                             }
