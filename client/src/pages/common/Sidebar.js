@@ -68,8 +68,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
             {/* Toggle sidebar */}
             <button onClick={() => setIsSidebarOpen(prev => !prev)}
-                className="m-2 p-2 rounded-md hover:bg-blue-900"
-                aria-label="Toggle sidebar">
+                    className="m-2 p-2 rounded-md hover:bg-blue-900"
+                    aria-label="Toggle sidebar">
                 <i className="fa-solid fa-bars"/>
             </button>
 
@@ -82,7 +82,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                             <div>
                                 {/* Create Community */}
                                 <li className="hover:bg-blue-900 rounded-md
-                                            transition-colors overflow-hidden">
+                                               transition-colors overflow-hidden">
                                     <Link to='/newcommunity'
                                         className="flex items-center px-2 py-1.5 gap-2">
                                         {/* Plus icon */}

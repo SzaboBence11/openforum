@@ -7,6 +7,8 @@ function FrontPage({ isSidebarOpen }) {
     const [comments, setComments] = useState({})
     const [joinedCommunities, setJoinedCommunities] = useState()
 
+    const [votes, setVotes] = useState({})
+
     // Fetch random posts for the home page
     useEffect(() => {
         if (localStorage.getItem("selectedCommunity") == 0 ||
@@ -62,6 +64,24 @@ function FrontPage({ isSidebarOpen }) {
       });
     }, [posts.posts]);
 
+    useEffect(() => {
+        if (posts.posts.length === 0) return;
+
+        posts.posts.forEach(post => {
+            if (!votes[post.id]) {
+            fetch(`/api/community/getVoteCount/${post.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setVotes(prev => ({
+                    ...prev,
+                    [post.id]: data[0].vote_count
+                }));
+            })
+            .catch(err => console.log(err));
+            }
+        });
+    }, [posts.posts]);
+
     function goToCommunity(id) {
         localStorage.setItem('selectedCommunity', id)
         window.location.reload(true)
@@ -107,7 +127,7 @@ function FrontPage({ isSidebarOpen }) {
         .catch(err => console.log(err))
     }
 
-    function communityAction(cMehtod, community_id){
+    function communityAction(cMehtod, community_id) {
         let user_id = JSON.parse(localStorage.getItem('user')).id;
 
         fetch('api/user/communityAction', {
@@ -134,7 +154,8 @@ function FrontPage({ isSidebarOpen }) {
         .catch(err => alert(err))
 
     }
-    function getUserJoins(){
+
+    function getUserJoins() {
         if(localStorage.getItem('user')){
             fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
             .then(res => res.json())
@@ -306,7 +327,7 @@ function FrontPage({ isSidebarOpen }) {
                                             <i className="fa-solid fa-arrow-up mt-0.5" />
                                         </div>
                                         <p className='mx-1 mt-1.5'>
-                                            12
+                                            {votes[post.id] ?? 0}
                                         </p>
                                         <div className='flex flex-1 align-middle justify-center p-2 hover:bg-white/25
                                                         rounded-full hover:cursor-pointer'>

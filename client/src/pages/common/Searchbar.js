@@ -1,14 +1,21 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 function Searchbar() {
+
+    function onSubmit(search) {
+        
+    }
+
     return (
 
         // Form for the input
         <form className="ms-6 mt-2"
               name="searchBar"
-              id="searchBar">
+              id="searchBar"
+              onSubmit={() => onSubmit()}>
             <div className="relative">
                 <input type='text'
+                       required
                        id='password'
                        name='password'
                        placeholder='Search communities...'

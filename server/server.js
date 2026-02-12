@@ -210,5 +210,8 @@ app.use('/api/community', addCommentRouter);
 import communityActionRouter from './api/user/communityAction.js';
 app.use('/api/user', communityActionRouter);
 
+import getVoteCountRouter from './api/community/getVoteCount.js';
+app.use('/api/community', getVoteCountRouter);
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
