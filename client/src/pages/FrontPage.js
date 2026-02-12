@@ -10,92 +10,98 @@ function FrontPage({ isSidebarOpen }) {
     const [votes, setVotes] = useState({})
     const [userVotes, setUserVotes] = useState({})
 
-    // Fetch random posts for the home page
+    // On page load
     useEffect(() => {
+
+        // If no selected community
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
+
+            // Fetch 10 random posts 
             fetch('/api/community/randomPosts/10')
             .then(res => res.json())
             .then(data => {
-                setPosts({ posts: data });
+
+                // Set posts data
+                setPosts({ posts: data })
             })
             .catch(err => console.error('Fetch /randomPosts failed:', err));
-            
-            return;
         }
 
+        // If there's a selected community
         else {
+
+            // Fetch the selected community posts
             fetch(`/api/community/getCommunityPosts/${localStorage
                                                 .getItem('selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
+
+                // Set posts data
                 setPosts({ posts: data })
             })
             .catch(err => console.error('Fetch /getCommunityPosts failed:', err))
 
+            // Fetch the selected community's data
             fetch(`/api/community/getCommunityData/${localStorage
                                                 .getItem('selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
-                setCommunityData({ community: data[0] })
+
+                // Set community data
+                console.log(data)
+                setCommunityData({ community : data[0] })
             })
             .catch(err => console.error('Fetch /getCommunityData failed:', err))
         }
+
+        // Get the user's joined communities if logged in
+        if (localStorage.getItem('user')) {
+            getUserCommunities()
+        }
     }, [])
 
     useEffect(() => {
-        getUserJoins()
-    }, [])
-
-    useEffect(() => {
-      if (posts.posts.length === 0) return;
         
-      posts.posts.forEach(post => {
-        if (!comments[post.id]) {
-          fetch(`/api/community/getComments/${post.id}`)
+        // Go through each post
+        posts.posts.forEach(post => {
+            fetch(`/api/community/getComments/${post.post_id}`)
             .then(res => res.json())
             .then(data => {
-              setComments(prev => ({
-                ...prev,
-                [post.id]: data
-              }));
+                setComments(prev => ({
+                    ...prev,
+                    [post.post_id]: data
+                }));
             })
             .catch(err => console.error(err));
-        }
-      });
-    }, [posts.posts]);
+        });
 
-    useEffect(() => {
-        if (posts.posts.length === 0) return;
-
+        // Get all post vote counts
         getAllPostVotes();
+
+        // If user logged in
+        if (localStorage.getItem('user')) {
+
+            // Get user's votes
+            getUserVotes(JSON.parse(localStorage.getItem('user')).id)
+        }
     }, [posts.posts]);
 
     function getAllPostVotes() {
-        setVotes({})
         posts.posts.forEach(post => {
-            if (!votes[post.id]) {
-                fetch(`/api/community/getVoteCount/${post.id}`)
-                .then(res => res.json())
-                .then(data => {
-                    setVotes(prev => ({
-                        ...prev,
-                        [post.id]: data[0].vote_count
-                    }));
-                })
-                .catch(err => console.log(err));
-            }
+            fetch(`/api/community/getVoteCount/${post.post_id}`)
+            .then(res => res.json())
+            .then(data => {
+                setVotes(prev => ({
+                    ...prev,
+                    [post.post_id]: data[0].vote_count
+                }));
+            })
+            .catch(err => console.log(err));
         });
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('user')) {
-            getUserVotes(JSON.parse(localStorage.getItem('user')).id)
-        }
-    }, [posts.posts])
-
     function getUserVotes(user_id) {
-        setUserVotes({})
         fetch(`/api/user/getUserVotes/${user_id}`)
         .then(res => res.json())
         .then(data => {
@@ -109,11 +115,13 @@ function FrontPage({ isSidebarOpen }) {
         .catch(err => console.log(err))
     }
 
+    // Go to clicked community
     function goToCommunity(id) {
         localStorage.setItem('selectedCommunity', id)
         window.location.reload(true)
     }
 
+    // Convert datetime to readable string
     function timeAgo(dateString) {
         const now = new Date()
         const date = new Date(dateString)
@@ -144,8 +152,8 @@ function FrontPage({ isSidebarOpen }) {
         fetch(`/api/community/getComments/${post_id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(post_id)
-            console.log(data)
+            // console.log(post_id)
+            // console.log(data)
             setComments(prev => ({
               ...prev,
               [post_id]: data
@@ -170,41 +178,34 @@ function FrontPage({ isSidebarOpen }) {
         })
         .then(res => res.json())
         .then(res => {
-            if(res){
+
+            getUserCommunities();
+
+            if (!res.error) {
                 alert("Sikeres");
-                getUserJoins();
+                
                 return;
             }
             alert("Sikertelen")
-            getUserJoins();
         })
         .catch(err => alert(err))
 
     }
 
-    function getUserJoins() {
-        if(localStorage.getItem('user')){
-            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
-            .then(res => res.json())
-            .then(res => {
-                console.log(res);
-                let idArray = [];
-                for(let i = 0; i < res.length; i++){
-                    idArray.push(res[i].community_id);
-                }
-                setJoinedCommunities(idArray);
-            })
-        }
+    function getUserCommunities() {
+        fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+        .then(res => res.json())
+        .then(res => {
+            let idArray = [];
+            for(let i = 0; i < res.length; i++){
+                idArray.push(res[i].community_id);
+            }
+            setJoinedCommunities(idArray);
+        })
     }
 
     function vote(post_id, action, state) {
 
-        console.log({
-            post: post_id,
-            user: JSON.parse(localStorage.getItem('user')).id,
-            action: action,
-            state: state
-        })
         if (!localStorage.getItem('user')) return;
 
         fetch(`/api/user/vote`, {
@@ -227,7 +228,10 @@ function FrontPage({ isSidebarOpen }) {
         })
         .catch(err => console.log(err))
 
+        setUserVotes({})
         getUserVotes(JSON.parse(localStorage.getItem('user')).id);
+
+        setVotes({})
         getAllPostVotes();
     }
 
@@ -291,7 +295,7 @@ function FrontPage({ isSidebarOpen }) {
                                             }
                                         </>
                                     ) : (
-                                        <div>Betöltés</div>
+                                        <div>Loading...</div>
                                     )}
                                 </div>
 
@@ -309,138 +313,135 @@ function FrontPage({ isSidebarOpen }) {
 
                 {/* Each post */}
                 {posts.posts.length > 0 ? (
-                    posts.posts.map((post, i) => (
+                 posts.posts.map((post, i) => (
 
-                        // Post card
-                        <div key={i}>
-                            <div className="flex flex-col border shadow-md mx-auto
-                                            mb-12 rounded-3xl p-3 border-white/15 animate-fadeIn
-                                            min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
-                                
-                                {/* Post text content */}
-                                <div className='flex flex-1'>
-                                    <button className='max-w-fit hover:bg-white/20 px-2 py-2 rounded-full
-                                                    transition-all duration-300'
-                                            onClick={() => goToCommunity(post.community_id)}>
-                                        <p className='text-white text-xl text-left flex'>
-                                            <img src={post.community_img} className='rounded-full w-8 h-8 me-2 object-cover' />
-                                            {post.community.charAt(0).toUpperCase() +
-                                            post.community.slice(1)}
-                                        </p>
-                                    </button>
-                                    <p className='text-white ms-auto'>
-                                        {timeAgo(post.post_date)}
+                    // Post card
+                    <div key={post.post_id} wawa={post.post_id}>
+                        <div className="flex flex-col border shadow-md mx-auto
+                                        mb-12 rounded-3xl p-3 border-white/15 animate-fadeIn
+                                        min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
+                            
+                            {/* Post text content */}
+                            <div className='flex flex-1'>
+                                <button className='max-w-fit hover:bg-white/20 px-2 py-2 rounded-full
+                                                transition-all duration-300'
+                                        onClick={() => goToCommunity(post.community_id)}>
+                                    <p className='text-white text-xl text-left flex'>
+                                        <img src={post.community_img} className='rounded-full w-8 h-8 me-2 object-cover' />
+                                        {post.community.charAt(0).toUpperCase() +
+                                        post.community.slice(1)}
+                                    </p>
+                                </button>
+                                <p className='text-white ms-auto'>
+                                    {timeAgo(post.post_date)}
+                                </p>
+                            </div>
+
+                            {/* Post title */}
+                            <p className='text-white text-3xl text-center'>
+                                {post.post_title}
+                            </p>
+
+                            {/* Poster user img */}
+                            <p className='text-white flex mx-auto mt-1.5'>
+                                <img src={post.poster_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                {post.poster_user}
+                            </p>
+
+                            {/* Post text */}
+                            <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
+                                {post.post_text}
+                            </p>
+
+                            {/* Each comment */}
+                            {comments[`${post.post_id}`] ? (
+                             comments[`${post.post_id}`].map((comment, j) => (
+
+                                // Comment card
+                                <div className='flex flex-col border shadow-md ms-4 mb-4
+                                                rounded-3xl p-3 border-white/10 animate-fadeIn
+                                                min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
+                                    key={j}>
+
+                                    {/* User img and name */}
+                                    <p className='text-white flex mt-1.5'>
+                                        <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                        {comment.commenter_user}
+                                    </p>
+
+                                    {/* Comment text */}
+                                    <p className="text-gray-300 text-sm mt-2">
+                                    {comment.text}
+                                    </p>
+
+                                    {/* Comment date */}
+                                    <p className='text-white ms-auto mt-auto'>
+                                        {timeAgo(comment.date)}
                                     </p>
                                 </div>
-
-                                {/* Post title */}
-                                <p className='text-white text-3xl text-center'>
-                                    {post.post_title}
-                                </p>
-
-                                {/* Poster user img */}
-                                <p className='text-white flex mx-auto mt-1.5'>
-                                    <img src={post.poster_img} className='rounded-full w-6 h-6 me-2 object-cover' />
-                                    {post.poster_user}
-                                </p>
-
-                                {/* Post text */}
-                                <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
-                                    {post.post_text}
-                                </p>
-
-                                {/* Each comment */}
-                                {comments[post.id] ? (
-                                 comments[post.id].map((comment, j) => (
-
-                                    // Comment card
-                                    <div className='flex flex-col border shadow-md ms-4 mb-4
-                                                    rounded-3xl p-3 border-white/10 animate-fadeIn
-                                                    min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
-                                        key={j}>
-
-                                        {/* User img and name */}
-                                        <p className='text-white flex mt-1.5'>
-                                            <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
-                                            {comment.commenter_user}
-                                        </p>
-
-                                        {/* Comment text */}
-                                        <p className="text-gray-300 text-sm mt-2">
-                                        {comment.text}
-                                        </p>
-
-                                        {/* Comment date */}
-                                        <p className='text-white ms-auto mt-auto'>
-                                            {timeAgo(comment.date)}
-                                        </p>
-                                    </div>
-                                ))
-                                ) : (
+                            ))
+                            ) : (
                                 <p className="text-gray-500 text-sm">Loading comments...</p>
-                                )}
+                            )}
 
-                                <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
-                                                border border-white/15'>
-                                    <div className='flex'>
-                                        <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
-                                                        rounded-full hover:cursor-pointer`}>
-                                            {
-                                                Object.keys(userVotes).includes(String(post.id)) ?
-                                                (
-                                                    <>
-                                                        {userVotes[`${post.id}`] == 'U' ? (
-                                                            <i className="fa-solid fa-arrow-up text-white mt-0.5"
-                                                               onClick={() => vote(post.id, 'U', 'U')} />
-                                                        ) : (
-                                                            <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
-                                                               onClick={() => vote(post.id, 'U', 'D')} />
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
-                                                       onClick={() => vote(post.id, 'U', 'N')} />
-                                                )
-                                            }
-                                        </div>
-                                        <p className='mx-1 mt-1.5'>
-                                            {votes[post.id] ?? 0}
-                                        </p>
-                                        <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
-                                                        rounded-full hover:cursor-pointer`}>
-                                            {
-                                                Object.keys(userVotes).includes(String(post.id)) ?
-                                                (
-                                                    <>
-                                                        {userVotes[post.id] == 'D' ? (
-                                                            <i className="fa-solid fa-arrow-down text-white mt-0.5"
-                                                               onClick={() => vote(post.id, 'D', 'D')} />
-                                                        ) : (
-                                                            <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
-                                                               onClick={() => vote(post.id, 'D', 'U')} />
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
-                                                       onClick={() => vote(post.id, 'D', 'N')} />
-                                                )
-                                            }
-                                        </div>
+                            <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
+                                            border border-white/15'>
+                                <div className='flex'>
+                                    <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                    rounded-full hover:cursor-pointer`}>
+                                        {
+                                            Object.keys(userVotes).includes(`${post.post_id}`) ?
+                                            (
+                                                <>
+                                                    {userVotes[`${post.post_id}`] == 'U' ? (
+                                                        <i className="fa-solid fa-arrow-up text-white mt-0.5"
+                                                           onClick={() => vote(post.post_id, 'U', 'U')} />
+                                                    ) : (
+                                                        <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                           onClick={() => vote(post.post_id, 'U', 'D')} />
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                   onClick={() => vote(post.post_id, 'U', 'N')} />
+                                            )
+                                        }
+                                    </div>
+
+                                    <p className='mx-1 mt-1.5'>
+                                        {
+                                            votes[`${post.post_id}`] ?? 0
+                                        }
+                                    </p>
+
+                                    <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                                    rounded-full hover:cursor-pointer`}>
+                                        {
+                                            Object.keys(userVotes).includes(`${post.post_id}`) ?
+                                            (
+                                                <>
+                                                    {userVotes[`${post.post_id}`] == 'D' ? (
+                                                        <i className="fa-solid fa-arrow-down text-white mt-0.5"
+                                                           onClick={() => vote(post.post_id, 'D', 'D')} />
+                                                    ) : (
+                                                        <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                           onClick={() => vote(post.post_id, 'D', 'U')} />
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                   onClick={() => vote(post.post_id, 'D', 'N')} />
+                                            )
+                                        }
                                     </div>
                                 </div>
-
-                                {/* <input type="text"
-                                    className="px-3 py-1 rounded-lg border-white/15 text-white ms-[18vw] mb-4 w-3/6
-                                                border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl animate-fadeIn"
-                                    placeholder='Comment...'
-                                    autoComplete='true'>
-                                </input> */}
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <p>Loading...</p>
-                )}
+                    </div>
+                ))
+            ) : (
+                <p>Loading...</p>
+            )}
             </div>
         </div>
     )

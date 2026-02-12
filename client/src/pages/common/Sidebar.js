@@ -9,11 +9,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [showUserCommunities, setShowUserCommunities] = useState(true)
     const [showPopular, setShowPopular] = useState(true)
     const [showOwnedCommunities, setShowOwnedCommunities] = useState(true)
-
-    function changeSidebar(state) {
-
-    }
-
+    
     function getCommunity(community_id) {
         localStorage.setItem('selectedCommunity', community_id);
         setIsSidebarOpen(false);
@@ -53,7 +49,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             fetch(`/api/user/getOwnedCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 setOwnedCommunities({ communities: data })
             })
             .catch(err => console.error('Fetch /getOwnedCommunities falied:', err))
@@ -138,17 +134,17 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
                                     {/* If user has no communities */}
                                     { ownedCommunities.communities.length == 0 &&
-                                    showOwnedCommunities &&
+                                      showOwnedCommunities && (
                                         <ul>
                                             <li>
                                                 <i className="fa-solid fa-caret-right"/>
                                                 No communities joined!
                                             </li>
-                                        </ul>
+                                        </ul>)
                                     }
 
                                     {/* If user has communities */}
-                                    { ownedCommunities.communities.length &&
+                                    { ownedCommunities.communities.length > 0 &&
                                     showOwnedCommunities &&
                                         <ul>
                                             {ownedCommunities.communities.map((community, i) => (
@@ -219,7 +215,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 }
 
                                 {/* If user has communities */}
-                                { userCommunities.communities.length &&
+                                { userCommunities.communities.length > 0 &&
                                   showUserCommunities &&
                                     <ul>
                                         {userCommunities.communities.map((community, i) => (

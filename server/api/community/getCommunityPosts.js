@@ -11,17 +11,17 @@ router.get('/getCommunityPosts/:community_id', (req, res) => {
 
     // Select all things of a given post
     let sql = `
-        SELECT
-            posts.id AS id,
-            users.name AS poster_user,
-            users.img AS poster_img,
-            posts.title as post_title,
-            posts.text as post_text,
-            posts.date as post_date,
-            communities.name AS community,
-            communities.img AS community_img,
-            communities.id AS community_id,
-            posts.img
+        SELECT users.id AS poster_id,
+               users.name AS poster_user,
+               users.img AS poster_img,
+               posts.id AS post_id,
+               posts.title AS post_title,
+               posts.text AS post_text,
+               posts.date AS post_date,
+               communities.name AS community,
+               communities.img AS community_img,
+               communities.id AS community_id,
+               posts.img AS post_img
         FROM posts
         INNER JOIN users
         ON users.id = posts.user_id
