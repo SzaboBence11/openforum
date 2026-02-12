@@ -1,4 +1,3 @@
-import { act } from 'react';
 import db from '../../db.js';
 import express from 'express';
 
