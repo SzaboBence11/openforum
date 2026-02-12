@@ -210,6 +210,9 @@ app.use('/api/community', addCommentRouter);
 import communityActionRouter from './api/user/communityAction.js';
 app.use('/api/user', communityActionRouter);
 
+import getVoteCountRouter from './api/community/getVoteCount.js';
+app.use('/api/community', getVoteCountRouter);
+
 import getUserVotesRouter from './api/user/getUserVotes.js';
 app.use('/api/user', getUserVotesRouter);
 
