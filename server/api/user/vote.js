@@ -1,75 +1,70 @@
+import { act } from 'react';
 import db from '../../db.js';
 import express from 'express';
-import crypto from 'crypto';
 
 const router = express.Router()
 
-// Get random communities (For Sidebar)
-router.post('/register', (req, res) => {
+// Apply Vote
+router.post('/vote', (req, res) => {
     try {
-
         // Get fetch data
-        let { display_name, password, email } = req.body;
+        let { user_id, post_id, action, state } = req.body;
+        let sql;
+        let type = action;
+        let oppositeAction;
 
-        // Search for user by email
-        db.query("SELECT * FROM users WHERE email = ?",
-                    [email], (err, email_check) => {
+        if(action == "U"){
+            oppositeAction = "D";
+        }else{
+            oppositeAction = "U"
+        }
 
+        if(state == action){
+            sql = `DELETE FROM votes
+                   WHERE user_id = ? AND
+                         post_id = ?
+                         type = ?`
+        }
+        else if(state == 'N'){
+            sql = `
+                INSERT INTO votes (user_id,
+                                   post_id,
+                                   type)
+                VALUES (?, ?, ?)
+            `
+        }
+        else if(state == 'U'){
+            type = oppositeAction;
+            sql = `UPDATE votes
+                   SET type = 'D'
+                   WHERE user_id = ? AND
+                         post_id = ? AND
+                         type = ?`
+        }
+        else if(state == 'D'){
+            type = oppositeAction;
+            sql = `UPDATE votes
+                   SET type = 'U'
+                   WHERE user_id = ? AND
+                         post_id = ?
+                         type = ?`
+        }
+
+        db.query(sql,[user_id,
+                      post_id,
+                      type],
+                (err) => {
+                    
             // If there's an error
-            if (err) return res.status(400)
-                               .json({ error: err });
-
-            // If email already exists
-            if (email_check.length)
-                return res.status(401)
-                          .json("Ez az email már foglalt!");
-
-            // Hash password
-            let hashed_password = crypto.createHash('sha256')
-                                        .update(password)
-                                        .digest('base64');
-
-            // Get number of users
-            db.query("SELECT id FROM users", (err, users) => {
-                
-                // If error
-                if (err)
-                    return res.status(400)
-                              .json({ error: err });
-
-                // Generate name
-                let user_count = users.length;
-                let name = `${display_name.replaceAll(' ', '').toLowerCase()}_${user_count + 1}`;
-                
-                // Insert user sql
-                let sql = `
-                    INSERT INTO users (name,
-                                       display_name,
-                                       role,
-                                       password,
-                                       email,
-                                       description,
-                                       blocked)
-                    VALUES (?, ?, 'U', ?, ?, '', 0)
-                `
-
-                // Insert new user
-                db.query(sql,[name,
-                              display_name,
-                              hashed_password,
-                              email],
-                        (err) => {
-
-                    // If there's an error
-                    if (err)
-                        return res.status(400)
-                                  .json({ error: err });
-                                  
-                    // Successful register!!
-                    return res.json({ message: "Sikeres Regisztráció!" });
-                });
-            });
+            if (err)
+                return res.status(400)
+                          .json({ error: err });
+                          
+            // Successful register!!
+            return res.json({ message: "Siker!" });
         });
+
+        
     }
     catch (err) {
         res.status(500).json("Szerver hiba!");
