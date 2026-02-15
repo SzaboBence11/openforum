@@ -6,6 +6,7 @@ function FrontPage({ isSidebarOpen }) {
     const [communityData, setCommunityData] = useState({ community: [] })
     const [comments, setComments] = useState({})
     const [joinedCommunities, setJoinedCommunities] = useState()
+    const [modalState, setModalState] = useState();
 
     const [votes, setVotes] = useState({})
     const [userVotes, setUserVotes] = useState({})
@@ -234,6 +235,10 @@ function FrontPage({ isSidebarOpen }) {
         setVotes({})
         getAllPostVotes();
     }
+    
+    function addPost(community){
+
+    }
 
     return (
 
@@ -265,13 +270,27 @@ function FrontPage({ isSidebarOpen }) {
                                             {joinedCommunities.includes(communityData.community.id) &&
                                             localStorage.getItem("user") &&
                                             (
-                                                <button className="mt-1.5 px-6 py-2 rounded-full
-                                                    bg-white/15 text-white font-semibold
-                                                    hover:bg-white/25 border border-white/20
-                                                    hover:scale-105
-                                                    active:scale-95
-                                                    transition-all duration-300"
-                                                        onClick={() => communityAction('leave', communityData.community.id)}>Leave</button>
+                                                <div className='flex gap-3'>
+                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                        bg-white/15 text-white font-semibold
+                                                        hover:bg-white/25 border border-white/20
+                                                        hover:scale-105
+                                                        active:scale-95
+                                                        transition-all duration-300"
+                                                            onClick={() => communityAction('leave', communityData.community.id)}>Leave</button>
+                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                        bg-gradient-to-r
+                                                        from-blue-500 to-indigo-500
+                                                        text-white font-bold
+                                                        shadow-lg
+                                                        hover:shadow-xl
+                                                        hover:scale-105
+                                                        active:scale-95
+                                                        transition-all duration-300"
+                                                        onClick={() => addPost(communityData.community.id)}>
+                                                                Add Post
+                                                        </button>
+                                                </div>
                                             )
                                             }
 
