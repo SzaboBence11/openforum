@@ -1,4 +1,5 @@
 import React, { act, useEffect, useState } from 'react'
+import Modal from "./common/Modal.js";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function FrontPage({ isSidebarOpen }) {
@@ -7,6 +8,7 @@ function FrontPage({ isSidebarOpen }) {
     const [comments, setComments] = useState({})
     const [joinedCommunities, setJoinedCommunities] = useState()
     const [modalState, setModalState] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [votes, setVotes] = useState({})
     const [userVotes, setUserVotes] = useState({})
@@ -237,7 +239,7 @@ function FrontPage({ isSidebarOpen }) {
     }
     
     function addPost(community){
-
+        setIsModalOpen(true);
     }
 
     return (
@@ -462,6 +464,15 @@ function FrontPage({ isSidebarOpen }) {
                 <p>Loading...</p>
             )}
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Create Post"
+            >
+                <p className="text-gray-300">
+                    Your content goes here.
+                </p>
+            </Modal>
         </div>
     )
 }
