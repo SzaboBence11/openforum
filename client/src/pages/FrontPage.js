@@ -3,16 +3,44 @@ import Modal from "./common/Modal.js";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function FrontPage({ isSidebarOpen }) {
+
+    const [formData, setFormData] = useState({
+        title: '',
+        text: '',
+        img: ''
+    });
+
+    const isFormValid = formData.title !== '' &&
+                        formData.text !== '' &&
+                        formData.img !== ''
+
     const [posts, setPosts] = useState({ posts: [] })
     const [communityData, setCommunityData] = useState({ community: [] })
     const [comments, setComments] = useState({})
     const [joinedCommunities, setJoinedCommunities] = useState()
-    const [modalState, setModalState] = useState();
+    const [modalState, setModalState] = useState("result");
     const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const [votes, setVotes] = useState({})
     const [userVotes, setUserVotes] = useState({})
 
+    const postPictureInput = {
+        backgroundImage: `url(${formData.img})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        outline: 'none',
+        textIndent: '-999em',
+    };
+
+
+    function handleChange(e) {
+
+    }
+
+    function addPost(){
+
+    }
     // On page load
     useEffect(() => {
 
@@ -239,8 +267,23 @@ function FrontPage({ isSidebarOpen }) {
     }
     
     function addPost(community){
+        setModalState("addPost");
         setIsModalOpen(true);
+        setTimeout(() => {
+            const textarea = document.querySelector("#postText");
+            const bar = document.querySelector("#bar");
+            const count = document.querySelector("#count");
+            const max = textarea.maxLength;
+            textarea.addEventListener("input", () => {
+                const value = textarea.value.length;
+                const percent = (value / max) * 100;
+                count.textContent = `${value} / ${max}`;
+                bar.style.width = percent + "%";
+                bar.classList.toggle("danger", value == max);
+            })
+        }, "100")
     }
+    
 
     return (
 
@@ -464,15 +507,96 @@ function FrontPage({ isSidebarOpen }) {
                 <p>Loading...</p>
             )}
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title="Create Post"
-            >
-                <p className="text-gray-300">
-                    Your content goes here.
-                </p>
-            </Modal>
+
+            {modalState == "addPost" &&
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    title= {"Poszt létrehozása a(z) " + communityData.community.name + " közösségbe"}
+                >
+                    {/* Form */}
+                    <div className="grid md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label className="text-sm text-blue-200">
+                                Post Title
+                            </label>
+                            <input
+                                placeholder='Footballers'
+                                name='name'
+                                value={formData['name']}
+                                onChange={handleChange}
+                                className="mt-1 w-full px-4 py-2 rounded-xl
+                                           bg-blue-950/60 text-white
+                                           border border-white/15
+                                           focus:ring-2 focus:ring-blue-400/40
+                                           transition-all duration-300
+                                           disabled:opacity-60"
+                            />
+                        </div>
+
+                        {/* Bio */}
+                        <div className="md:col-span-2">
+                            <label className="text-sm text-blue-200">
+                                Post Content
+                            </label>
+                            <textarea
+                                placeholder='Description of the community'
+                                name="text"
+                                id='postText'
+                                rows="4"
+                                maxLength='300'
+                                value={formData.description}
+                                onChange={handleChange}
+                                className="mt-1 w-full px-4 py-2 rounded-xl
+                                           bg-blue-950/60 text-white
+                                           border border-white/15
+                                           focus:ring-2 focus:ring-blue-400/40
+                                           transition-all duration-300
+                                           disabled:opacity-60 resize-none
+                                           overflow-y-auto"
+                            />
+                            <progress id='bar'
+                                      ></progress>
+                            <p id="count">0 / 300</p>
+                        </div>
+                        <div className="w-36 h-36 rounded-full
+                                        bg-gradient-to-tr
+                                        from-blue-400 to-indigo-400
+                                        p-[3px]
+                                        group-hover:scale-105
+                                        transition-transform duration-500">
+                            <input
+                                type='file'
+                                accept='image/*'
+                                style={postPictureInput}
+                                src={formData.img || null}
+                                size={64 * 1024}
+                                onChange={handleChange}
+                                className="w-full h-full rounded-full
+                                           object-cover bg-blue-950"
+                        />
+                        </div>
+                    </div>
+
+                    <div className='mt-4 justify-center mx-auto w-auto flex'>
+                        <button className={`w-52 rounded-full font-bold group
+                                            shadow-lg transition py-2 px-4 border border-white/15
+                                            ${isFormValid
+                                            ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
+                                            : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
+                                            `}
+                            type="submit"
+                            onClick={addPost}
+                            disabled={!isFormValid}>
+                            Create
+                            <i className={`${isFormValid ? 'group-hover:ms-2': ''}
+                                                fa-solid fa-angles-right ms-1 transition-all`}/>
+                        </button>
+                    </div>
+                </Modal>
+            }
+
         </div>
     )
 }
