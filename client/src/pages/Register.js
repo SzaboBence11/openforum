@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Notification from './common/Notification';
 import { Link } from 'react-router-dom';
 
 function Register() {
@@ -15,6 +16,10 @@ function Register() {
 
     const [showPassword, setShowPassword] = useState(false)
     
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [notificationText, setNotificationText] = useState("")
+    const [registerDelay, setRegisterDelay] = useState(false)
+
     // Name validation
     const isNameValid = name.length >= 4
 
@@ -65,7 +70,7 @@ function Register() {
         .then(res => res.json())
         .then(data => {
             if (data.message) {
-                alert('Successful register!')
+                setNotificationText('Successful register!')
                 fetch('/api/user/login', {
                     method: 'POST',
                     headers: {
@@ -80,13 +85,29 @@ function Register() {
                         localStorage.setItem('user', JSON.stringify({
                                 id: data.id
                         }))
-                        window.location.assign("/");
+                        setTimeout(() => {
+                            window.location.assign("/");
+                        }, 500);
                     }
                 })
                 .catch(err => console.error('Fetch /login failed:', err))
             }
+            else {
+                setNotificationText(`Email already taken`)
+                setRegisterDelay(true)
+                setTimeout(() => {
+                    setRegisterDelay(false)
+                }, 2400);
+                setTimeout(() => {
+                    setIsNotificationOpen(false)
+                }, 3000);
+            }
         })
         .catch(err => console.error('Fetch /register failed:', err))
+    }
+
+    function addNotification(){
+        setIsNotificationOpen(true);
     }
 
     return (
@@ -265,7 +286,8 @@ function Register() {
                                                 : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                               `}
                                 type="submit"
-                                disabled={!isFormValid}>
+                                disabled={!isFormValid || registerDelay}
+                                onClick={() => addNotification()}>
                                 Register
                                 <i className={`${isFormValid ? 'group-hover:ms-2': ''}
                                                   fa-solid fa-angles-right ms-1 transition-all`}/>
@@ -284,6 +306,15 @@ function Register() {
                     </p>
                 </div>
             </div>
+            <Notification
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+                title="Notification"
+            >
+                <p className="text-gray-300">
+                    {notificationText}
+                </p>
+            </Notification>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Notification from "./common/Notification.js";
 import { BrowserRouter, Routes, Route, Link, Form } from 'react-router-dom';
 
 function Login() {
@@ -6,7 +7,11 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailTouched, setEmailTouched] = useState(false)
-    const [showPassword, setShowPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false) 
+    const [notificationState, setNotificationState] = useState();
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [notificationText, setNotificationText] = useState("")
+    const [loginDelay, setLoginDelay] = useState(false)
 
     // Email validation
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -39,14 +44,27 @@ function Login() {
                 localStorage.setItem('user', JSON.stringify({
                         id: data.id
                 }))
-                alert('Logged in successfully!');
-                window.location.assign("/");
+                setNotificationText('Successful login!')
+                setTimeout(() => {
+                    window.location.assign("/");
+                }, 500);
             }
             else {
-                alert('Invalid login details!');
+                setNotificationText('Unsuccessful login!')
+                setLoginDelay(true)
+                setTimeout(() => {
+                    setLoginDelay(false)
+                }, 2400);
+                setTimeout(() => {
+                    setIsNotificationOpen(false)
+                }, 3000);
             }
         })
         .catch(err => console.error('Fetch /login failed:', err))
+    }
+
+    function addNotification(){
+        setIsNotificationOpen(true);
     }
 
     return (
@@ -140,12 +158,13 @@ function Login() {
                         <div className='justify-center mx-auto w-auto flex'>
                             <button className={`w-52 rounded-full font-bold group
                                                 shadow-lg transition py-2 px-4 border border-white/15
-                                                ${isFormValid
+                                                ${(isFormValid)
                                                 ? 'bg-white/10 backdrop-blur-xl hover:bg-white/25 hover:bg-blue-900 text-white'
                                                 : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                               `}
                                     type="submit"
-                                    disabled={!isFormValid}>
+                                    disabled={!isFormValid || loginDelay}
+                                    onClick={() => addNotification()}>
                                     Login
                                     <i className={`${isFormValid ? 'group-hover:ms-2': ''}
                                                   fa-solid fa-angles-right ms-1 transition-all`}/>
@@ -164,6 +183,15 @@ function Login() {
                     </p>
                 </div>
             </div>
+            <Notification
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+                title="Notification"
+            >
+                <p className="text-gray-300">
+                    {notificationText}
+                </p>
+            </Notification>
         </div>
     )
 }
