@@ -11,8 +11,7 @@ function FrontPage({ isSidebarOpen }) {
     });
 
     const isFormValid = formData.title !== '' &&
-                        formData.text !== '' &&
-                        formData.img !== ''
+                        formData.text !== ''
 
     const [posts, setPosts] = useState({ posts: [] })
     const [communityData, setCommunityData] = useState({ community: [] })
@@ -35,11 +34,10 @@ function FrontPage({ isSidebarOpen }) {
 
 
     function handleChange(e) {
-
-    }
-
-    function addPost(){
-
+        if(e.target.type != 'file'){
+            setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+            return;
+        }
     }
     // On page load
     useEffect(() => {
@@ -266,9 +264,10 @@ function FrontPage({ isSidebarOpen }) {
         getAllPostVotes();
     }
     
-    function addPost(community){
-        setModalState("addPost");
+    function setAddPost(community){
         setIsModalOpen(true);
+        setModalState("addPost");
+
         setTimeout(() => {
             const textarea = document.querySelector("#postText");
             const bar = document.querySelector("#bar");
@@ -332,7 +331,7 @@ function FrontPage({ isSidebarOpen }) {
                                                         hover:scale-105
                                                         active:scale-95
                                                         transition-all duration-300"
-                                                        onClick={() => addPost(communityData.community.id)}>
+                                                        onClick={() => setAddPost()}>
                                                                 Add Post
                                                         </button>
                                                 </div>
@@ -523,8 +522,8 @@ function FrontPage({ isSidebarOpen }) {
                             </label>
                             <input
                                 placeholder='Footballers'
-                                name='name'
-                                value={formData['name']}
+                                name='title'
+                                value={formData['title']}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
                                            bg-blue-950/60 text-white
@@ -541,12 +540,12 @@ function FrontPage({ isSidebarOpen }) {
                                 Post Content
                             </label>
                             <textarea
-                                placeholder='Description of the community'
+                                placeholder='The core of the post'
                                 name="text"
                                 id='postText'
                                 rows="4"
                                 maxLength='300'
-                                value={formData.description}
+                                value={formData["text"]}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
                                            bg-blue-950/60 text-white
@@ -587,7 +586,7 @@ function FrontPage({ isSidebarOpen }) {
                                             : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                             `}
                             type="submit"
-                            onClick={addPost}
+                            onClick={() => addPost(communityData.community.id)}
                             disabled={!isFormValid}>
                             Create
                             <i className={`${isFormValid ? 'group-hover:ms-2': ''}
