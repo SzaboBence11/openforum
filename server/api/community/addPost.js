@@ -7,7 +7,7 @@ const router = express.Router()
 router.post('/addPost', (req, res) => {
 
     // Get arquments
-    let { name, description, community_id, img } = req.body
+    let { title, text, community_id, user_id, img } = req.body
 
     // Set SQL
     let sql = `
@@ -15,12 +15,14 @@ router.post('/addPost', (req, res) => {
                         title,
                         text,
                         community_id,
+                        user_id
                         ${img ? ', img' : ''})
-               VALUES (?, ?,${img ? ', ?' : ''})
+               VALUES (?, ?, ?, ? ${img ? ', ?' : ''})
     `;
+    console.log(sql)
 
     // Do query
-    db.query(sql, [title, text, community_id, img.length>0 ? img : ''], (err, results) => {
+    db.query(sql, [title, text, community_id, user_id, img.length>0 ? img : ''], (err, results) => {
 
         // If there's an error
         if (err) return res.status(400).json({ error: err });

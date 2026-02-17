@@ -41,7 +41,6 @@ function FrontPage({ isSidebarOpen }) {
     }
     // On page load
     useEffect(() => {
-
         // If no selected community
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
@@ -264,7 +263,7 @@ function FrontPage({ isSidebarOpen }) {
         getAllPostVotes();
     }
     
-    function setAddPost(community){
+    function setAddPost(){
         setIsModalOpen(true);
         setModalState("addPost");
 
@@ -281,6 +280,26 @@ function FrontPage({ isSidebarOpen }) {
                 bar.classList.toggle("danger", value == max);
             })
         }, "100")
+    }
+
+    function addPost(community){
+        fetch('/api/community/addPost', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: formData.title,
+                text: formData.text,
+                img: formData.img,
+                community_id: community,
+                user_id: JSON.parse(localStorage.getItem('user')).id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setIsModalOpen(false);
+        })
+        .catch(err => console.log(err))
     }
     
 
