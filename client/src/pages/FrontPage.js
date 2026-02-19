@@ -11,8 +11,7 @@ function FrontPage({ isSidebarOpen }) {
     });
 
     const isFormValid = formData.title !== '' &&
-                        formData.text !== '' &&
-                        formData.img !== ''
+                        formData.text !== ''
 
     const [posts, setPosts] = useState({ posts: [] })
     const [communityData, setCommunityData] = useState({ community: [] })
@@ -36,11 +35,10 @@ function FrontPage({ isSidebarOpen }) {
 
 
     function handleChange(e) {
-
-    }
-
-    function addPost(){
-
+        if(e.target.type != 'file'){
+            setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+            return;
+        }
     }
 
     useEffect(() => {
@@ -56,7 +54,6 @@ function FrontPage({ isSidebarOpen }) {
 
     // On page load
     useEffect(() => {
-
         // If no selected community
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
@@ -279,9 +276,10 @@ function FrontPage({ isSidebarOpen }) {
         getAllPostVotes();
     }
     
-    function addPost(community){
-        setModalState("addPost");
+    function setAddPost(){
         setIsModalOpen(true);
+        setModalState("addPost");
+
         setTimeout(() => {
             const textarea = document.querySelector("#postText");
             const bar = document.querySelector("#bar");
@@ -295,6 +293,26 @@ function FrontPage({ isSidebarOpen }) {
                 bar.classList.toggle("danger", value == max);
             })
         }, "100")
+    }
+
+    function addPost(community){
+        fetch('/api/community/addPost', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: formData.title,
+                text: formData.text,
+                img: formData.img,
+                community_id: community,
+                user_id: JSON.parse(localStorage.getItem('user')).id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setIsModalOpen(false);
+        })
+        .catch(err => console.log(err))
     }
     
 
@@ -345,7 +363,7 @@ function FrontPage({ isSidebarOpen }) {
                                                         hover:scale-105
                                                         active:scale-95
                                                         transition-all duration-300"
-                                                        onClick={() => addPost(communityData.community.id)}>
+                                                        onClick={() => setAddPost()}>
                                                                 Add Post
                                                         </button>
                                                 </div>
@@ -544,8 +562,8 @@ function FrontPage({ isSidebarOpen }) {
                             </label>
                             <input
                                 placeholder='Footballers'
-                                name='name'
-                                value={formData['name']}
+                                name='title'
+                                value={formData['title']}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
                                            bg-blue-950/60 text-white
@@ -562,12 +580,12 @@ function FrontPage({ isSidebarOpen }) {
                                 Post Content
                             </label>
                             <textarea
-                                placeholder='Description of the community'
+                                placeholder='The core of the post'
                                 name="text"
                                 id='postText'
                                 rows="4"
                                 maxLength='300'
-                                value={formData.description}
+                                value={formData["text"]}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
                                            bg-blue-950/60 text-white
@@ -608,7 +626,7 @@ function FrontPage({ isSidebarOpen }) {
                                             : 'bg-white/5 backdrop-blur-xl cursor-not-allowed text-gray-400'}
                                             `}
                             type="submit"
-                            onClick={addPost}
+                            onClick={() => addPost(communityData.community.id)}
                             disabled={!isFormValid}>
                             Create
                             <i className={`${isFormValid ? 'group-hover:ms-2': ''}

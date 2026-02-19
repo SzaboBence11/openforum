@@ -225,5 +225,9 @@ app.use('/api/community', searchCommunityRouter);
 import getUserRoleRouter from './api/user/getUserRole.js';
 app.use('/api/user', getUserRoleRouter);
 
+import addPostRouter from './api/community/addPost.js';
+app.use('/api/community', addPostRouter);
+
+
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));
