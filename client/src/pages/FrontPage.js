@@ -20,6 +20,7 @@ function FrontPage({ isSidebarOpen }) {
     const [joinedCommunities, setJoinedCommunities] = useState()
     const [modalState, setModalState] = useState("result");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userRole, setUserRole] = useState("");
 
 
     const [votes, setVotes] = useState({})
@@ -41,6 +42,18 @@ function FrontPage({ isSidebarOpen }) {
     function addPost(){
 
     }
+
+    useEffect(() => {
+        if(localStorage.getItem("user")){
+            fetch(`/api/user/getUserRole/${JSON.parse(localStorage.getItem("user")).id}`)
+            .then(res => res.json())
+            .then(res => {
+                setUserRole(res[0].role);
+            })
+            .catch(err => console.error('Fetch /getUserRole failed:', err))
+        }
+    }, [userRole])
+
     // On page load
     useEffect(() => {
 
@@ -399,6 +412,14 @@ function FrontPage({ isSidebarOpen }) {
                                 <p className='text-white ms-auto'>
                                     {timeAgo(post.post_date)}
                                 </p>
+                                {userRole != "" &&
+                                    <>
+                                        {(userRole == "A" || userRole == "M") &&
+                                            <i className="fa-solid fa-ellipsis fa-2xl mt-3.5"
+                                               style={{color: "rgba(255, 255, 255, 1.00)", minWidth:"50px"}}></i>
+                                        }
+                                    </>
+                                }                           
                             </div>
 
                             {/* Post title */}
