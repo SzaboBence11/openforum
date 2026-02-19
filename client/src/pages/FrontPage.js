@@ -20,6 +20,12 @@ function FrontPage({ isSidebarOpen }) {
     const [modalState, setModalState] = useState("result");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userRole, setUserRole] = useState("");
+    const [askSure, setAskSure] = useState(false);
+    const [currentAdminAction, setCurrentAdminAction] = useState("");
+    const [adminDetails, setAdminDetails] = useState({community: null,
+                                                      user: null,
+                                                      post: null
+                                                    });
 
 
     const [votes, setVotes] = useState({})
@@ -33,11 +39,122 @@ function FrontPage({ isSidebarOpen }) {
         textIndent: '-999em',
     };
 
+    function setExitAction(){
+        setAskSure(false);
+    }
+
+    function sure(){
+        adminAction(currentAdminAction);
+        setAskSure(false);
+        setIsModalOpen(false);
+    }
+
+    function unSure(){
+        setAskSure(false);
+        setCurrentAdminAction("");
+    }
+
+    function setIsSure(action){
+        setCurrentAdminAction(action);
+        setAskSure(true);
+    }
+
 
     function handleChange(e) {
         if(e.target.type != 'file'){
             setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
             return;
+        }
+    }
+
+    function openAdminCommunity(community_id){
+        console.log(community_id)
+        setAdminDetails({community: community_id,
+                         post: adminDetails.post,
+                         user: adminDetails.user
+        });
+        setIsModalOpen(true);
+        setModalState("communityAdmin");
+    }
+
+    function openAdminPost(user_id, post_id){
+        setAdminDetails({community: adminDetails.community,
+                         user: user_id,
+                         post: post_id
+                        });
+        setIsModalOpen(true);
+        setModalState("postAdmin");
+    }
+
+    function adminAction(action){
+        let data = adminDetails;
+
+
+        if(data.community != null &&
+           action == "community"){
+            fetch('/api/user/adminAction', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    community_id: data.community,
+                    action: action
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                localStorage.setItem("selectedCommunity", 0);
+                getposts();
+                localStorage.removeItem("randomCommunities");
+                window.location.reload();
+                return;
+            })
+            .catch(err => console.error('Fetch /adminAction failed:', err))
+        }
+        else if(action == "user" &&
+                data.user != null
+        ){
+            fetch('/api/user/adminAction', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: data.user,
+                    action: action
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                getposts();
+                return;
+            })
+            .catch(err => console.error('Fetch /adminAction failed:', err))
+        }
+        else if(action == "post" &&
+                data.post != null &&
+                data.user != null
+        ){
+            fetch('/api/user/adminAction', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: data.user,
+                    post_id: data.post,
+                    action: action
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                getposts()
+                return;
+            })
+            .catch(err => console.error('Fetch /adminAction failed:', err))
         }
     }
 
@@ -52,8 +169,7 @@ function FrontPage({ isSidebarOpen }) {
         }
     }, [userRole])
 
-    // On page load
-    useEffect(() => {
+    function getposts(){
         // If no selected community
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
@@ -100,10 +216,14 @@ function FrontPage({ isSidebarOpen }) {
         if (localStorage.getItem('user')) {
             getUserCommunities()
         }
+    }
+    // On page load
+    useEffect(() => {
+        getposts()
     }, [])
 
-    useEffect(() => {
-        
+    function getAllPostComments(){
+                
         // Go through each post
         posts.posts.forEach(post => {
             fetch(`/api/community/getComments/${post.post_id}`)
@@ -126,6 +246,10 @@ function FrontPage({ isSidebarOpen }) {
             // Get user's votes
             getUserVotes(JSON.parse(localStorage.getItem('user')).id)
         }
+    }
+    
+    useEffect(() => {
+        getAllPostComments();
     }, [posts.posts]);
 
     function getAllPostVotes() {
@@ -328,11 +452,23 @@ function FrontPage({ isSidebarOpen }) {
                     <div className='text-white text-center'>
                         {communityData.community && communityData.community.name ? (
                             <div className='mb-8 justify-center animate-fadeIn'>
-                                <h1 className='text-4xl flex items-center justify-center'>
-                                    <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
-                                    {communityData.community.name.charAt(0).toUpperCase() + 
-                                     communityData.community.name.slice(1)}
-                                </h1>
+                                    <h1 className='text-4xl flex items-center justify-center'>
+                                        <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
+                                        {communityData.community.name.charAt(0).toUpperCase() +
+                                         communityData.community.name.slice(1)}
+                                    </h1>
+
+                                    {userRole != "" &&
+                                        <>
+                                            {(userRole == "A" || userRole == "M") &&
+                                                <i className="fa-solid fa-ban fa-2xl m-5
+                                                        hover:text-[rgb(204,26,26)]
+                                                          hover:cursor-pointer"
+                                                   onClick={() => openAdminCommunity(communityData.community.id)}>
+                                                </i>
+                                            }
+                                        </>
+                                    }    
 
                                 <div className='flex justify-center gap-5'>
                                     <h1 className='mt-4 font-xl justify-center'>
@@ -433,8 +569,13 @@ function FrontPage({ isSidebarOpen }) {
                                 {userRole != "" &&
                                     <>
                                         {(userRole == "A" || userRole == "M") &&
-                                            <i className="fa-solid fa-ellipsis fa-2xl mt-3.5"
-                                               style={{color: "rgba(255, 255, 255, 1.00)", minWidth:"50px"}}></i>
+                                            <div className='mt-0.5 ms-2'>
+                                                <i className="fa-solid fa-ellipsis
+                                                              fa-2xl hover:cursor-pointer"
+                                                   style={{color: "rgba(255, 255, 255, 1.00)",
+                                                           minWidth:"50px",}}
+                                                   onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
+                                            </div>
                                         }
                                     </>
                                 }                           
@@ -634,6 +775,114 @@ function FrontPage({ isSidebarOpen }) {
                         </button>
                     </div>
                 </Modal>
+            }
+            {modalState == "postAdmin" && (
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setExitAction();
+                    }}
+                    title= {"Poszt Adminisztáció"}>
+                    {askSure == false &&
+                        <div className='sm:flex sm:gap-[10%]'>
+                            <div>
+                                <button className='w-52 rounded-full font-bold group
+                                                shadow-lg transition py-2 px-4 border
+                                                border-white/15 hover:bg-red-500
+                                                hover:border-red-700'
+                                        onClick={() => setIsSure("user")}>
+                                    Felhasználó Kitiltása
+                                </button>
+                            </div>
+
+                            <div>
+                                <button className='sm:mt-0 mt-2 w-52 rounded-full
+                                                font-bold group shadow-lg transition
+                                                py-2 px-4 border border-white/15
+                                                hover:bg-red-500 hover:border-red-700'
+                                        onClick={() => setIsSure("post")}>
+                                    Poszt Törlése
+                                </button>
+                            </div>
+                        </div>
+                    }
+
+                    {askSure == true &&
+                        <div className='sm:flex sm:gap-[10%] text-center'>
+                            <p className='m-2'>Are you sure?</p>
+                            <div className='m-2'>
+                                <button className='w-52 rounded-full font-bold group
+                                                shadow-lg transition py-2 px-4 border
+                                                border-white/15 hover:bg-red-500
+                                                hover:border-red-700'
+                                        onClick={() => sure(true)}>
+                                    Yes
+                                </button>
+                            </div>
+
+                            <div className='m-2'>
+                                <button className='sm:mt-0 mt-2 w-52 rounded-full
+                                                font-bold group shadow-lg transition
+                                                py-2 px-4 border border-white/15
+                                                hover:bg-red-500 hover:border-red-700'
+                                        onClick={() => unSure()}>
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    }
+                
+                </Modal>)
+            }
+            {modalState == "communityAdmin" && (
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setExitAction();
+                    }}
+                    title= {"Közösség Adminisztáció"}>
+                    {askSure == false &&
+                        <div>
+                            <button className='w-52 rounded-full font-bold group
+                                            shadow-lg transition py-2 px-4 border
+                                            border-white/15 hover:bg-red-500
+                                            hover:border-red-700'
+                                    onClick={() => setIsSure("community")}>
+                                Közösség Deaktiválása
+                            </button>
+                        </div>
+                    }
+
+                    {askSure == true &&
+                        <div className='sm:flex sm:gap-[10%] text-center'>
+                            <div>
+                                <p className='m-2'>Are you sure?</p>
+                            </div>
+                            <div className='m-2'>
+                                <button className='w-52 rounded-full font-bold group
+                                                shadow-lg transition py-2 px-4 border
+                                                border-white/15 hover:bg-red-500
+                                                hover:border-red-700'
+                                        onClick={() => sure(true)}>
+                                    Yes
+                                </button>
+                            </div>
+
+                            <div className='m-2'>
+                                <button className='sm:mt-0 mt-2 w-52 rounded-full
+                                                font-bold group shadow-lg transition
+                                                py-2 px-4 border border-white/15
+                                                hover:bg-red-500 hover:border-red-700'
+                                        onClick={() => unSure()}>
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    }
+                
+                </Modal>)
             }
 
         </div>

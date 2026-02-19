@@ -9,7 +9,7 @@ router.post('/communityAction', (req, res) => {
 
         // Get fetch data
         let { community_id, user_id, method } = req.body;
-        console.log(req.body)
+        let deleteion = false;
         let sql = "";
 
         if(method == 'join'){
@@ -25,8 +25,44 @@ router.post('/communityAction', (req, res) => {
                 DELETE FROM community_users 
                 WHERE community_id = ? AND
                        user_id = ?`
+            
+            deleteion = true;
         }
 
+        if(deletion){
+            sql2 = `
+                SELECT *
+                FROM community_users
+                WHERE user_id = ? AND
+                      community_id = ? AND
+                      role = 'O'`
+                db.query(sql2, [user_id, community_id],
+                    (err, res1) => {
+                        if (err)
+                            return res.status(400)
+                                      .json({ error: err });
+                                      
+                        if(res1.length){
+                            sql2 = `
+                                UPDATE communities
+                                SET valid = 0
+                                WHERE community_id = ?`
+                            
+                            db.query(sql2, [community_id]),
+                                (err, res2) => {
+                                    if (err)
+                                        return res.status(400)
+                                                  .json({ error: err });
+                                    db.query(sql, [community_id, user_id]),
+                                        (err, res3) => {
+                                            
+                                            res.json("Siker");
+                                        }
+                                }
+                        }
+                    }
+                )
+            }
         // Insert new user
         db.query(sql,[community_id,
                       user_id],
@@ -35,9 +71,10 @@ router.post('/communityAction', (req, res) => {
             if (err)
                 return res.status(400)
                           .json({ error: err });
-                          
-            // Successful
-            return res.json({ message: "Siker " });
+
+                // Successful
+                return res.json({ message: "Siker " });
+            
         });
 
     }
