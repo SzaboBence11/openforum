@@ -586,7 +586,7 @@ function FrontPage({ isSidebarOpen }) {
                  posts.posts.map((post, i) => (
 
                     // Post card
-                    <div key={post.post_id} wawa={post.post_id}>
+                    <div key={post.post_id}>
                         <div className="flex flex-col border shadow-md mx-auto
                                         mb-12 rounded-3xl p-3 border-white/15 animate-fadeIn
                                         min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
