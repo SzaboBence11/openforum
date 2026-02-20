@@ -470,6 +470,9 @@ function FrontPage({ isSidebarOpen }) {
             .then(res2 => res2.json())
             .then(res2 => {
                 console.log(res2);
+                setFormData({title: '',
+                             text: '',
+                             img: ''});
             })
         })
         .catch(err => console.log(err))
