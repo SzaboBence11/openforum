@@ -610,9 +610,9 @@ function FrontPage({ isSidebarOpen }) {
                                         {(userRole == "A" || userRole == "M") &&
                                             <div className='mt-0.5 ms-2'>
                                                 <i className="fa-solid fa-ellipsis
-                                                              fa-2xl hover:cursor-pointer"
-                                                   style={{color: "rgba(255, 255, 255, 1.00)",
-                                                           minWidth:"50px",}}
+                                                              fa-2xl hover:cursor-pointer
+                                                              text-gray-400
+                                                            hover:text-white"
                                                    onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
                                             </div>
                                         }
@@ -647,10 +647,22 @@ function FrontPage({ isSidebarOpen }) {
                                     key={j}>
 
                                     {/* User img and name */}
-                                    <p className='text-white flex mt-1.5'>
+                                    <p className='text-white flex mt-1.5 max-w-[50%]'>
                                         <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
                                         {comment.commenter_user}
                                     </p>
+                                    {userRole != "" &&
+                                        <>
+                                            {(userRole == "A" || userRole == "M") &&
+                                                    <i className="fa-solid fa-ellipsis
+                                                                fa-2xl hover:cursor-pointer
+                                                                ms-auto mt-0
+                                                                text-gray-400
+                                                                hover:text-white"
+                                                    onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
+                                            }
+                                        </>
+                                    }    
 
                                     {/* Comment text */}
                                     <p className="text-gray-300 text-sm mt-2">
