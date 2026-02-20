@@ -9,6 +9,7 @@ function FrontPage({ isSidebarOpen }) {
         text: '',
         img: ''
     });
+    const [addPostImage, setAddPostImage] = useState()
 
     const isFormValid = formData.title !== '' &&
                         formData.text !== ''
@@ -65,6 +66,28 @@ function FrontPage({ isSidebarOpen }) {
             setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
             return;
         }
+
+        let file = e.target.files[0];
+        setAddPostImage(file);
+
+        let reader = new FileReader();
+
+        if(file.size > 64 * 1024){
+            alert("Túl nagy fájl!");
+            return;
+        }
+        
+        reader.onload = function() {
+            let profileBase64 = reader.result;
+            setFormData(prev => ({
+                ...prev,
+                img: profileBase64
+            }));
+        }
+
+        let readerUrl = reader.readAsDataURL(file);
+
+        console.log(formData);
     }
 
     function openAdminCommunity(community_id){
@@ -433,8 +456,21 @@ function FrontPage({ isSidebarOpen }) {
         })
         .then(res => res.json())
         .then(data => {
+            const postPictureData = new FormData();
+            
+            postPictureData.append("image", addPostImage);
+
             console.log(data);
+
             setIsModalOpen(false);
+            fetch(`/api/community/addPostPicture/${data.insertId}`, {
+                method: 'post',
+                body: postPictureData
+            })
+            .then(res2 => res2.json())
+            .then(res2 => {
+                console.log(res2);
+            })
         })
         .catch(err => console.log(err))
     }
@@ -691,7 +727,12 @@ function FrontPage({ isSidebarOpen }) {
             {modalState == "addPost" &&
                 <Modal
                     isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setFormData({title: '',
+                                     text: '',
+                                     img: ''});
+                    }}
                     title= {"Poszt létrehozása a(z) " + communityData.community.name + " közösségbe"}
                 >
                     {/* Form */}
@@ -740,23 +781,28 @@ function FrontPage({ isSidebarOpen }) {
                                       ></progress>
                             <p id="count">0 / 300</p>
                         </div>
-                        <div className="w-36 h-36 rounded-full
-                                        bg-gradient-to-tr
-                                        from-blue-400 to-indigo-400
-                                        p-[3px]
-                                        group-hover:scale-105
-                                        transition-transform duration-500">
-                            <input
-                                type='file'
-                                accept='image/*'
-                                style={postPictureInput}
-                                src={formData.img || null}
-                                size={64 * 1024}
-                                onChange={handleChange}
-                                className="w-full h-full rounded-full
-                                           object-cover bg-blue-950"
-                        />
+                        <div className='mx-auto'>
+                            {formData.img &&
+                                <div className="w-72 h-48 rounded-md
+                                                p-[3px]
+                                                transition-transform duration-500">
+                                    <img className='w-full h-full rounded-md
+                                                    object-cover'
+                                         src={formData.img}>
+                                    </img>
+                                </div>
+                            }
+                            <div className='mt-4'>
+                                <p>Kép feltöltése</p>
+                                <input
+                                    type='file'
+                                    accept='image/*'
+                                    src={formData.img || null}
+                                    size={64 * 1024}
+                                    onChange={handleChange}/>
+                            </div>
                         </div>
+
                     </div>
 
                     <div className='mt-4 justify-center mx-auto w-auto flex'>
