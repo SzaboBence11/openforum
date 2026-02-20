@@ -14,6 +14,7 @@ function FrontPage({ isSidebarOpen }) {
         text: '',
         img: ''
     });
+    const [addPostImage, setAddPostImage] = useState()
 
     // Form validation
     const isFormValid = formData.title !== '' &&
@@ -95,6 +96,28 @@ function FrontPage({ isSidebarOpen }) {
             ));
             return;
         }
+
+        let file = e.target.files[0];
+        setAddPostImage(file);
+
+        let reader = new FileReader();
+
+        if(file.size > 64 * 1024){
+            alert("Túl nagy fájl!");
+            return;
+        }
+        
+        reader.onload = function() {
+            let profileBase64 = reader.result;
+            setFormData(prev => ({
+                ...prev,
+                img: profileBase64
+            }));
+        }
+
+        let readerUrl = reader.readAsDataURL(file);
+
+        console.log(formData);
     }
 
     // Open modal and get admin details
@@ -540,9 +563,24 @@ function FrontPage({ isSidebarOpen }) {
         })
         .then(res => res.json())
         .then(data => {
+            const postPictureData = new FormData();
+            
+            postPictureData.append("image", addPostImage);
 
-            // Close modal
+            console.log(data);
+
             setIsModalOpen(false);
+            fetch(`/api/community/addPostPicture/${data.insertId}`, {
+                method: 'post',
+                body: postPictureData
+            })
+            .then(res2 => res2.json())
+            .then(res2 => {
+                console.log(res2);
+                setFormData({title: '',
+                             text: '',
+                             img: ''});
+            })
         })
         .catch(err => console.log(err))
     }
@@ -656,7 +694,7 @@ function FrontPage({ isSidebarOpen }) {
                  posts.posts.map((post, i) => (
 
                     // Post card
-                    <div key={post.post_id} wawa={post.post_id}>
+                    <div key={post.post_id}>
                         <div className="flex flex-col border shadow-md mx-auto
                                         mb-12 rounded-3xl p-3 border-white/15 animate-fadeIn
                                         min-h-52 bg-white/10 backdrop-blur-xl w-4/6">
@@ -680,9 +718,9 @@ function FrontPage({ isSidebarOpen }) {
                                         {(userRole == "A" || userRole == "M") &&
                                             <div className='mt-0.5 ms-2'>
                                                 <i className="fa-solid fa-ellipsis
-                                                              fa-2xl hover:cursor-pointer"
-                                                   style={{color: "rgba(255, 255, 255, 1.00)",
-                                                           minWidth:"50px",}}
+                                                              fa-2xl hover:cursor-pointer
+                                                              text-gray-400
+                                                            hover:text-white"
                                                    onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
                                             </div>
                                         }
@@ -717,10 +755,22 @@ function FrontPage({ isSidebarOpen }) {
                                     key={j}>
 
                                     {/* User img and name */}
-                                    <p className='text-white flex mt-1.5'>
+                                    <p className='text-white flex mt-1.5 max-w-[50%]'>
                                         <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
                                         {comment.commenter_user}
                                     </p>
+                                    {userRole != "" &&
+                                        <>
+                                            {(userRole == "A" || userRole == "M") &&
+                                                    <i className="fa-solid fa-ellipsis
+                                                                fa-2xl hover:cursor-pointer
+                                                                ms-auto mt-0
+                                                                text-gray-400
+                                                                hover:text-white"
+                                                    onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
+                                            }
+                                        </>
+                                    }    
 
                                     {/* Comment text */}
                                     <p className="text-gray-300 text-sm mt-2">
@@ -800,7 +850,12 @@ function FrontPage({ isSidebarOpen }) {
             {modalState == "addPost" &&
                 <Modal
                     isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setFormData({title: '',
+                                     text: '',
+                                     img: ''});
+                    }}
                     title= {"Poszt létrehozása a(z) " + communityData.community.name + " közösségbe"}
                 >
                     {/* Form */}
@@ -849,23 +904,28 @@ function FrontPage({ isSidebarOpen }) {
                                       ></progress>
                             <p id="count">0 / 300</p>
                         </div>
-                        <div className="w-36 h-36 rounded-full
-                                        bg-gradient-to-tr
-                                        from-blue-400 to-indigo-400
-                                        p-[3px]
-                                        group-hover:scale-105
-                                        transition-transform duration-500">
-                            <input
-                                type='file'
-                                accept='image/*'
-                                style={postPictureInput}
-                                src={formData.img || null}
-                                size={64 * 1024}
-                                onChange={handleChange}
-                                className="w-full h-full rounded-full
-                                           object-cover bg-blue-950"
-                        />
+                        <div className='mx-auto'>
+                            {formData.img &&
+                                <div className="w-72 h-48 rounded-md
+                                                p-[3px]
+                                                transition-transform duration-500">
+                                    <img className='w-full h-full rounded-md
+                                                    object-cover'
+                                         src={formData.img}>
+                                    </img>
+                                </div>
+                            }
+                            <div className='mt-4'>
+                                <p>Kép feltöltése</p>
+                                <input
+                                    type='file'
+                                    accept='image/*'
+                                    src={formData.img || null}
+                                    size={64 * 1024}
+                                    onChange={handleChange}/>
+                            </div>
                         </div>
+
                     </div>
 
                     <div className='mt-4 justify-center mx-auto w-auto flex'>
