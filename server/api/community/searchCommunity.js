@@ -47,7 +47,7 @@ router.get('/searchCommunity/:search', async (req, res) => {
 		// Add member count to each community
 		const communitiesWithCount = await Promise.all(
 			communities.map(async (community) => {
-				const countResult = await query(sql2, [community.community_id]);
+				const countResult = await query(sql2, [community.id]);
 				return {
 					...community,
 					member_count: countResult[0].result_number

@@ -22,14 +22,17 @@ function Search() {
     }, [])
 
     useEffect(() => {
-        // Fetch communities based on search term
-        fetch(`/api/community/searchCommunity/${searchTerm}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            setFoundCommunities({ foundCommunities: data })
-        })
-        .catch(err => console.log(err))
+
+        if(searchTerm.length > 0){
+            // Fetch communities based on search term
+            fetch(`/api/community/searchCommunity/${searchTerm}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setFoundCommunities({ foundCommunities: data })
+            })
+            .catch(err => console.log(err))
+        }
     }, [searchTerm])
 
     function getUserCommunities() {
