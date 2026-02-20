@@ -1,36 +1,64 @@
 import React, { act, useEffect, useState } from 'react'
 import Modal from "./common/Modal.js";
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function FrontPage({ isSidebarOpen }) {
 
+    // Navigation
+    // Use as navigate('/path')
+    const navigate = useNavigate();
+
+    // Create post form details
     const [formData, setFormData] = useState({
         title: '',
         text: '',
         img: ''
     });
 
+    // Form validation
     const isFormValid = formData.title !== '' &&
                         formData.text !== ''
 
+    // Store posts
     const [posts, setPosts] = useState({ posts: [] })
+
+    // Store current community details
     const [communityData, setCommunityData] = useState({ community: [] })
+
+    // Store comments per post
     const [comments, setComments] = useState({})
+
+    // Store joined communities of current user
     const [joinedCommunities, setJoinedCommunities] = useState()
+
+    // Current modal state
     const [modalState, setModalState] = useState("result");
+
+    // Check modal open
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Current user role
     const [userRole, setUserRole] = useState("");
+
+    // Confirmation
     const [askSure, setAskSure] = useState(false);
+
+    // Current action that the admin is doing
+    // user, post, community
     const [currentAdminAction, setCurrentAdminAction] = useState("");
+
+    // Set Admin details, who did what
     const [adminDetails, setAdminDetails] = useState({community: null,
                                                       user: null,
-                                                      post: null
-                                                    });
+                                                      post: null});
 
-
+    // Get current votes for all posts
     const [votes, setVotes] = useState({})
+
+    // Get user's votes
     const [userVotes, setUserVotes] = useState({})
 
+    // Post picture input styling
     const postPictureInput = {
         backgroundImage: `url(${formData.img})`,
         backgroundSize: "cover",
@@ -39,36 +67,38 @@ function FrontPage({ isSidebarOpen }) {
         textIndent: '-999em',
     };
 
-    function setExitAction(){
-        setAskSure(false);
-    }
-
-    function sure(){
+    // Admin confirmation for change
+    function sure() {
         adminAction(currentAdminAction);
         setAskSure(false);
         setIsModalOpen(false);
     }
 
-    function unSure(){
+    // Admin not sure for change
+    function unSure() {
         setAskSure(false);
         setCurrentAdminAction("");
     }
 
-    function setIsSure(action){
+    // Set sure and admin action
+    function setIsSure(action) {
         setCurrentAdminAction(action);
         setAskSure(true);
     }
 
-
+    // Add post form data change detection
     function handleChange(e) {
         if(e.target.type != 'file'){
-            setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+            setFormData(prev => ({
+                ...prev,
+                [e.target.name]: e.target.value }
+            ));
             return;
         }
     }
 
-    function openAdminCommunity(community_id){
-        console.log(community_id)
+    // Open modal and get admin details
+    function openAdminCommunity(community_id) {
         setAdminDetails({community: community_id,
                          post: adminDetails.post,
                          user: adminDetails.user
@@ -77,7 +107,8 @@ function FrontPage({ isSidebarOpen }) {
         setModalState("communityAdmin");
     }
 
-    function openAdminPost(user_id, post_id){
+    // Open modal and get admin details
+    function openAdminPost(user_id, post_id) {
         setAdminDetails({community: adminDetails.community,
                          user: user_id,
                          post: post_id
@@ -86,12 +117,16 @@ function FrontPage({ isSidebarOpen }) {
         setModalState("postAdmin");
     }
 
-    function adminAction(action){
+    // Do admin action
+    function adminAction(action) {
+
+        // Save admin details as data
         let data = adminDetails;
 
+        // If community selected as action
+        if (data.community != null && action == "community") {
 
-        if(data.community != null &&
-           action == "community"){
+            // Fetch adminAction
             fetch('/api/user/adminAction', {
                 method: 'POST',
                 headers: {
@@ -104,17 +139,22 @@ function FrontPage({ isSidebarOpen }) {
             })
             .then(res => res.json())
             .then(res => {
+
+                // Reset everything
                 localStorage.setItem("selectedCommunity", 0);
-                getposts();
                 localStorage.removeItem("randomCommunities");
                 window.location.reload();
+
+                // Return
                 return;
             })
             .catch(err => console.error('Fetch /adminAction failed:', err))
         }
-        else if(action == "user" &&
-                data.user != null
-        ){
+
+        // If admin action user and user in data
+        else if (action == "user" && data.user != null) {
+
+            // Fetch admin action
             fetch('/api/user/adminAction', {
                 method: 'POST',
                 headers: {
@@ -127,16 +167,22 @@ function FrontPage({ isSidebarOpen }) {
             })
             .then(res => res.json())
             .then(res => {
-                console.log(res);
-                getposts();
+
+                // Get posts
+                getPosts();
+
+                // Return
                 return;
             })
             .catch(err => console.error('Fetch /adminAction failed:', err))
         }
+
+        // If action is post and post and user in data
         else if(action == "post" &&
                 data.post != null &&
-                data.user != null
-        ){
+                data.user != null) {
+
+            // Fetch admin action
             fetch('/api/user/adminAction', {
                 method: 'POST',
                 headers: {
@@ -150,26 +196,38 @@ function FrontPage({ isSidebarOpen }) {
             })
             .then(res => res.json())
             .then(res => {
-                console.log(res);
-                getposts()
+
+                // Get posts again
+                getPosts()
+
+                // Return
                 return;
             })
             .catch(err => console.error('Fetch /adminAction failed:', err))
         }
     }
 
+    // On user role change
     useEffect(() => {
-        if(localStorage.getItem("user")){
+
+        // If there's a user
+        if (localStorage.getItem("user")) {
+
+            // Get user role from id
             fetch(`/api/user/getUserRole/${JSON.parse(localStorage.getItem("user")).id}`)
             .then(res => res.json())
             .then(res => {
+
+                // Set user's role
                 setUserRole(res[0].role);
             })
             .catch(err => console.error('Fetch /getUserRole failed:', err))
         }
     }, [userRole])
 
-    function getposts(){
+    // Get posts
+    function getPosts() {
+
         // If no selected community
         if (localStorage.getItem("selectedCommunity") == 0 ||
            !localStorage.getItem('selectedCommunity')) {
@@ -206,7 +264,6 @@ function FrontPage({ isSidebarOpen }) {
             .then(data => {
 
                 // Set community data
-                console.log(data)
                 setCommunityData({ community : data[0] })
             })
             .catch(err => console.error('Fetch /getCommunityData failed:', err))
@@ -217,11 +274,15 @@ function FrontPage({ isSidebarOpen }) {
             getUserCommunities()
         }
     }
+
     // On page load
     useEffect(() => {
-        getposts()
+
+        // Get posts
+        getPosts()
     }, [])
 
+    // Get all comments for all posts
     function getAllPostComments(){
                 
         // Go through each post
@@ -229,6 +290,8 @@ function FrontPage({ isSidebarOpen }) {
             fetch(`/api/community/getComments/${post.post_id}`)
             .then(res => res.json())
             .then(data => {
+
+                // Set comments
                 setComments(prev => ({
                     ...prev,
                     [post.post_id]: data
@@ -248,15 +311,23 @@ function FrontPage({ isSidebarOpen }) {
         }
     }
     
+    // On posts change
     useEffect(() => {
         getAllPostComments();
     }, [posts.posts]);
 
+    // Get all votes for a post
     function getAllPostVotes() {
+
+        // For each post
         posts.posts.forEach(post => {
+
+            // Get the post vote count
             fetch(`/api/community/getVoteCount/${post.post_id}`)
             .then(res => res.json())
             .then(data => {
+
+                // Set the votes for each post
                 setVotes(prev => ({
                     ...prev,
                     [post.post_id]: data[0].vote_count
@@ -266,11 +337,20 @@ function FrontPage({ isSidebarOpen }) {
         });
     }
 
+    // Get the user's votes
     function getUserVotes(user_id) {
+
+        // Get the user's votes
         fetch(`/api/user/getUserVotes/${user_id}`)
         .then(res => res.json())
         .then(data => {
+
+            setUserVotes({})
+
+            // For each vote the user has
             data.forEach(e => {
+
+                // Set user's votes
                 setUserVotes(prev => ({
                     ...prev,
                     [e.post_id]: e.type
@@ -313,66 +393,77 @@ function FrontPage({ isSidebarOpen }) {
         return 'just now'
     }
 
-    function getComments(post_id) {
-        fetch(`/api/community/getComments/${post_id}`)
-        .then(res => res.json())
-        .then(data => {
-            // console.log(post_id)
-            // console.log(data)
-            setComments(prev => ({
-              ...prev,
-              [post_id]: data
-            }));
-        })
-        .catch(err => console.log(err))
-    }
-
+    // Leave or join community
     function communityAction(cMehtod, community_id) {
+
+        // Get cur user id
         let user_id = JSON.parse(localStorage.getItem('user')).id;
 
+        // Fetch community action path
         fetch('api/user/communityAction', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                    community_id: communityData.community.id,
-                    user_id: user_id,
-                    method: cMehtod
+                community_id: communityData.community.id,
+                user_id: user_id,
+                method: cMehtod
             })
         })
         .then(res => res.json())
         .then(res => {
 
+            // Get user's communities
             getUserCommunities();
 
+            // If error
             if (!res.error) {
+
+                // On successful join/leave
                 alert("Sikeres");
-                
+                localStorage.setItem('selectedCommunity', 0)
+                navigate('/')
                 return;
             }
+
+            // Else error
             alert("Sikertelen")
         })
         .catch(err => alert(err))
 
     }
 
+    // Get user's communities
     function getUserCommunities() {
+
+        // Get user's communities
         fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
         .then(res => res.json())
         .then(res => {
+
+            // Array of ids
             let idArray = [];
-            for(let i = 0; i < res.length; i++){
+
+            // Go through all of user's communities
+            for (let i = 0; i < res.length; i++) {
+
+                // Get each id
                 idArray.push(res[i].community_id);
             }
+
+            // Set joined communities with the ids
             setJoinedCommunities(idArray);
         })
     }
 
+    // Vote function
     function vote(post_id, action, state) {
 
+        // If user not logged in, return
         if (!localStorage.getItem('user')) return;
 
+        // Call vote with the data
         fetch(`/api/user/vote`, {
             method: 'POST',
             headers: {
@@ -387,39 +478,55 @@ function FrontPage({ isSidebarOpen }) {
         })
         .then(res => res.json())
         .then(res => {
+
+            // If error alert data
             if (res.error) {
                 alert(res.error)
             }
         })
         .catch(err => console.log(err))
 
-        setUserVotes({})
+        // Get all user votes again
         getUserVotes(JSON.parse(localStorage.getItem('user')).id);
 
+        // Get all votes again
         setVotes({})
         getAllPostVotes();
     }
     
-    function setAddPost(){
+    // Set add post's state
+    function setAddPost() {
+
+        // Open modal
         setIsModalOpen(true);
         setModalState("addPost");
 
+        // Timeout 100ms
         setTimeout(() => {
+
+            // Get data required
             const textarea = document.querySelector("#postText");
             const bar = document.querySelector("#bar");
             const count = document.querySelector("#count");
             const max = textarea.maxLength;
+
+            // On textarea change
             textarea.addEventListener("input", () => {
+
+                // Progress bar stuff
                 const value = textarea.value.length;
                 const percent = (value / max) * 100;
                 count.textContent = `${value} / ${max}`;
                 bar.style.width = percent + "%";
                 bar.classList.toggle("danger", value == max);
             })
-        }, "100")
+        }, 100)
     }
 
-    function addPost(community){
+    // Add post
+    function addPost(community) {
+
+        // Add post api fetch
         fetch('/api/community/addPost', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -433,12 +540,12 @@ function FrontPage({ isSidebarOpen }) {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+
+            // Close modal
             setIsModalOpen(false);
         })
         .catch(err => console.log(err))
     }
-    
 
     return (
 
@@ -512,7 +619,7 @@ function FrontPage({ isSidebarOpen }) {
 
                                             (
                                                 <button className="mt-1.5 px-6 py-2 rounded-full
-                                                        bg-gradient-to-r
+                                                        bg-gradient-to-r mb-4
                                                         from-blue-500 to-indigo-500
                                                         text-white font-bold
                                                         shadow-lg
@@ -526,11 +633,13 @@ function FrontPage({ isSidebarOpen }) {
                                             }
                                         </>
                                     ) : (
-                                        <div>Loading...</div>
+                                        <div className='flex mb-12 translate-y-4'>
+                                            Log in to join!
+                                        </div>
                                     )}
                                 </div>
 
-                                <h1 className='mt-4 font-xl text-gray-300'>
+                                <h1 className='font-xl text-gray-300'>
                                     {communityData.community.description}
                                 </h1>
 
@@ -781,7 +890,7 @@ function FrontPage({ isSidebarOpen }) {
                     isOpen={isModalOpen}
                     onClose={() => {
                         setIsModalOpen(false);
-                        setExitAction();
+                        setAskSure(false);
                     }}
                     title= {"Poszt Adminisztáció"}>
                     {askSure == false &&
@@ -840,7 +949,7 @@ function FrontPage({ isSidebarOpen }) {
                     isOpen={isModalOpen}
                     onClose={() => {
                         setIsModalOpen(false);
-                        setExitAction();
+                        setAskSure(false);
                     }}
                     title= {"Közösség Adminisztáció"}>
                     {askSure == false &&

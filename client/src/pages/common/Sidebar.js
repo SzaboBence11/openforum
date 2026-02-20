@@ -61,7 +61,10 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
         // Fix sidebar and change width based on isSidebarOpen
         <aside className={`fixed top-0 left-0 z-40 h-[calc(100vh-85px)] mt-[85px] bg-blue-950
                          text-white transition-all duration-300 select-none overflow-y-auto
-                           ${isSidebarOpen ? 'w-80 overflow-y-scroll' : 'w-14'}`}>
+                           ${isSidebarOpen ?
+                            'w-80 overflow-y-scroll' :
+                            'w-14'}
+                           sidebar-scroll`}>
             {/* Toggle sidebar */}
             <button onClick={() => setIsSidebarOpen(prev => !prev)}
                     className="m-2 p-2 rounded-md hover:bg-blue-900"
@@ -73,33 +76,33 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             {isSidebarOpen && (
                 <div className="px-3 py-2 overflow-y-auto">
 
-                    <ul className='space-y-2 font-medium'>
-                        {localStorage.getItem('user') && (
-                            <div>
-                                {/* Create Community */}
-                                <li className="hover:bg-blue-900 rounded-md
-                                               transition-colors overflow-hidden">
-                                    <Link to='/newcommunity'
-                                        className="flex items-center px-2 py-1.5 gap-2">
-                                        {/* Plus icon */}
-                                        <i className="fa-solid fa-plus"/>
+                    {/* Create community */}
+                    {localStorage.getItem('user') && (
+                        <div>
+                            {/* Create Community */}
+                            <div className="hover:bg-blue-900 rounded-md
+                                            transition-colors overflow-hidden">
+                                <Link to='/newcommunity'
+                                    className="flex items-center px-2 py-1.5 gap-2">
+                                    {/* Plus icon */}
+                                    <i className="fa-solid fa-plus"/>
 
-                                        {/* Create Community */}
+                                    {/* Create Community */}
 
-                                        <span className="whitespace-nowrap overflow-hidden">
-                                            Create Community
-                                        </span>
-                                    </Link>
-                                </li>
-
-                                {/* Divider */}
-                                <div className='border-2 border-t-white my-2'/>
+                                    <span className="whitespace-nowrap overflow-hidden">
+                                        Create Community
+                                    </span>
+                                </Link>
                             </div>
-                        )}
-                    </ul>
+                        </div>
+                    )}
 
-                    {/* Get random posts */}
-                    <li className="hover:bg-blue-900 rounded-md
+                    {/* Divider */}
+                    <div className={`border-2 border-t-white my-2
+                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
+
+                    {/* Random posts */}
+                    <div className="hover:bg-blue-900 rounded-md
                                     transition-colors overflow-hidden"
                         key={0}
                         onClick={() => getCommunity(0)}>
@@ -113,119 +116,50 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 Random Posts
                             </span>
                         </a>
-                    </li>
+                    </div>
 
-                    <ul className="space-y-2 font-medium">
-                        {localStorage.getItem('user') && (
-                            <div>
-                                <div className='border-2 border-t-white my-2'/>
+                    {/* Divider */}
+                    <div className={`border-2 border-t-white my-2
+                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
 
-                                    <div>
-                                    <h1 className='mb-2 ms-1.5'>
-                                        <i className="fa-solid fa-crown"/>
-                                        <span className='ms-2'>
-                                            Owned Communities
-                                        </span>
-                                        <i className={`fa-solid ms-8 hover:bg-blue-900
-                                                    transition-all rounded-full p-3 w-10 h-10 cursor-pointer
-                                                    ${showOwnedCommunities ? "fa-angle-down": "fa-angle-up"}`}
-                                        onClick={() => setShowOwnedCommunities(prev => !prev)}/>
-                                    </h1>
-
-                                    {/* If user has no communities */}
-                                    { ownedCommunities.communities.length == 0 &&
-                                      showOwnedCommunities && (
-                                        <ul>
-                                            <li>
-                                                <i className="fa-solid fa-caret-right"/>
-                                                No communities joined!
-                                            </li>
-                                        </ul>)
-                                    }
-
-                                    {/* If user has communities */}
-                                    { ownedCommunities.communities.length > 0 &&
-                                    showOwnedCommunities &&
-                                        <ul>
-                                            {ownedCommunities.communities.map((community, i) => (
-                                                // Random Community on sidebar
-                                                <li key={i}
-                                                    className="hover:bg-blue-900 rounded-md
-                                                            transition-colors overflow-hidden"
-                                                    onClick={() => getCommunity(community.community_id)}>
-                                                    <a href="#"
-                                                    className="flex items-center px-2 py-1.5 gap-2">
-                                                        
-                                                        {/* Community icon for later */}
-                                                        <div className="w-6 h-6">
-                                                            <img src={community.img} className='rounded-full w-full h-full' />
-                                                        </div>
-
-                                                        {/* Community name */}
-                                                        <span className="whitespace-nowrap overflow-hidden">
-                                                            {community.community_name.charAt(0).toUpperCase() +
-                                                            community.community_name.slice(1)}
-                                                        </span>
-                                                            
-                                                        {/* Right area */}
-                                                        <span className="ml-auto flex items-center gap-1
-                                                        text-xs">
-                                                        
-                                                            {/* User Count */}
-                                                            {community.member_count}
-                                                            
-                                                            {/* User Icon */}
-                                                            <i className="fa-solid fa-user"/>
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    }
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Divider */}
-                        <div className='border-2 border-t-white'/>
-
-                        {/* User's joined communities */}
-                        {localStorage.getItem('user') &&
+                    {/* Get owned communities */}
+                    {localStorage.getItem('user') && (
+                        <div>
                             <div>
                                 <h1 className='mb-2 ms-1.5'>
-                                    <i className="fa-solid fa-users"/>
+                                    <i className="fa-solid fa-crown"/>
                                     <span className='ms-2'>
-                                        Joined Communities
+                                        Owned Communities
                                     </span>
-                                    <i className={`fa-solid ms-9 hover:bg-blue-900
-                                                  transition-all rounded-full p-3 w-10 h-10 cursor-pointer
-                                                  ${showUserCommunities ? "fa-angle-down": "fa-angle-up"}`}
-                                       onClick={() => setShowUserCommunities(prev => !prev)}/>
+                                    <i className={`fa-solid ms-8 hover:bg-blue-900
+                                                transition-all rounded-full p-3 w-10 h-10 cursor-pointer
+                                                ${showOwnedCommunities ? "fa-angle-down": "fa-angle-up"}`}
+                                    onClick={() => setShowOwnedCommunities(prev => !prev)}/>
                                 </h1>
 
                                 {/* If user has no communities */}
-                                { userCommunities.communities.length == 0 &&
-                                  showUserCommunities &&
+                                { ownedCommunities.communities.length == 0 &&
+                                    showOwnedCommunities && (
                                     <ul>
                                         <li>
                                             <i className="fa-solid fa-caret-right"/>
                                             No communities joined!
                                         </li>
-                                    </ul>
+                                    </ul>)
                                 }
 
                                 {/* If user has communities */}
-                                { userCommunities.communities.length > 0 &&
-                                  showUserCommunities &&
+                                { ownedCommunities.communities.length > 0 &&
+                                showOwnedCommunities &&
                                     <ul>
-                                        {userCommunities.communities.map((community, i) => (
+                                        {ownedCommunities.communities.map((community, i) => (
                                             // Random Community on sidebar
                                             <li key={i}
                                                 className="hover:bg-blue-900 rounded-md
-                                                           transition-colors overflow-hidden"
+                                                        transition-colors overflow-hidden"
                                                 onClick={() => getCommunity(community.community_id)}>
                                                 <a href="#"
-                                                   className="flex items-center px-2 py-1.5 gap-2">
+                                                className="flex items-center px-2 py-1.5 gap-2">
                                                     
                                                     {/* Community icon for later */}
                                                     <div className="w-6 h-6">
@@ -235,7 +169,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                                     {/* Community name */}
                                                     <span className="whitespace-nowrap overflow-hidden">
                                                         {community.community_name.charAt(0).toUpperCase() +
-                                                         community.community_name.slice(1)}
+                                                        community.community_name.slice(1)}
                                                     </span>
                                                         
                                                     {/* Right area */}
@@ -253,10 +187,86 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                         ))}
                                     </ul>
                                 }
-                                
-                                <div className='border-2 border-t-white mt-2'/>
                             </div>
-                        }
+                        </div>
+                    )}
+
+                    {/* Divider */}
+                    <div className={`border-2 border-t-white my-2
+                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
+
+                    {/* Joined communities */}
+                    {localStorage.getItem('user') && (
+                        <div>
+                            <h1 className='mb-2 ms-1.5'>
+                                <i className="fa-solid fa-users"/>
+                                <span className='ms-2'>
+                                    Joined Communities
+                                </span>
+                                <i className={`fa-solid ms-9 hover:bg-blue-900
+                                            transition-all rounded-full p-3 w-10 h-10 cursor-pointer
+                                            ${showUserCommunities ? "fa-angle-down": "fa-angle-up"}`}
+                                onClick={() => setShowUserCommunities(prev => !prev)}/>
+                            </h1>
+
+                            {/* If user has no communities */}
+                            { userCommunities.communities.length == 0 &&
+                            showUserCommunities &&
+                                <ul>
+                                    <li>
+                                        <i className="fa-solid fa-caret-right"/>
+                                        No communities joined!
+                                    </li>
+                                </ul>
+                            }
+
+                            {/* If user has communities */}
+                            { userCommunities.communities.length > 0 &&
+                            showUserCommunities &&
+                                <ul>
+                                    {userCommunities.communities.map((community, i) => (
+                                        // Random Community on sidebar
+                                        <li key={i}
+                                            className="hover:bg-blue-900 rounded-md
+                                                    transition-colors overflow-hidden"
+                                            onClick={() => getCommunity(community.community_id)}>
+                                            <a href="#"
+                                            className="flex items-center px-2 py-1.5 gap-2">
+                                                
+                                                {/* Community icon for later */}
+                                                <div className="w-6 h-6">
+                                                    <img src={community.img} className='rounded-full w-full h-full' />
+                                                </div>
+
+                                                {/* Community name */}
+                                                <span className="whitespace-nowrap overflow-hidden">
+                                                    {community.community_name.charAt(0).toUpperCase() +
+                                                    community.community_name.slice(1)}
+                                                </span>
+                                                    
+                                                {/* Right area */}
+                                                <span className="ml-auto flex items-center gap-1
+                                                text-xs">
+                                                
+                                                    {/* User Count */}
+                                                    {community.member_count}
+                                                    
+                                                    {/* User Icon */}
+                                                    <i className="fa-solid fa-user"/>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            }
+                        </div>
+                    )}
+
+                    {/* Divider */}
+                    <div className='border-2 border-t-white my-2'/>
+
+                    {/* Popular communities */}
+                    <div className="space-y-2 font-medium">
 
                         {/* Popular Communities */}
                         <h1 className='ms-1.5'>
@@ -306,7 +316,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                 </a>
                             </li>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             )}
         </aside>

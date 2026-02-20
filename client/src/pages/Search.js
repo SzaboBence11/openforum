@@ -3,8 +3,10 @@ import { useNavigate, Link } from 'react-router-dom'
 
 function Search() {
     const [foundCommunities, setFoundCommunities] = useState({ foundCommunities: [] })
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('')
     const navigate = useNavigate()
+    
+    const [searchedAll, setSearchedAll] = useState(false)
     
     const [joinedCommunities, setJoinedCommunities] = useState()
 
@@ -23,7 +25,8 @@ function Search() {
 
     useEffect(() => {
 
-        if(searchTerm.length > 0){
+        if (searchTerm.length > 0) {
+
             // Fetch communities based on search term
             fetch(`/api/community/searchCommunity/${searchTerm}`)
             .then(res => res.json())
@@ -32,7 +35,36 @@ function Search() {
                 setFoundCommunities({ foundCommunities: data })
             })
             .catch(err => console.log(err))
+
+            setSearchedAll(true)
         }
+
+        else if (searchedAll == false) {
+
+            // Fetch communities based on search term
+            fetch(`/api/community/searchCommunity`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setFoundCommunities({ foundCommunities: data })
+            })
+            .catch(err => console.log(err))
+        }
+
+        if (searchedAll == true) {
+            if (searchTerm == "") {
+                
+                // Fetch communities based on search term
+                fetch(`/api/community/searchCommunity`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    setFoundCommunities({ foundCommunities: data })
+                })
+                .catch(err => console.log(err))
+            }
+        }
+
     }, [searchTerm])
 
     function getUserCommunities() {
@@ -85,7 +117,7 @@ function Search() {
     return (
         <div className="mt-20 flex items-center justify-center animate-fadeIn
                         px-4 transition-colors duration-700 flex-col">
-            
+
             {/* Top title */}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 className="mt-5 text-center text-2xl/9 font-bold
