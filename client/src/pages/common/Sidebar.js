@@ -143,7 +143,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                                     <ul>
                                         <li>
                                             <i className="fa-solid fa-caret-right"/>
-                                            No communities joined!
+                                            No communities owned!
                                         </li>
                                     </ul>)
                                 }

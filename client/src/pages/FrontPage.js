@@ -445,8 +445,7 @@ function FrontPage({ isSidebarOpen }) {
 
                 // On successful join/leave
                 alert("Sikeres");
-                localStorage.setItem('selectedCommunity', 0)
-                navigate('/')
+                window.location.reload()
                 return;
             }
 
@@ -513,7 +512,6 @@ function FrontPage({ isSidebarOpen }) {
         getUserVotes(JSON.parse(localStorage.getItem('user')).id);
 
         // Get all votes again
-        setVotes({})
         getAllPostVotes();
     }
     
@@ -597,29 +595,18 @@ function FrontPage({ isSidebarOpen }) {
                     <div className='text-white text-center'>
                         {communityData.community && communityData.community.name ? (
                             <div className='mb-8 justify-center animate-fadeIn'>
-                                    <h1 className='text-4xl flex items-center justify-center'>
-                                        <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
-                                        {communityData.community.name.charAt(0).toUpperCase() +
-                                         communityData.community.name.slice(1)}
-                                    </h1>
+                                <h1 className='text-4xl flex items-center justify-center'>
+                                    <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
+                                    {communityData.community.name.charAt(0).toUpperCase() +
+                                        communityData.community.name.slice(1)}
+                                </h1>
 
-                                    {userRole != "" &&
-                                        <>
-                                            {(userRole == "A" || userRole == "M") &&
-                                                <i className="fa-solid fa-ban fa-2xl m-5
-                                                        hover:text-[rgb(204,26,26)]
-                                                          hover:cursor-pointer"
-                                                   onClick={() => openAdminCommunity(communityData.community.id)}>
-                                                </i>
-                                            }
-                                        </>
-                                    }    
+                                <h1 className='mt-4 font-xl justify-center'>
+                                    <i className="fa-solid fa-user me-1" />
+                                    {communityData.community.member_count} Members
+                                </h1>
 
-                                <div className='flex justify-center gap-5'>
-                                    <h1 className='mt-4 font-xl justify-center'>
-                                        <i className="fa-solid fa-user me-1" />
-                                        {communityData.community.member_count} Members
-                                    </h1>
+                                <div className='flex justify-center gap-5 mt-5 mb-5'>
                                     
                                     {joinedCommunities != undefined ? (
                                         <>
@@ -634,7 +621,9 @@ function FrontPage({ isSidebarOpen }) {
                                                         hover:scale-105
                                                         active:scale-95
                                                         transition-all duration-300"
-                                                            onClick={() => communityAction('leave', communityData.community.id)}>Leave</button>
+                                                            onClick={() => communityAction('leave', communityData.community.id)}>
+                                                        Leave
+                                                    </button>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
                                                         bg-gradient-to-r
                                                         from-blue-500 to-indigo-500
@@ -645,8 +634,19 @@ function FrontPage({ isSidebarOpen }) {
                                                         active:scale-95
                                                         transition-all duration-300"
                                                         onClick={() => setAddPost()}>
-                                                                Add Post
-                                                        </button>
+                                                            Add Post
+                                                    </button>
+                                                    {userRole != "" &&
+                                                        <>
+                                                            {(userRole == "A" || userRole == "M") &&
+                                                                <i className="fa-solid fa-ban fa-2xl
+                                                                        hover:text-[rgb(204,26,26)]
+                                                                        hover:cursor-pointer mt-7"
+                                                                onClick={() => openAdminCommunity(communityData.community.id)}>
+                                                                </i>
+                                                            }
+                                                        </>
+                                                    }
                                                 </div>
                                             )
                                             }
@@ -671,9 +671,24 @@ function FrontPage({ isSidebarOpen }) {
                                             }
                                         </>
                                     ) : (
-                                        <div className='flex mb-12 translate-y-4'>
-                                            Log in to join!
-                                        </div>
+                                        <>
+                                            <div className='flex flex-col'>
+                                                <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                    bg-white/15 text-white font-semibold
+                                                                    hover:bg-white/25 border border-white/20
+                                                                    hover:scale-105
+                                                                    active:scale-95
+                                                                    transition-all duration-300"
+                                                        onClick={() => {
+                                                            navigate('/login')
+                                                        }}>
+                                                    Login!
+                                                </button>
+                                                <p className='m-2 text-gray-100'>
+                                                    To start posting and voting!
+                                                </p>
+                                            </div>
+                                        </>
                                     )}
                                 </div>
 
@@ -978,28 +993,34 @@ function FrontPage({ isSidebarOpen }) {
                     }
 
                     {askSure == true &&
-                        <div className='sm:flex sm:gap-[10%] text-center'>
-                            <p className='m-2'>Are you sure?</p>
-                            <div className='m-2'>
-                                <button className='w-52 rounded-full font-bold group
-                                                shadow-lg transition py-2 px-4 border
-                                                border-white/15 hover:bg-red-500
-                                                hover:border-red-700'
-                                        onClick={() => sure(true)}>
-                                    Yes
-                                </button>
-                            </div>
+                        <>
+                            <div>
+                                <div>
+                                    <p className='m-2 text-center text-lg'>Are you sure?</p>
+                                </div>
+                                <div className='flex flex-col md:flex-row'>
+                                    <div className='m-2 mx-auto'>
+                                        <button className='w-52 rounded-full font-bold group
+                                                        shadow-lg transition py-2 px-4 border
+                                                        border-white/15 hover:bg-red-500
+                                                        hover:border-red-700'
+                                                onClick={() => sure(true)}>
+                                            Yes
+                                        </button>
+                                    </div>
 
-                            <div className='m-2'>
-                                <button className='sm:mt-0 mt-2 w-52 rounded-full
-                                                font-bold group shadow-lg transition
-                                                py-2 px-4 border border-white/15
-                                                hover:bg-red-500 hover:border-red-700'
-                                        onClick={() => unSure()}>
-                                    No
-                                </button>
+                                    <div className='m-2 mx-auto'>
+                                        <button className='w-52 rounded-full
+                                                        font-bold group shadow-lg transition
+                                                        py-2 px-4 border border-white/15
+                                                        hover:bg-red-500 hover:border-red-700'
+                                                onClick={() => unSure()}>
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </>
                     }
                 
                 </Modal>)
@@ -1013,42 +1034,48 @@ function FrontPage({ isSidebarOpen }) {
                     }}
                     title= {"Közösség Adminisztáció"}>
                     {askSure == false &&
-                        <div>
-                            <button className='w-52 rounded-full font-bold group
-                                            shadow-lg transition py-2 px-4 border
-                                            border-white/15 hover:bg-red-500
-                                            hover:border-red-700'
-                                    onClick={() => setIsSure("community")}>
-                                Közösség Deaktiválása
-                            </button>
-                        </div>
-                    }
-
-                    {askSure == true &&
-                        <div className='sm:flex sm:gap-[10%] text-center'>
-                            <div>
-                                <p className='m-2'>Are you sure?</p>
-                            </div>
-                            <div className='m-2'>
+                        <>
+                            <div className='flex'>
                                 <button className='w-52 rounded-full font-bold group
                                                 shadow-lg transition py-2 px-4 border
                                                 border-white/15 hover:bg-red-500
-                                                hover:border-red-700'
-                                        onClick={() => sure(true)}>
-                                    Yes
+                                                hover:border-red-700 mx-auto'
+                                        onClick={() => setIsSure("community")}>
+                                    Közösség Deaktiválása
                                 </button>
                             </div>
+                        </>
+                    }
 
-                            <div className='m-2'>
-                                <button className='sm:mt-0 mt-2 w-52 rounded-full
-                                                font-bold group shadow-lg transition
-                                                py-2 px-4 border border-white/15
-                                                hover:bg-red-500 hover:border-red-700'
-                                        onClick={() => unSure()}>
-                                    No
-                                </button>
+                    {askSure == true &&
+                        <>
+                            <div>
+                                <div>
+                                    <p className='m-2 text-center text-lg'>Are you sure?</p>
+                                </div>
+                                <div className='flex flex-col md:flex-row'>
+                                    <div className='m-2 mx-auto'>
+                                        <button className='w-52 rounded-full font-bold group
+                                                        shadow-lg transition py-2 px-4 border
+                                                        border-white/15 hover:bg-red-500
+                                                        hover:border-red-700'
+                                                onClick={() => sure(true)}>
+                                            Yes
+                                        </button>
+                                    </div>
+
+                                    <div className='m-2 mx-auto'>
+                                        <button className='w-52 rounded-full
+                                                        font-bold group shadow-lg transition
+                                                        py-2 px-4 border border-white/15
+                                                        hover:bg-red-500 hover:border-red-700'
+                                                onClick={() => unSure()}>
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </>
                     }
                 
                 </Modal>)

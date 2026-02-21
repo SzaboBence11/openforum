@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Notification from "./common/Notification.js";
 import { BrowserRouter, Routes, Route, Link, Form } from 'react-router-dom';
 
@@ -7,10 +7,9 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailTouched, setEmailTouched] = useState(false)
-    const [showPassword, setShowPassword] = useState(false) 
-    const [notificationState, setNotificationState] = useState();
+    const [showPassword, setShowPassword] = useState(false)
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-    const [notificationText, setNotificationText] = useState("")
+    const [notificationType, setNotificationType] = useState(false)
     const [loginDelay, setLoginDelay] = useState(false)
 
     // Email validation
@@ -28,8 +27,6 @@ function Login() {
         const email = formData.get("email");
         const password = formData.get("password");
 
-        // alert(`Logged in with ${email}`);
-
         fetch('/api/user/login', {
             method: 'POST',
             headers: {
@@ -44,13 +41,13 @@ function Login() {
                 localStorage.setItem('user', JSON.stringify({
                         id: data.id
                 }))
-                setNotificationText('Successful login!')
+                setNotificationType(true)
                 setTimeout(() => {
                     window.location.assign("/");
-                }, 500);
+                }, 600);
             }
             else {
-                setNotificationText('Unsuccessful login!')
+                setNotificationType(false)
                 setLoginDelay(true)
                 setTimeout(() => {
                     setLoginDelay(false)
@@ -63,8 +60,10 @@ function Login() {
         .catch(err => console.error('Fetch /login failed:', err))
     }
 
-    function addNotification(){
-        setIsNotificationOpen(true);
+    function addNotification() {
+        setTimeout(() => {
+            setIsNotificationOpen(true);
+        }, 300);
     }
 
     return (
@@ -187,9 +186,16 @@ function Login() {
                 isOpen={isNotificationOpen}
                 onClose={() => setIsNotificationOpen(false)}
                 title="Notification"
+                bgColor={
+                    notificationType ? 
+                    "bg-green-700/50" :
+                    "bg-red-700/20"
+                }
             >
                 <p className="text-gray-300">
-                    {notificationText}
+                    {notificationType ?
+                     "Successful login!" :
+                     "Unsuccessful login!"}
                 </p>
             </Notification>
         </div>

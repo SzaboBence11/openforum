@@ -1,6 +1,6 @@
 import React from "react";
 
-function Notification({ isOpen, onClose, children, title }) {
+function Notification({ isOpen, onClose, children, title, bgColor }) {
     if (!isOpen) return null;
 
     return (
@@ -8,14 +8,14 @@ function Notification({ isOpen, onClose, children, title }) {
 
             {/* Modal box */}
             <div
-                className="
+                className={`
                     relative w-[400px] max-w-[90%]
-                    bg-white/10 backdrop-blur-xl
+                    ${bgColor} backdrop-blur-xl
                     border border-white/15 max-h-28
                     rounded-3xl shadow-xl
                     p-6 text-white
                     animate-fadeInOut
-                "
+                `}
             >
                 {/* Header */}
                 <div className="flex items-center mb-2">
