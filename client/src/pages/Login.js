@@ -182,6 +182,7 @@ function Login() {
                     </p>
                 </div>
             </div>
+            
             <Notification
                 isOpen={isNotificationOpen}
                 onClose={() => setIsNotificationOpen(false)}

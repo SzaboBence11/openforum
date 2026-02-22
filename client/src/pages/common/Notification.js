@@ -4,7 +4,7 @@ function Notification({ isOpen, onClose, children, title, bgColor }) {
     if (!isOpen) return null;
 
     return (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50">
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
 
             {/* Modal box */}
             <div

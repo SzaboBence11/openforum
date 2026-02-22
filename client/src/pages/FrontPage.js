@@ -1,4 +1,5 @@
 import React, { act, useEffect, useState } from 'react'
+import Notification from "./common/Notification.js";
 import Modal from "./common/Modal.js";
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
@@ -58,6 +59,15 @@ function FrontPage({ isSidebarOpen }) {
 
     // Get user's votes
     const [userVotes, setUserVotes] = useState({})
+
+    // Notif variables
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [notificationType, setNotificationType] = useState(false);
+    const [notificationText, setNotificationText] = useState('');
+
+    // Leave confirmation
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [confirmMode, setConfirmMode] = useState(false);
 
     // Post picture input styling
     const postPictureInput = {
@@ -444,13 +454,24 @@ function FrontPage({ isSidebarOpen }) {
             if (!res.error) {
 
                 // On successful join/leave
-                alert("Sikeres");
-                window.location.reload()
+                setNotificationType(true)
+                if (cMehtod == 'leave') {
+                    setNotificationText('Successfuly left community!')
+                }
+                else {
+                    setNotificationText('Successfully joined community')
+                }
+                addNotification();
+                getPosts();
                 return;
             }
 
             // Else error
-            alert("Sikertelen")
+            setNotificationType(false)
+            if (cMehtod == 'leave') {
+                setNotificationText('Something went wrong!')
+            }
+            addNotification();
         })
         .catch(err => alert(err))
 
@@ -583,6 +604,15 @@ function FrontPage({ isSidebarOpen }) {
         .catch(err => console.log(err))
     }
 
+    function addNotification() {
+        setTimeout(() => {
+            setIsNotificationOpen(true);
+        }, 300);
+        setTimeout(() => {
+            setIsNotificationOpen(false);
+        }, 3000);
+    }
+
     return (
 
         // The whole frontpage area
@@ -596,7 +626,8 @@ function FrontPage({ isSidebarOpen }) {
                         {communityData.community && communityData.community.name ? (
                             <div className='mb-8 justify-center animate-fadeIn'>
                                 <h1 className='text-4xl flex items-center justify-center'>
-                                    <img src={communityData.community.img} className='w-20 h-20 me-4 rounded-full object-cover' />
+                                    <img src={communityData.community.img}
+                                         className='w-20 h-20 me-4 rounded-full object-cover' />
                                     {communityData.community.name.charAt(0).toUpperCase() +
                                         communityData.community.name.slice(1)}
                                 </h1>
@@ -616,23 +647,26 @@ function FrontPage({ isSidebarOpen }) {
                                             (
                                                 <div className='flex gap-3'>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
-                                                        bg-white/15 text-white font-semibold
-                                                        hover:bg-white/25 border border-white/20
-                                                        hover:scale-105
-                                                        active:scale-95
-                                                        transition-all duration-300"
-                                                            onClick={() => communityAction('leave', communityData.community.id)}>
+                                                                       bg-white/15 text-white font-semibold
+                                                                       hover:bg-white/25 border border-white/20
+                                                                       hover:scale-105
+                                                                       active:scale-95
+                                                                       transition-all duration-300"
+                                                            onClick={() => {
+                                                                setIsConfirmOpen(true)
+                                                                setConfirmMode('leave')
+                                                            }}>
                                                         Leave
                                                     </button>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
-                                                        bg-gradient-to-r
-                                                        from-blue-500 to-indigo-500
-                                                        text-white font-bold
-                                                        shadow-lg
-                                                        hover:shadow-xl
-                                                        hover:scale-105
-                                                        active:scale-95
-                                                        transition-all duration-300"
+                                                                       bg-gradient-to-r
+                                                                       from-blue-500 to-indigo-500
+                                                                       text-white font-bold
+                                                                       shadow-lg
+                                                                       hover:shadow-xl
+                                                                       hover:scale-105
+                                                                       active:scale-95
+                                                                       transition-all duration-300"
                                                         onClick={() => setAddPost()}>
                                                             Add Post
                                                     </button>
@@ -640,8 +674,8 @@ function FrontPage({ isSidebarOpen }) {
                                                         <>
                                                             {(userRole == "A" || userRole == "M") &&
                                                                 <i className="fa-solid fa-ban fa-2xl
-                                                                        hover:text-[rgb(204,26,26)]
-                                                                        hover:cursor-pointer mt-7"
+                                                                              hover:text-[rgb(204,26,26)]
+                                                                              hover:cursor-pointer mt-7"
                                                                 onClick={() => openAdminCommunity(communityData.community.id)}>
                                                                 </i>
                                                             }
@@ -656,16 +690,23 @@ function FrontPage({ isSidebarOpen }) {
                                             localStorage.getItem("user") &&
 
                                             (
-                                                <button className="mt-1.5 px-6 py-2 rounded-full
-                                                        bg-gradient-to-r mb-4
-                                                        from-blue-500 to-indigo-500
-                                                        text-white font-bold
-                                                        shadow-lg
-                                                        hover:shadow-xl
-                                                        hover:scale-105
-                                                        active:scale-95
-                                                        transition-all duration-300"
-                                                        onClick={() => communityAction('join', communityData.community.id)}>Join</button>
+                                                <div className='flex flex-col'>
+                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                    bg-gradient-to-r mb-1
+                                                                    from-blue-500 to-indigo-500
+                                                                    text-white font-bold
+                                                                    shadow-lg
+                                                                    hover:shadow-xl
+                                                                    hover:scale-105
+                                                                    active:scale-95
+                                                                    transition-all duration-300"
+                                                            onClick={() => {
+                                                                communityAction('join', communityData.community.id)
+                                                            }}>
+                                                        Join
+                                                    </button>
+                                                    To start posting
+                                                </div>
                                             )
 
                                             }
@@ -916,7 +957,8 @@ function FrontPage({ isSidebarOpen }) {
                                            overflow-y-auto"
                             />
                             <progress id='bar'
-                                      ></progress>
+                                      className='bg-white border border-white'>
+                            </progress>
                             <p id="count">0 / 300</p>
                         </div>
                         <div className='mx-auto'>
@@ -960,6 +1002,7 @@ function FrontPage({ isSidebarOpen }) {
                     </div>
                 </Modal>
             }
+
             {modalState == "postAdmin" && (
                 <Modal
                     isOpen={isModalOpen}
@@ -1025,6 +1068,7 @@ function FrontPage({ isSidebarOpen }) {
                 
                 </Modal>)
             }
+
             {modalState == "communityAdmin" && (
                 <Modal
                     isOpen={isModalOpen}
@@ -1080,6 +1124,68 @@ function FrontPage({ isSidebarOpen }) {
                 
                 </Modal>)
             }
+
+            <Notification
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+                title="Notification"
+                bgColor={
+                    notificationType ? 
+                    "bg-green-700/50" :
+                    "bg-red-700/20"
+                }
+            >
+                <p className="text-gray-300">
+                    {notificationText}
+                </p>
+            </Notification>
+
+            <Modal
+                isOpen={isConfirmOpen}
+                onClose={() => {
+                    setIsConfirmOpen(false);
+                }}
+                title= {"Confirmation"}>
+                <>
+                    <div>
+                        <div>
+                            <p className='m-2 text-center text-lg'>
+                                {`Are you sure you want to ${confirmMode}?`}
+                            </p>
+                        </div>
+                        <div className='flex flex-col md:flex-row'>
+                            <div className='m-2 mx-auto'>
+                                <button className='w-52 rounded-full font-bold group
+                                                shadow-lg transition py-2 px-4 border
+                                                border-white/15 hover:bg-green-500/40
+                                                hover:border-green-700/40'
+                                        onClick={() => {
+                                            setIsConfirmOpen(false)
+                                            if (confirmMode == 'leave') {
+                                                communityAction('leave', communityData.community.id)
+                                            }
+                                            else {
+                                            }
+                                        }}>
+                                    Yes
+                                </button>
+                            </div>
+
+                            <div className='m-2 mx-auto'>
+                                <button className='w-52 rounded-full
+                                                font-bold group shadow-lg transition
+                                                py-2 px-4 border border-white/15
+                                                hover:bg-red-500/40 hover:border-red-700/40'
+                                        onClick={() => {
+                                            setIsConfirmOpen(false)}
+                                        }>
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            </Modal>
 
         </div>
     )
