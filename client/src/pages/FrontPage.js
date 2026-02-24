@@ -3,7 +3,7 @@ import Notification from "./common/Notification.js";
 import Modal from "./common/Modal.js";
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
-function FrontPage({ isSidebarOpen }) {
+function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
     // Navigation
     // Use as navigate('/path')
@@ -449,6 +449,8 @@ function FrontPage({ isSidebarOpen }) {
 
             // Get user's communities
             getUserCommunities();
+            
+            refreshSidebar()
 
             // If error
             if (!res.error) {
@@ -557,10 +559,9 @@ function FrontPage({ isSidebarOpen }) {
 
                 // Progress bar stuff
                 const value = textarea.value.length;
-                const percent = (value / max) * 100;
+                const ratio = (value / max);
                 count.textContent = `${value} / ${max}`;
-                bar.style.width = percent + "%";
-                bar.classList.toggle("danger", value == max);
+                bar.style.width = ratio * 448 + "px";
             })
         }, 100)
     }
@@ -937,18 +938,19 @@ function FrontPage({ isSidebarOpen }) {
                     <div className="grid md:grid-cols-2 gap-6">
 
                         <div>
-                            <label className="text-sm text-blue-200">
+                            <label className="text-sm text-gray-300"
+                                   htmlFor='postTitle'>
                                 Post Title
                             </label>
                             <input
-                                placeholder='Footballers'
+                                id='postTitle'
+                                placeholder='Title'
                                 name='title'
                                 value={formData['title']}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
-                                           bg-blue-950/60 text-white
+                                           bg-white/5 text-white
                                            border border-white/15
-                                           focus:ring-2 focus:ring-blue-400/40
                                            transition-all duration-300
                                            disabled:opacity-60"
                             />
@@ -956,11 +958,12 @@ function FrontPage({ isSidebarOpen }) {
 
                         {/* Bio */}
                         <div className="md:col-span-2">
-                            <label className="text-sm text-blue-200">
+                            <label className="text-sm text-gray-300"
+                                   htmlFor='postText'>
                                 Post Content
                             </label>
                             <textarea
-                                placeholder='The core of the post'
+                                placeholder='Text'
                                 name="text"
                                 id='postText'
                                 rows="4"
@@ -968,17 +971,20 @@ function FrontPage({ isSidebarOpen }) {
                                 value={formData["text"]}
                                 onChange={handleChange}
                                 className="mt-1 w-full px-4 py-2 rounded-xl
-                                           bg-blue-950/60 text-white
+                                           bg-white/5 text-white
                                            border border-white/15
-                                           focus:ring-2 focus:ring-blue-400/40
                                            transition-all duration-300
                                            disabled:opacity-60 resize-none
-                                           overflow-y-auto"
+                                           overflow-y-auto sidebar-scroll"
                             />
-                            <progress id='bar'
-                                      className='bg-white border border-white'>
-                            </progress>
-                            <p id="count">0 / 300</p>
+                            <div className='h-2 bg-gray-500 rounded-full shadow-md mt-1'
+                                 style={{width: '448px'}}>
+                                <div id='bar'
+                                    className='h-2 bg-white rounded-full'
+                                    style={{width: '0px'}}>
+                                </div>
+                            </div>
+                            <p id="count" className='mt-1 text-center text-lg'>0 / 300</p>
                         </div>
                         <div className='mx-auto'>
                             {formData.img &&
@@ -991,14 +997,23 @@ function FrontPage({ isSidebarOpen }) {
                                     </img>
                                 </div>
                             }
-                            <div className='mt-4'>
-                                <p>Kép feltöltése</p>
-                                <input
-                                    type='file'
-                                    accept='image/*'
-                                    src={formData.img || null}
-                                    size={64 * 1024}
-                                    onChange={handleChange}/>
+                            <div className='mt-2'>
+                                <label className="text-sm text-gray-300"
+                                       htmlFor='postFileInput'>
+                                    Add Image
+                                </label>
+                                <button className='border border-dotted border-white rounded-full flex mt-1
+                                                   transition-all hover:cursor-pointer hover:bg-white/10'>
+                                    <div className='text-center flex absolute ms-[20%] hover:cursor-pointer'>Upload Image</div>
+                                    <input
+                                        className='opacity-0 hover:cursor-pointer'
+                                        id='postFileInput'
+                                        type='file'
+                                        accept='image/*'
+                                        src={formData.img || null}
+                                        size={64 * 1024}
+                                        onChange={handleChange} />
+                                </button>
                             </div>
                         </div>
 

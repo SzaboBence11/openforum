@@ -76,7 +76,7 @@ code {
 
 /* Track (background area) */
 .sidebar-scroll::-webkit-scrollbar-track {
-  background: #142957;
+  background: #6d6d6d34;
   border-radius: 10px;
 }
 
@@ -84,7 +84,7 @@ code {
 .sidebar-scroll::-webkit-scrollbar-thumb {
   background: #ffffff;
   border-radius: 10px;
-  border: 2px solid #0b1a3a;
+  border: 2px solid #6d6d6d34;
 }
 
 /* Hover effect */
