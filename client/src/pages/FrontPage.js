@@ -97,6 +97,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         setAskSure(true);
     }
 
+    useEffect(() => {
+        console.log(comments);
+    }, comments)
+
     // Add post form data change detection
     function handleChange(e) {
         if(e.target.type != 'file'){
@@ -449,7 +453,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
             // Get user's communities
             getUserCommunities();
-            
+
             refreshSidebar()
 
             // If error
@@ -630,7 +634,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                     <img src={communityData.community.img}
                                          className='w-20 h-20 me-4 rounded-full object-cover' />
                                     {communityData.community.name.charAt(0).toUpperCase() +
-                                        communityData.community.name.slice(1)}
+                                     communityData.community.name.slice(1)}
                                 </h1>
 
                                 <h1 className='mt-4 font-xl justify-center'>
@@ -644,7 +648,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         <>
                                             {/* Leave community button, if user is joined */}
                                             {joinedCommunities.includes(communityData.community.id) &&
-                                            localStorage.getItem("user") &&
+                                             localStorage.getItem("user") &&
                                             (
                                                 <div className='flex gap-3'>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
@@ -683,13 +687,11 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                         </>
                                                     }
                                                 </div>
-                                            )
-                                            }
+                                            )}
 
                                             {/* Join community button, if user is not joined */}
                                             {!joinedCommunities.includes(communityData.community.id) &&
-                                            localStorage.getItem("user") &&
-
+                                             localStorage.getItem("user") &&
                                             (
                                                 <div className='flex flex-col'>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
@@ -855,11 +857,21 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                  </div>
                               )
                             }
-                             
-                            {comments[`${post.post_id}`].length > 2 && (
-                                 <div>
-                                     <button>Show More</button>
-                                 </div>
+                            
+                            {comments[`${post.post_id}`] ? (
+                                <>
+                                    {comments[`${post.post_id}`].length > 0 ? (
+                                        <div>
+                                            <button>
+                                                Show more
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </>
+                            ) : (
+                                <p>Loading...</p>
                             )}
                             
 
@@ -1219,7 +1231,6 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                     </div>
                 </>
             </Modal>
-
         </div>
     )
 }
