@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import FrontPage from '../FrontPage';
 import { Link } from 'react-router-dom';
 
-function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
+function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
     const [randomCommunities, setRandomCommunities] = useState({ communities: [] })
     const [userCommunities, setUserCommunities] = useState({ communities: [] })
     const [ownedCommunities, setOwnedCommunities] = useState({ communities: [] })
@@ -10,6 +10,15 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [showPopular, setShowPopular] = useState(true)
     const [showOwnedCommunities, setShowOwnedCommunities] = useState(true)
     
+    useEffect(() => {
+        // Fetch user communities if logged in
+        if (localStorage.getItem('user')) {
+            getUserCommunities(JSON.parse(localStorage.getItem('user')).id)
+
+            getOwnedCommunities(JSON.parse(localStorage.getItem('user')).id)
+        }
+    }, [refreshKey])
+
     function getCommunity(community_id) {
         localStorage.setItem('selectedCommunity', community_id);
         setIsSidebarOpen(false);
@@ -39,22 +48,30 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
         // Fetch user communities if logged in
         if (localStorage.getItem('user')) {
-            fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
-            .then(res => res.json())
-            .then(data => {
-                setUserCommunities({ communities: data })
-            })
-            .catch(err => console.error('Fetch /getUserCommunities failed:', err))
+            getUserCommunities(JSON.parse(localStorage.getItem('user')).id)
 
-            fetch(`/api/user/getOwnedCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data)
-                setOwnedCommunities({ communities: data })
-            })
-            .catch(err => console.error('Fetch /getOwnedCommunities falied:', err))
+            getOwnedCommunities(JSON.parse(localStorage.getItem('user')).id)
         }
     }, [])
+
+    function getUserCommunities(user_id) {
+        fetch(`/api/user/getUserCommunities/${user_id}`)
+        .then(res => res.json())
+        .then(data => {
+            setUserCommunities({ communities: data })
+        })
+        .catch(err => console.error('Fetch /getUserCommunities failed:', err))
+    }
+
+    function getOwnedCommunities(user_id) {
+        fetch(`/api/user/getOwnedCommunities/${user_id}`)
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data)
+            setOwnedCommunities({ communities: data })
+        })
+        .catch(err => console.error('Fetch /getOwnedCommunities falied:', err))
+    }
 
     return (
         
