@@ -800,48 +800,67 @@ function FrontPage({ isSidebarOpen }) {
                                 {post.post_text}
                             </p>
 
-                            {/* Each comment */}
+                            {/* Two comments & Show More */}
                             {comments[`${post.post_id}`] ? (
                              comments[`${post.post_id}`].map((comment, j) => (
 
-                                // Comment card
-                                <div className='flex flex-col border shadow-md ms-4 mb-4
-                                                rounded-3xl p-3 border-white/10 animate-fadeIn
-                                                min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
-                                    key={j}>
+                                <>
+                                    {/* Comment Card */}
+                                    <div className='flex flex-col border shadow-md ms-4 mb-4
+                                                    rounded-3xl p-3 border-white/10 animate-fadeIn
+                                                    min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
+                                        key={j}>
 
-                                    {/* User img and name */}
-                                    <p className='text-white flex mt-1.5 max-w-[50%]'>
-                                        <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
-                                        {comment.commenter_user}
-                                    </p>
-                                    {userRole != "" &&
-                                        <>
-                                            {(userRole == "A" || userRole == "M") &&
-                                                    <i className="fa-solid fa-ellipsis
-                                                                fa-2xl hover:cursor-pointer
-                                                                ms-auto mt-0
-                                                                text-gray-400
-                                                                hover:text-white"
-                                                    onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
-                                            }
-                                        </>
-                                    }    
+                                        {/* User img and name */}
+                                        <p className='text-white flex mt-1.5 max-w-[50%]'>
+                                            <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                            {comment.commenter_user}
+                                        </p>
+                                        {userRole != "" &&
+                                            <>
+                                                {(userRole == "A" || userRole == "M") &&
+                                                        <i className="fa-solid fa-ellipsis
+                                                                    fa-2xl hover:cursor-pointer
+                                                                    ms-auto mt-0
+                                                                    text-gray-400
+                                                                    hover:text-white"
+                                                        onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
+                                                }
+                                            </>
+                                        }    
 
-                                    {/* Comment text */}
-                                    <p className="text-gray-300 text-sm mt-2">
-                                    {comment.text}
-                                    </p>
+                                        {/* Comment text */}
+                                        <p className="text-gray-300 text-sm mt-2">
+                                        {comment.text}
+                                        </p>
 
-                                    {/* Comment date */}
-                                    <p className='text-white ms-auto mt-auto'>
-                                        {timeAgo(comment.date)}
-                                    </p>
-                                </div>
+                                        {/* Comment date */}
+                                        <p className='text-white ms-auto mt-auto'>
+                                            {timeAgo(comment.date)}
+                                        </p>
+                                    </div>
+
+
+                                </>
+                                
                             ))
                             ) : (
                                 <p className="text-gray-500 text-sm">Loading comments...</p>
                             )}
+                            {localStorage.getItem("user") &&
+                             joinedCommunities.includes(communityData.community.id) && (
+                                 <div>
+                                     <input type='text'></input>
+                                 </div>
+                              )
+                            }
+                             
+                            {comments[`${post.post_id}`].length > 2 && (
+                                 <div>
+                                     <button>Show More</button>
+                                 </div>
+                            )}
+                            
 
                             <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
                                             border border-white/15'>
@@ -984,7 +1003,6 @@ function FrontPage({ isSidebarOpen }) {
                         </div>
 
                     </div>
-
                     <div className='mt-4 justify-center mx-auto w-auto flex'>
                         <button className={`w-52 rounded-full font-bold group
                                             shadow-lg transition py-2 px-4 border border-white/15
