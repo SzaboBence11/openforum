@@ -39,6 +39,9 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     // Check modal open
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Current Post for Modal
+    const [currentPost, setCurrentPost] = useState();
+
     // Current user role
     const [userRole, setUserRole] = useState("");
 
@@ -77,6 +80,12 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         outline: 'none',
         textIndent: '-999em',
     };
+
+    // Open Post Modal & Set Post
+    function postModalOpen(){
+        setIsModalOpen(true);
+        setModalState("postModal");
+    }
 
     // Admin confirmation for change
     function sure() {
@@ -1219,6 +1228,19 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                     </div>
                 </>
             </Modal>
+
+            {modalState == "postModal" &&
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setModalState("");
+                        setCurrentPost(null);
+                    }}
+                    title= {currentPost}>
+
+                </Modal>
+            }
 
         </div>
     )
