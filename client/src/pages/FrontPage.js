@@ -106,10 +106,6 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         setAskSure(true);
     }
 
-    useEffect(() => {
-        console.log(comments);
-    }, comments)
-
     // Add post form data change detection
     function handleChange(e) {
         if(e.target.type != 'file'){
@@ -627,6 +623,32 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         }, 3000);
     }
 
+    function addComment(e, post_id) {
+        e.preventDefault();
+        fetch('/api/community/addComment', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                post_id: post_id,
+                user_id: JSON.parse(localStorage.getItem('user')).id,
+                text: e.currentTarget.children[0].children[0].value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.error) {
+                getAllPostComments();
+                e.currentTarget.children[0].children[0].value = '';
+            }
+            else {
+                setNotificationType(0)
+                setNotificationText('Unable to comment')
+                addNotification()
+            }
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
 
         // The whole frontpage area
@@ -824,44 +846,55 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                             {comments[`${post.post_id}`] ? (
                              comments[`${post.post_id}`].map((comment, j) => (
 
-                                <>
-                                    {/* Comment Card */}
-                                    <div className='flex flex-col border shadow-md ms-4 mb-4
+                                <div key={j}>
+                                    
+                                    { j < 2 && (
+                                        <div className='flex flex-col border shadow-md ms-4 mb-4
                                                     rounded-3xl p-3 border-white/10 animate-fadeIn
                                                     min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
-                                        key={j}>
+                                        >
 
-                                        {/* User img and name */}
-                                        <p className='text-white flex mt-1.5 max-w-[50%]'>
-                                            <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
-                                            {comment.commenter_user}
-                                        </p>
-                                        {userRole != "" &&
-                                            <>
-                                                {(userRole == "A" || userRole == "M") &&
-                                                        <i className="fa-solid fa-ellipsis
-                                                                    fa-2xl hover:cursor-pointer
-                                                                    ms-auto mt-0
-                                                                    text-gray-400
-                                                                    hover:text-white"
-                                                        onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
-                                                }
-                                            </>
-                                        }    
+                                            {/* User img and name */}
+                                            <p className='text-white flex mt-1.5 max-w-[50%]'>
+                                                <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                                {comment.commenter_user}
+                                            </p>
+                                            {userRole != "" &&
+                                                <>
+                                                    {(userRole == "A" || userRole == "M") &&
+                                                            <i className="fa-solid fa-ellipsis
+                                                                        fa-2xl hover:cursor-pointer
+                                                                        ms-auto mt-0
+                                                                        text-gray-400
+                                                                        hover:text-white"
+                                                            onClick={() => openAdminPost(post.poster_id, post.post_id)}></i>
+                                                    }
+                                                </>
+                                            }    
 
-                                        {/* Comment text */}
-                                        <p className="text-gray-300 text-sm mt-2">
-                                        {comment.text}
-                                        </p>
+                                            {/* Comment text */}
+                                            <p className="text-gray-300 text-sm mt-2">
+                                            {comment.text}
+                                            </p>
 
-                                        {/* Comment date */}
-                                        <p className='text-white ms-auto mt-auto'>
-                                            {timeAgo(comment.date)}
-                                        </p>
-                                    </div>
+                                            {/* Comment date */}
+                                            <p className='text-white ms-auto mt-auto'>
+                                                {timeAgo(comment.date)}
+                                            </p>
+                                        </div>
+                                    )}
 
+                                    { j == 2 && (
+                                        <div className='flex flex-col ms-4 h-10 w-12
+                                                        rounded-3xl p-3 border border-none animate-fadeIn'>
+                                            {/* Comment text */}
+                                            <p className="text-gray-300 text-3xl relative bottom-8 mt-2 text-center">
+                                                ...
+                                            </p>
+                                        </div>
+                                    )}
 
-                                </>
+                                </div>
                                 
                             ))
                             ) : (
@@ -872,7 +905,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                 (
                                     <>
                                         { joinedCommunities.includes(post.community_id) && (
-                                            <form className='ms-4 mb-4'>
+                                            <form className='ms-4 mb-4'
+                                                  onSubmit={(event) => {
+                                                    addComment(event, post.post_id)
+                                                  }}>
                                                 <div className='relative'>
                                                     <input type='text'
                                                         className='px-3 py-2 rounded-lg border-white/15 text-white

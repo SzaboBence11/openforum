@@ -12,9 +12,9 @@ router.post('/addComment', (req, res) => {
     // Select comments by post
     let sql = `
         INSERT INTO comments(post_id,
-                                user_id,
-                                text,
-                                valid)
+                             user_id,
+                             text,
+                             valid)
                VALUES (?, ?, ?, 1)
     `;
 
