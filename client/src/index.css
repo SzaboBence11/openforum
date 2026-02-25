@@ -93,6 +93,57 @@ code {
   transition: all;
 }
 
+/* 🔥 Remove vertical arrow buttons completely */
+.modal-scroll::-webkit-scrollbar-button:single-button:vertical:decrement,
+.modal-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
+  height: 0;
+  width: 0;
+  display: none;
+}
+
+/* Some Chromium builds need this too */
+.modal-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+.modal-scroll::-webkit-scrollbar-track-piece:start,
+.modal-scroll::-webkit-scrollbar-track-piece:end {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+/* Scrollbar width */
+.modal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thumb (the draggable part) */
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.25);
+  border-radius: 999px;
+
+  /* 👇 makes the thumb feel shorter */
+  border: 2px solid transparent;
+  background-clip: content-box;
+  min-height: 30px;   /* lower = shorter looking thumb */
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.45);
+  background-clip: content-box;
+}
+
+/* Firefox */
+.modal-scroll {
+  scrollbar-width: calc(10vw - 50px);
+  scrollbar-color: rgba(255,255,255,0.35) transparent;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

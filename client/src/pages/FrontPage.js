@@ -40,7 +40,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Current Post for Modal
-    const [currentPost, setCurrentPost] = useState([]);
+    const [currentPost, setCurrentPost] = useState(null);
 
     // Current user role
     const [userRole, setUserRole] = useState("");
@@ -83,11 +83,14 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
     // Open Post Modal & Set Post
     function postModalOpen(key){
-        console.log('EZ AZ' + key);
-        setIsModalOpen(true);
-        setModalState("postModal");
-        setCurrentPost(key);
-        console.log(currentPost)
+        fetch(`api/community/getPostData/${key}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log(res[0])
+            setIsModalOpen(true);
+            setModalState("postModal");
+            setCurrentPost(res[0]);
+        })
     }
 
     // Admin confirmation for change
@@ -1281,7 +1284,56 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                         setModalState("");
                         setCurrentPost(null);
                     }}
-                    title= {currentPost}>
+                    title= {currentPost.title}>
+
+                    {/* Poster user img */}
+                    <p className='text-white flex mx-auto mt-1.5'>
+                        <img src={currentPost.poster_img}
+                             className='rounded-full w-6 h-6 me-2 object-cover' />
+                        {currentPost.poster_user}
+                    </p>
+                    {/* Post text */}
+                    <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
+                        {currentPost.text}
+                    </p>
+                    {/* Post img */}
+                    <div className='flex justify-center'>
+                        <img src={`/assets/postImage/${currentPost.id}.png`}
+                             className='mt-4 max-h-fit w-[18vw] rounded-xl ms-4'
+                             alt='' />
+                    </div>
+
+                    {/* Two comments & Show More */}
+                    <div className='mt-10 flex flex-col items-start '>
+                        {comments[`${currentPost.id}`] ? (
+                            comments[`${currentPost.id}`].map((comment, j) => (
+                            < >
+                                {/* Comment Card */}
+                                <div className='flex mt-2 flex-col border shadow-md ms-4 mb-4
+                                                rounded-3xl p-3 border-white/10 animate-fadeIn
+                                                min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
+                                    key={j}>
+                                    {/* User img and name */}
+                                    <p className='text-white flex mt-1.5 max-w-[50%]'>
+                                        <img src={comment.commenter_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                        {comment.commenter_user}
+                                    </p>
+                                    {/* Comment text */}
+                                    <p className="text-gray-300 text-sm mt-2">
+                                    {comment.text}
+                                    </p>
+                                    {/* Comment date */}
+                                    <p className='text-white ms-auto mt-auto'>
+                                        {timeAgo(comment.date)}
+                                    </p>
+                                </div>
+                            </>
+                        
+                        ))
+                        ) : (
+                            <p className="text-gray-500 text-sm">Loading comments...</p>
+                        )}
+                    </div>
 
                 </Modal>
             }

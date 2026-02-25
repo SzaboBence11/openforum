@@ -6,6 +6,7 @@ function Modal({ isOpen, onClose, children, title }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
 
+
             {/* Background overlay */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm
@@ -19,9 +20,11 @@ function Modal({ isOpen, onClose, children, title }) {
                     relative w-[500px] max-w-[90%]
                     bg-white/10 backdrop-blur-xl
                     border border-white/15
-                    rounded-3xl shadow-xl
+                    rounded-2xl shadow-xl
                     p-6 text-white
                     animate-fadeIn
+                    modal-scroll
+                    overflow-auto max-h-[60%]
                 "
             >
                 {/* Header */}

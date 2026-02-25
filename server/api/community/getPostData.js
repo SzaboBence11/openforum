@@ -14,7 +14,8 @@ router.get('/getPostData/:post_id', (req, res) => {
                     posts.id AS id,
                     users.name AS poster_user,
                     posts.title AS title,
-                    posts.text AS text
+                    posts.text AS text,
+                    users.img AS poster_img
                FROM posts
                INNER JOIN users
                ON users.id = posts.user_id
