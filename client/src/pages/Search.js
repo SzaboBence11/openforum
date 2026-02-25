@@ -39,32 +39,6 @@ function Search() {
             setSearchedAll(true)
         }
 
-        else if (searchedAll == false) {
-
-            // Fetch communities based on search term
-            fetch(`/api/community/searchCommunity`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                setFoundCommunities({ foundCommunities: data })
-            })
-            .catch(err => console.log(err))
-        }
-
-        if (searchedAll == true) {
-            if (searchTerm == "") {
-                
-                // Fetch communities based on search term
-                fetch(`/api/community/searchCommunity`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    setFoundCommunities({ foundCommunities: data })
-                })
-                .catch(err => console.log(err))
-            }
-        }
-
     }, [searchTerm])
 
     function getUserCommunities() {
