@@ -40,7 +40,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Current Post for Modal
-    const [currentPost, setCurrentPost] = useState();
+    const [currentPost, setCurrentPost] = useState([]);
 
     // Current user role
     const [userRole, setUserRole] = useState("");
@@ -82,9 +82,12 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     };
 
     // Open Post Modal & Set Post
-    function postModalOpen(){
+    function postModalOpen(key){
+        console.log('EZ AZ' + key);
         setIsModalOpen(true);
         setModalState("postModal");
+        setCurrentPost(key);
+        console.log(currentPost)
     }
 
     // Admin confirmation for change
@@ -631,6 +634,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
         // The whole frontpage area
         <div className={`p-4`}>
+
             <div className="p-4 border-1 rounded-base">
 
                 {/* Community details */}
@@ -877,7 +881,8 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         <div>
                                             <button className='bg-white/15 text-white px-4 py-2 ms-4 rounded-2xl
                                                                 border border-white/20 shadow-md hover:bg-white/25
-                                                               transition-all'>
+                                                               transition-all'
+                                                    onClick={() => postModalOpen(post.post_id)}>
                                                 Show more
                                             </button>
                                         </div>
