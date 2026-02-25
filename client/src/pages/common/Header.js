@@ -105,13 +105,15 @@ function Header() {
 
                             {storedUser &&
                                 <div className='ms-3'>
+                                    
                                     <button
-                                        className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors"
+                                        className="hover:bg-blue-900 text-white font-bold py-2 px-4 flex rounded-full transition-colors"
                                         onClick={() => {
                                             setIsModalOpen(true)
                                         }}
                                     >
-                                        Logout
+                                        <i className="fa-solid relative fa-arrow-right-from-bracket me-2 mt-[0.25rem]"></i>
+                                            Logout
                                     </button>
                                 </div>
                             }

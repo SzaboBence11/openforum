@@ -694,11 +694,13 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                                        hover:bg-white/25 border border-white/20
                                                                        hover:scale-105
                                                                        active:scale-95
-                                                                       transition-all duration-300"
+                                                                       transition-all duration-300
+                                                                       flex"
                                                             onClick={() => {
                                                                 setIsConfirmOpen(true)
                                                                 setConfirmMode('leave')
                                                             }}>
+                                                        <i className="fa-solid relative fa-arrow-right-from-bracket me-2 mt-[0.28rem]"></i>
                                                         Leave
                                                     </button>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
@@ -709,9 +711,13 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                                        hover:shadow-xl
                                                                        hover:scale-105
                                                                        active:scale-95
-                                                                       transition-all duration-300"
+                                                                       transition-all duration-300
+                                                                       flex"
                                                         onClick={() => setAddPost()}>
-                                                            Add Post
+
+                                                            <i class="fa-solid fa-plus mt-[0.30rem] me-1 text-md"></i>
+                                                            <p className=''>Add Post</p>
+                                                            
                                                     </button>
                                                     {userRole != "" &&
                                                         <>
@@ -941,8 +947,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         <div>
                                             <button className='bg-white/15 text-white px-4 py-2 ms-4 rounded-2xl
                                                                 border border-white/20 shadow-md hover:bg-white/25
-                                                               transition-all'
+                                                               transition-all flex'
                                                     onClick={() => postModalOpen(post.post_id)}>
+
+                                                <i className="fa-solid fa-eye me-2 mt-[0.32rem]"></i>
                                                 Show more
                                             </button>
                                         </div>
