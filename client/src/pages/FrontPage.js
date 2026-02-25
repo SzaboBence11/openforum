@@ -1111,7 +1111,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         type='file'
                                         accept='image/*'
                                         src={formData.img || null}
-                                        size={64 * 1024}
+                                        size={2 * 1024 * 1024}
                                         onChange={handleChange} />
                                 </button>
                             </div>

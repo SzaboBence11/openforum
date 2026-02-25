@@ -25,8 +25,7 @@ router.get('/randomPosts/:limit', (req, res) => {
                posts.date AS post_date,
                communities.name AS community,
                communities.img AS community_img,
-               communities.id AS community_id,
-               posts.img AS post_img
+               communities.id AS community_id
         FROM posts
         INNER JOIN communities ON posts.community_id = communities.id
         INNER JOIN users On users.id = posts.user_id

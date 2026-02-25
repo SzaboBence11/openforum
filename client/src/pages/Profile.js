@@ -112,7 +112,7 @@ function Profile() {
             })
             .then(() => {
                 setUser(prev => ({ ...prev, img: profileBase64 }));
-                let avatarHeader = document.querySelector("#headerAvatarPicture");
+                let avatarHeader = document.querySelector("#avatarHeader");
                 avatarHeader.src = profileBase64;
             })
         }
