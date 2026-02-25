@@ -859,12 +859,16 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                             ) : (
                                 <p className="text-gray-500 text-sm">Loading comments...</p>
                             )}
-                            {localStorage.getItem("user") &&
-                             joinedCommunities.includes(communityData.community.id) && (
-                                 <div>
-                                     <input type='text'></input>
-                                 </div>
-                              )
+                            {localStorage.getItem("user") && joinedCommunities ?
+                                (
+                                    joinedCommunities.includes(communityData.community.id) && (
+                                        <div>
+                                            <input type='text'></input>
+                                        </div>
+                                )
+                                ) : (
+                                    <p>Loading...</p>
+                                )
                             }
                             
                             {comments[`${post.post_id}`] ? (
