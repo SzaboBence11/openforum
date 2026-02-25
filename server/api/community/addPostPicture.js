@@ -5,7 +5,7 @@ const router = express.Router();
 // hol mentse a képet
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "../client/src/assets/postImage");
+    cb(null, "../client/public/assets/postImage");
   },
   filename: (req, file, cb) => {
     console.log(req.params.post_id)
