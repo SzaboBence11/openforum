@@ -91,12 +91,14 @@ function Header() {
                                 <div>
                                     <Link to="/login">
                                         <button className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                                            <i class="fa-solid fa-right-to-bracket me-2 mt-0.5"></i>
                                             Login
                                         </button>
                                     </Link>
 
                                     <Link to="/register">
                                         <button className="hover:bg-gray-300 text-blue-950 bg-white py-2 px-4 rounded-full transition-colors ms-3 font-bold">
+                                            <i class="fa-solid fa-user-plus me-2 mt-0.5"></i>
                                             Register
                                         </button>
                                     </Link>

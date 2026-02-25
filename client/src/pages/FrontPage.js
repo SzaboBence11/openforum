@@ -1145,13 +1145,14 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                     }}
                     title= {"Poszt Adminisztáció"}>
                     {askSure == false &&
-                        <div className='sm:flex sm:gap-[10%]'>
+                        <div className='sm:flex sm:gap-[5%]'>
                             <div>
-                                <button className='w-52 rounded-full font-bold group
+                                <button className='w-56 rounded-full font-bold group
                                                 shadow-lg transition py-2 px-4 border
                                                 border-white/15 hover:bg-red-500
-                                                hover:border-red-700'
+                                                hover:border-red-700 flex'
                                         onClick={() => setIsSure("user")}>
+                                    <i class="fa-solid fa-gavel mt-1 me-1.5"></i>
                                     Felhasználó Kitiltása
                                 </button>
                             </div>
