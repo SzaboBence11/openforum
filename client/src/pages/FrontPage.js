@@ -803,9 +803,17 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
                             {/* Poster user img */}
                             <p className='text-white flex mx-auto mt-1.5'>
-                                <img src={post.poster_img} className='rounded-full w-6 h-6 me-2 object-cover' />
+                                <img src={post.poster_img}
+                                     className='rounded-full w-6 h-6 me-2 object-cover' />
                                 {post.poster_user}
                             </p>
+
+                            {/* Post img */}
+                            <div className='flex justify-center'>
+                                <img src={`/assets/postImage/${post.post_id}.png`}
+                                     className='mt-4 max-h-fit w-[18vw] rounded-xl ms-4'
+                                     alt='' />
+                            </div>
 
                             {/* Post text */}
                             <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
@@ -859,13 +867,26 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                             ) : (
                                 <p className="text-gray-500 text-sm">Loading comments...</p>
                             )}
+
                             {localStorage.getItem("user") && joinedCommunities ?
                                 (
-                                    joinedCommunities.includes(communityData.community.id) && (
-                                        <div>
-                                            <input type='text'></input>
-                                        </div>
-                                )
+                                    <>
+                                        { joinedCommunities.includes(post.community_id) && (
+                                            <form className='ms-4 mb-4'>
+                                                <div className='relative'>
+                                                    <input type='text'
+                                                        className='px-3 py-2 rounded-lg border-white/15 text-white
+                                                                    w-[33vw] border shadow-sm text-sm bg-blue-950/60 backdrop-blur-xl'
+                                                        placeholder='Comment...' />
+                                                    <i className={`fa-solid fa-paper-plane left-1/2
+                                                                absolute right-3 top-1/2 -translate-y-1/2
+                                                                cursor-pointer text-gray-200
+                                                                hover:text-gray-300 transition-all duration-300`}
+                                                    />
+                                                </div>
+                                            </form>
+                                        )}
+                                    </>
                                 ) : (
                                     <p>Loading...</p>
                                 )
@@ -893,22 +914,22 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                             <div className='text-white ms-auto me-1 bg-white/20 px-2 py-1 rounded-full
                                             border border-white/15'>
                                 <div className='flex'>
-                                    <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                    <div className={`flex flex-1 align-middle justify-center hover:bg-white/25
                                                     rounded-full hover:cursor-pointer`}>
                                         {
                                             Object.keys(userVotes).includes(`${post.post_id}`) ?
                                             (
                                                 <>
                                                     {userVotes[`${post.post_id}`] == 'U' ? (
-                                                        <i className="fa-solid fa-arrow-up text-white mt-0.5"
+                                                        <i className="fa-solid fa-arrow-up text-white mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                            onClick={() => vote(post.post_id, 'U', 'U')} />
                                                     ) : (
-                                                        <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                        <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                            onClick={() => vote(post.post_id, 'U', 'D')} />
                                                     )}
                                                 </>
                                             ) : (
-                                                <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5"
+                                                <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                    onClick={() => vote(post.post_id, 'U', 'N')} />
                                             )
                                         }
@@ -920,22 +941,22 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         }
                                     </p>
 
-                                    <div className={`flex flex-1 align-middle justify-center p-2 hover:bg-white/25
+                                    <div className={`flex flex-1 align-middle justify-center hover:bg-white/25
                                                     rounded-full hover:cursor-pointer`}>
                                         {
                                             Object.keys(userVotes).includes(`${post.post_id}`) ?
                                             (
                                                 <>
                                                     {userVotes[`${post.post_id}`] == 'D' ? (
-                                                        <i className="fa-solid fa-arrow-down text-white mt-0.5"
+                                                        <i className="fa-solid fa-arrow-down text-white mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                            onClick={() => vote(post.post_id, 'D', 'D')} />
                                                     ) : (
-                                                        <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                        <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                            onClick={() => vote(post.post_id, 'D', 'U')} />
                                                     )}
                                                 </>
                                             ) : (
-                                                <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5"
+                                                <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
                                                    onClick={() => vote(post.post_id, 'D', 'N')} />
                                             )
                                         }
