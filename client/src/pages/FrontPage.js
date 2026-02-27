@@ -1,7 +1,7 @@
-import React, { act, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Notification from "./common/Notification.js";
 import Modal from "./common/Modal.js";
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
@@ -65,7 +65,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
     // Notif variables
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-    const [notificationType, setNotificationType] = useState(false); 
+    const [notificationType, setNotificationType] = useState(false);
     const [notificationText, setNotificationText] = useState('');
 
     // Leave confirmation
@@ -485,9 +485,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
             // Else error
             setNotificationType(false)
-            if (cMehtod == 'leave') {
-                setNotificationText('Something went wrong!')
-            }
+            setNotificationText('Something went wrong!')
             addNotification();
         })
         .catch(err => alert(err))
