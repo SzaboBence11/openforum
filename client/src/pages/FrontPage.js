@@ -65,7 +65,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
     // Notif variables
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-    const [notificationType, setNotificationType] = useState(false);
+    const [notificationType, setNotificationType] = useState(false); 
     const [notificationText, setNotificationText] = useState('');
 
     // Leave confirmation
@@ -715,7 +715,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                                        flex"
                                                         onClick={() => setAddPost()}>
 
-                                                            <i class="fa-solid fa-plus mt-[0.30rem] me-1 text-md"></i>
+                                                            <i className="fa-solid fa-plus mt-[0.30rem] me-1 text-md"></i>
                                                             <p className=''>Add Post</p>
                                                             
                                                     </button>
@@ -1152,7 +1152,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                 border-white/15 hover:bg-red-500
                                                 hover:border-red-700 flex'
                                         onClick={() => setIsSure("user")}>
-                                    <i class="fa-solid fa-gavel mt-1 me-1.5"></i>
+                                    <i className="fa-solid fa-gavel mt-1 me-1.5"></i>
                                     Felhasználó Kitiltása
                                 </button>
                             </div>
@@ -1352,7 +1352,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                     <div className='mt-10 flex flex-col items-start '>
                         {comments[`${currentPost.id}`] ? (
                             comments[`${currentPost.id}`].map((comment, j) => (
-                            < >
+                            <div key={j}>
                                 {/* Comment Card */}
                                 <div className='flex mt-2 flex-col border shadow-md ms-4 mb-4
                                                 rounded-3xl p-3 border-white/10 animate-fadeIn
@@ -1372,7 +1372,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         {timeAgo(comment.date)}
                                     </p>
                                 </div>
-                            </>
+                            </div>
                         
                         ))
                         ) : (
