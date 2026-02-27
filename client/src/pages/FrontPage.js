@@ -937,7 +937,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         )}
                                     </>
                                 ) : (
-                                    <p>Loading...</p>
+                                    <></>
                                 )
                             }
                             
@@ -1019,7 +1019,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                     </div>
                 ))
             ) : (
-                <p>Loading...</p>
+                <p className='text-center text-white text-2xl'>No Posts Avaliable</p>
             )}
             </div>
 
@@ -1338,18 +1338,18 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                         {currentPost.poster_user}
                     </p>
                     {/* Post text */}
-                    <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-4'>
+                    <p className='text-white mt-3 overflow-hidden w-5/6 ms-3 mb-2'>
                         {currentPost.text}
                     </p>
                     {/* Post img */}
                     <div className='flex justify-center'>
                         <img src={`/assets/postImage/${currentPost.id}.png`}
-                             className='mt-4 max-h-fit w-[18vw] rounded-xl ms-4'
+                             className='mt-2 max-h-fit w-[18vw] rounded-xl ms-4'
                              alt='' />
                     </div>
 
                     {/* Two comments & Show More */}
-                    <div className='mt-10 flex flex-col items-start '>
+                    <div className='mt-5 flex flex-col items-start '>
                         {comments[`${currentPost.id}`] ? (
                             comments[`${currentPost.id}`].map((comment, j) => (
                             <div key={j}>
