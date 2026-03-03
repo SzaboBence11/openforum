@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\communities.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\communities.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\communities.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\communities.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|z:\\01remek_vizsga\\openforum\\openforum_admin\\openforum\\users.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\users.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -21,14 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\communities.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\communities.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\communities.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\communities.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\01remek_vizsga\\openforum\\openForum_admin\\openforum\\reports.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,43 +62,41 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "users.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\users.xaml",
               "RelativeDocumentMoniker": "openForum\\users.xaml",
-              "ToolTip": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\users.xaml*",
-              "RelativeToolTip": "openForum\\users.xaml*",
+              "ToolTip": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\users.xaml",
+              "RelativeToolTip": "openForum\\users.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-12-30T16:48:44.666Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Reports.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Reports.xaml",
               "RelativeDocumentMoniker": "openForum\\Reports.xaml",
               "ToolTip": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Reports.xaml",
               "RelativeToolTip": "openForum\\Reports.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-30T13:49:51.7Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-30T13:49:51.7Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Comments.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Comments.xaml",
               "RelativeDocumentMoniker": "openForum\\Comments.xaml",
               "ToolTip": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Comments.xaml",
               "RelativeToolTip": "openForum\\Comments.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-30T13:49:39.258Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-30T13:49:39.258Z"
             },
             {
               "$type": "Document",
@@ -126,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\MainWindow.xaml",
               "RelativeDocumentMoniker": "openForum\\MainWindow.xaml",
@@ -149,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Communities.xaml.cs",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Communities.xaml.cs",
               "RelativeDocumentMoniker": "openForum\\Communities.xaml.cs",
@@ -157,22 +155,24 @@
               "RelativeToolTip": "openForum\\Communities.xaml.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAEwGIAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:06:15.032Z"
+              "WhenOpened": "2026-01-04T12:06:15.032Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "Communities.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Communities.xaml",
               "RelativeDocumentMoniker": "openForum\\Communities.xaml",
               "ToolTip": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Communities.xaml",
               "RelativeToolTip": "openForum\\Communities.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-30T13:36:48.417Z"
+              "WhenOpened": "2025-12-30T13:36:48.417Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Posts.xaml",
               "DocumentMoniker": "Z:\\01remek_vizsga\\openforum\\openForum_admin\\openForum\\Posts.xaml",
               "RelativeDocumentMoniker": "openForum\\Posts.xaml",
