@@ -1352,7 +1352,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                             comments[`${currentPost.id}`].map((comment, j) => (
                             <div key={j}>
                                 {/* Comment Card */}
-                                <div className='flex mt-2 flex-col border shadow-md ms-4 mb-4
+                                <div className='flex mt-2 min-w-[250px] flex-col border shadow-md ms-4 mb-4
                                                 rounded-3xl p-3 border-white/10 animate-fadeIn
                                                 min-h-20 bg-white/5 backdrop-blur-xl w-4/6'
                                     key={j}>
