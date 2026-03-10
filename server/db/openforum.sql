@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 10. 09:59
+-- Létrehozás ideje: 2026. Már 10. 10:33
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -83,7 +83,8 @@ INSERT INTO `comments` (`id`, `post_id`, `user_id`, `text`, `date`, `valid`) VAL
 (40, 48, 39, 'Camping solo is peaceful, but always stay alert.', '2024-12-05 00:00:00', 1),
 (41, 53, 9, 'Seeking help is a sign of strength, not weakness.', '2025-01-12 00:00:00', 1),
 (42, 59, 16, 'This year’s Champions League is unpredictable.', '2025-03-05 00:00:00', 1),
-(43, 60, 19, 'We might already be living with AI smarter than we think.', '2025-03-27 00:00:00', 1);
+(43, 60, 19, 'We might already be living with AI smarter than we think.', '2025-03-27 00:00:00', 1),
+(44, 63, 1, 'Very good! Hoping for some great content here!', '2026-03-10 10:18:24', 1);
 
 -- --------------------------------------------------------
 
@@ -251,7 +252,26 @@ INSERT INTO `community_users` (`community_id`, `user_id`, `role`, `date`) VALUES
 (30, 20, 'M', '2025-03-28'),
 (30, 21, 'U', '2025-04-02'),
 (34, 51, 'O', '2026-02-25'),
-(35, 50, 'O', '2026-02-25');
+(35, 50, 'O', '2026-02-25'),
+(35, 1, 'U', '2026-03-10'),
+(17, 1, 'U', '2026-03-10'),
+(34, 1, 'U', '2026-03-10'),
+(29, 1, 'U', '2026-03-10'),
+(3, 2, 'U', '2026-03-10'),
+(23, 2, 'U', '2026-03-10'),
+(4, 2, 'U', '2026-03-10'),
+(2, 3, 'U', '2026-03-10'),
+(22, 3, 'U', '2026-03-10'),
+(13, 3, 'U', '2026-03-10'),
+(3, 4, 'U', '2026-03-10'),
+(11, 5, 'U', '2026-03-10'),
+(7, 5, 'U', '2026-03-10'),
+(22, 5, 'U', '2026-03-10'),
+(27, 6, 'U', '2026-03-10'),
+(17, 6, 'U', '2026-03-10'),
+(10, 6, 'U', '2026-03-10'),
+(10, 7, 'U', '2026-03-10'),
+(17, 7, 'U', '2026-03-10');
 
 -- --------------------------------------------------------
 
@@ -335,7 +355,18 @@ INSERT INTO `posts` (`id`, `user_id`, `community_id`, `text`, `date`, `title`, `
 (59, 19, 1, 'Tech is evolving faster than ever. What do you think will be the next major breakthrough — quantum computing, AI, or something else entirely?', '2025-03-25 00:00:00', 'Predicting the Next Big Tech Breakthrough', 1),
 (60, 21, 1, 'AI assistants are getting eerily good. From writing essays to managing tasks, they’re everywhere. Should we be excited or a little worried?', '2025-04-03 00:00:00', 'Should We Be Worried About AI Assistants?', 1),
 (63, 51, 34, 'Welcome to this soon to be beautiful community!\nHope you find the anwsers you\'re looking for!\nHave a good time!', '2026-02-25 22:29:08', 'Welcome!', 1),
-(64, 50, 35, 'Welcome to this soon to be beautiful community! Hope you find the anwsers you\'re looking for! Have a good time!', '2026-02-25 22:32:51', 'Welcome!', 1);
+(64, 50, 35, 'Welcome to this soon to be beautiful community! Hope you find the anwsers you\'re looking for! Have a good time!', '2026-02-25 22:32:51', 'Welcome!', 1),
+(65, 1, 35, 'This is so good. It seems hard but, it progressively gets easier!', '2026-03-10 10:15:21', 'Experience', 1),
+(66, 1, 17, 'Black jeans are getting cooler and cooler', '2026-03-10 10:15:49', 'Jeans', 1),
+(67, 1, 29, 'Gpt is getting too smart.... Gemini too... I think they\'re about to vage war on us guys.', '2026-03-10 10:19:14', 'Afraid', 1),
+(68, 2, 3, 'Shrek is cool. Swampi Swampi', '2026-03-10 10:21:13', 'Shrek', 1),
+(69, 2, 23, 'Help me get this right. a++ does not seem to work in php!', '2026-03-10 10:21:57', 'Help', 1),
+(70, 2, 4, 'The song Savage Love is my top favourite!', '2026-03-10 10:22:27', 'Savage Love', 1),
+(71, 4, 26, 'Is pampers diaper any good?', '2026-03-10 10:25:00', 'Pampers', 1),
+(72, 5, 7, 'Js is a very useful language!', '2026-03-10 10:26:59', 'JS', 1),
+(73, 5, 22, 'Anime is such a beautiful way of art', '2026-03-10 10:28:24', 'Anime', 1),
+(74, 6, 27, 'I\'am a psyhologist if you\'d happen to need my help!', '2026-03-10 10:30:20', 'Hi!', 1),
+(75, 7, 17, 'My sweaters are red, but I like blue more!', '2026-03-10 10:33:03', 'Sweaters', 1);
 
 -- --------------------------------------------------------
 
@@ -525,7 +556,46 @@ INSERT INTO `votes` (`id`, `post_id`, `user_id`, `type`) VALUES
 (78, 57, 15, 'U'),
 (79, 58, 17, 'D'),
 (80, 59, 16, 'U'),
-(81, 60, 19, 'U');
+(81, 60, 19, 'U'),
+(82, 64, 1, 'U'),
+(83, 4, 1, 'D'),
+(84, 47, 1, 'U'),
+(85, 48, 1, 'D'),
+(86, 63, 1, 'U'),
+(87, 34, 3, 'D'),
+(88, 33, 3, 'U'),
+(89, 22, 3, 'U'),
+(90, 48, 3, 'D'),
+(91, 26, 3, 'D'),
+(92, 25, 3, 'U'),
+(93, 50, 3, 'U'),
+(94, 5, 4, 'D'),
+(95, 6, 4, 'D'),
+(96, 68, 4, 'U'),
+(97, 55, 4, 'U'),
+(98, 56, 4, 'U'),
+(99, 60, 4, 'U'),
+(100, 22, 4, 'U'),
+(101, 21, 5, 'U'),
+(102, 22, 5, 'U'),
+(103, 13, 5, 'D'),
+(104, 45, 5, 'D'),
+(105, 46, 5, 'U'),
+(106, 36, 5, 'U'),
+(107, 5, 5, 'U'),
+(108, 68, 5, 'D'),
+(109, 32, 6, 'D'),
+(110, 43, 6, 'U'),
+(111, 8, 6, 'D'),
+(112, 70, 6, 'U'),
+(113, 66, 6, 'U'),
+(114, 19, 6, 'U'),
+(115, 40, 6, 'D'),
+(116, 20, 6, 'U'),
+(117, 19, 7, 'U'),
+(118, 20, 7, 'U'),
+(119, 40, 7, 'D'),
+(120, 66, 7, 'U');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -595,7 +665,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT a táblához `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT a táblához `communities`
@@ -607,7 +677,7 @@ ALTER TABLE `communities`
 -- AUTO_INCREMENT a táblához `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT a táblához `reports`
@@ -625,7 +695,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- Megkötések a kiírt táblákhoz
