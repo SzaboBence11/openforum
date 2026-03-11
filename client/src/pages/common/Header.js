@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Searchbar from './Searchbar.js';
 import Modal from "./Modal.js";
 
 function Header() {
+    const location = useLocation();
+
     const [userData, setUserData] = useState({ user: [] });
     const [isOpen, setIsOpen] = useState(false);
 
@@ -59,7 +61,9 @@ function Header() {
                             min-w-[180px]
                         "
                     >
-                        <Searchbar />
+                        {location.pathname != '/search' && 
+                            <Searchbar />
+                        }
                     </div>
 
                     {/* RIGHT SIDE */}
@@ -116,7 +120,7 @@ function Header() {
                                         }}
                                     >
                                         <i className="fa-solid relative fa-arrow-right-from-bracket me-2 mt-[0.25rem]"></i>
-                                            Logout
+                                        Logout
                                     </button>
                                 </div>
                             }
@@ -150,51 +154,55 @@ function Header() {
                     <div className="flex flex-col items-center text-center px-6 pb-4">
 
                         <div className="w-full max-w-xl mt-3">
-                            <Searchbar />
+                            {location.pathname != '/search' && 
+                                <Searchbar />
+                            }
                         </div>
 
                         {storedUser &&
-                            <Link to="/profile">
-                                <div className='flex items-center hover:bg-blue-900 px-2 py-1.5 transition-all rounded-full mt-4'>
-                                    <div className='my-2 me-3'>
-                                        <h3 className='font-semibold'>
-                                            {userData.user.name}
-                                        </h3>
+                            <div className='flex items-center'>
+                                <Link to="/profile">
+                                    <div className='flex items-center hover:bg-blue-900 px-2 py-1.5 transition-all rounded-full mt-4 me-2'>
+                                        <div className='my-2 me-3'>
+                                            <h3 className='font-semibold'>
+                                                {userData.user.name}
+                                            </h3>
+                                        </div>
+                                        <div className="w-10 h-10 rounded-full">
+                                            <img
+                                                className="rounded-full w-full h-full object-cover"
+                                                src={userData.user.img}
+                                                alt=""
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="w-10 h-10 rounded-full">
-                                        <img
-                                            className="rounded-full w-full h-full object-cover"
-                                            src={userData.user.img}
-                                            alt=""
-                                        />
-                                    </div>
-                                </div>
-                            </Link>
+                                </Link>
+                                <button
+                                    className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors mt-4"
+                                    onClick={logout}
+                                >
+                                    <i className="fa-solid relative fa-arrow-right-from-bracket me-2 mt-[0.25rem]"></i>
+                                    Logout
+                                </button>
+                            </div>
                         }
 
                         {!storedUser &&
-                            <div className='flex flex-col items-center mt-4'>
+                            <div className='flex items-center mt-2'>
                                 <Link to="/login">
-                                    <button className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                                    <button className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors me-2">
+                                        <i className="fa-solid fa-right-to-bracket me-2 mt-0.5"></i>
                                         Login
                                     </button>
                                 </Link>
 
                                 <Link to="/register">
-                                    <button className="hover:bg-gray-300 text-blue-950 bg-white py-2 px-4 rounded-full transition-colors mt-2 font-bold">
+                                    <button className="hover:bg-gray-300 text-blue-950 bg-white py-2 px-4 rounded-full transition-colors font-bold">
+                                        <i className="fa-solid fa-user-plus me-2 mt-0.5"></i>
                                         Register
                                     </button>
                                 </Link>
                             </div>
-                        }
-
-                        {storedUser &&
-                            <button
-                                className="hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full transition-colors mt-4"
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
                         }
                     </div>
                 </div>
