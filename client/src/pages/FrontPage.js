@@ -127,7 +127,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
         let reader = new FileReader();
 
-        if(file.size > 64 * 1024){
+        if(file.size > 8 * 1024 * 1024){
             alert("Túl nagy fájl!");
             return;
         }
@@ -1109,7 +1109,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         type='file'
                                         accept='image/*'
                                         src={formData.img || null}
-                                        size={2 * 1024 * 1024}
+                                        size={8 * 1024 * 1024}
                                         onChange={handleChange} />
                                 </button>
                             </div>
