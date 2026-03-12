@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 10. 10:33
+-- Létrehozás ideje: 2026. Már 11. 13:34
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -84,7 +84,12 @@ INSERT INTO `comments` (`id`, `post_id`, `user_id`, `text`, `date`, `valid`) VAL
 (41, 53, 9, 'Seeking help is a sign of strength, not weakness.', '2025-01-12 00:00:00', 1),
 (42, 59, 16, 'This year’s Champions League is unpredictable.', '2025-03-05 00:00:00', 1),
 (43, 60, 19, 'We might already be living with AI smarter than we think.', '2025-03-27 00:00:00', 1),
-(44, 63, 1, 'Very good! Hoping for some great content here!', '2026-03-10 10:18:24', 1);
+(44, 63, 1, 'Very good! Hoping for some great content here!', '2026-03-10 10:18:24', 1),
+(45, 25, 8, 'School is literally useless nowdays', '2026-03-11 07:23:35', 1),
+(46, 78, 10, 'Totally! DC: vPra1619', '2026-03-11 07:29:46', 1),
+(47, 78, 11, 'Let\'s goo', '2026-03-11 07:31:50', 1),
+(48, 74, 12, 'I could use a good conversation', '2026-03-11 07:48:49', 1),
+(49, 3, 17, 'My favourite game!', '2026-03-11 12:55:24', 1);
 
 -- --------------------------------------------------------
 
@@ -271,7 +276,22 @@ INSERT INTO `community_users` (`community_id`, `user_id`, `role`, `date`) VALUES
 (17, 6, 'U', '2026-03-10'),
 (10, 6, 'U', '2026-03-10'),
 (10, 7, 'U', '2026-03-10'),
-(17, 7, 'U', '2026-03-10');
+(17, 7, 'U', '2026-03-10'),
+(35, 8, 'U', '2026-03-11'),
+(2, 9, 'U', '2026-03-11'),
+(22, 10, 'U', '2026-03-11'),
+(2, 11, 'U', '2026-03-11'),
+(12, 11, 'U', '2026-03-11'),
+(4, 12, 'U', '2026-03-11'),
+(12, 12, 'U', '2026-03-11'),
+(34, 13, 'U', '2026-03-11'),
+(35, 14, 'U', '2026-03-11'),
+(17, 14, 'U', '2026-03-11'),
+(17, 15, 'U', '2026-03-11'),
+(2, 15, 'U', '2026-03-11'),
+(4, 16, 'U', '2026-03-11'),
+(2, 16, 'U', '2026-03-11'),
+(2, 17, 'U', '2026-03-11');
 
 -- --------------------------------------------------------
 
@@ -366,7 +386,13 @@ INSERT INTO `posts` (`id`, `user_id`, `community_id`, `text`, `date`, `title`, `
 (72, 5, 7, 'Js is a very useful language!', '2026-03-10 10:26:59', 'JS', 1),
 (73, 5, 22, 'Anime is such a beautiful way of art', '2026-03-10 10:28:24', 'Anime', 1),
 (74, 6, 27, 'I\'am a psyhologist if you\'d happen to need my help!', '2026-03-10 10:30:20', 'Hi!', 1),
-(75, 7, 17, 'My sweaters are red, but I like blue more!', '2026-03-10 10:33:03', 'Sweaters', 1);
+(75, 7, 17, 'My sweaters are red, but I like blue more!', '2026-03-10 10:33:03', 'Sweaters', 1),
+(76, 8, 26, 'Which elementary school from the state of Georgia do you recommend?', '2026-03-11 07:25:14', 'School', 1),
+(77, 8, 35, 'Any good tips for starter reacters?', '2026-03-11 07:26:02', 'Tips', 1),
+(78, 9, 2, 'Anyone up for a round of GW2?', '2026-03-11 07:28:31', 'GW2', 1),
+(79, 10, 22, 'Which painter is your favourite?', '2026-03-11 07:30:26', 'Who Is your Fav?', 1),
+(80, 11, 12, 'Do you like this car?', '2026-03-11 07:42:37', 'BMW M5', 1),
+(81, 13, 34, 'Best ever backend', '2026-03-11 07:50:18', 'Yeeees', 1);
 
 -- --------------------------------------------------------
 
@@ -595,7 +621,56 @@ INSERT INTO `votes` (`id`, `post_id`, `user_id`, `type`) VALUES
 (117, 19, 7, 'U'),
 (118, 20, 7, 'U'),
 (119, 40, 7, 'D'),
-(120, 66, 7, 'U');
+(120, 66, 7, 'U'),
+(121, 50, 8, 'U'),
+(122, 71, 8, 'U'),
+(123, 64, 8, 'U'),
+(124, 65, 8, 'D'),
+(125, 26, 9, 'D'),
+(126, 50, 9, 'U'),
+(127, 70, 9, 'U'),
+(128, 3, 9, 'U'),
+(129, 4, 9, 'U'),
+(130, 36, 10, 'U'),
+(131, 74, 10, 'D'),
+(132, 66, 11, 'U'),
+(133, 75, 11, 'D'),
+(134, 74, 11, 'D'),
+(135, 24, 11, 'D'),
+(136, 3, 11, 'U'),
+(137, 78, 11, 'U'),
+(138, 11, 11, 'U'),
+(139, 14, 12, 'U'),
+(140, 72, 12, 'D'),
+(141, 8, 12, 'D'),
+(142, 70, 12, 'U'),
+(143, 74, 12, 'D'),
+(144, 24, 12, 'D'),
+(145, 80, 12, 'U'),
+(146, 2, 13, 'U'),
+(147, 59, 13, 'U'),
+(148, 60, 13, 'U'),
+(149, 28, 13, 'U'),
+(150, 18, 14, 'U'),
+(151, 53, 14, 'U'),
+(152, 54, 14, 'U'),
+(153, 53, 15, 'U'),
+(154, 54, 15, 'U'),
+(155, 6, 15, 'D'),
+(156, 68, 15, 'U'),
+(157, 75, 15, 'D'),
+(158, 66, 15, 'U'),
+(159, 66, 16, 'U'),
+(160, 75, 16, 'D'),
+(161, 67, 16, 'U'),
+(162, 7, 16, 'U'),
+(163, 8, 16, 'D'),
+(164, 70, 16, 'U'),
+(165, 10, 16, 'U'),
+(166, 3, 16, 'U'),
+(167, 4, 16, 'U'),
+(168, 78, 16, 'U'),
+(169, 67, 17, 'U');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -665,7 +740,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT a táblához `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT a táblához `communities`
@@ -677,7 +752,7 @@ ALTER TABLE `communities`
 -- AUTO_INCREMENT a táblához `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT a táblához `reports`
@@ -695,7 +770,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- Megkötések a kiírt táblákhoz
