@@ -15,7 +15,7 @@ function Header() {
     // Check modal open
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedUser = JSON.parse(localStorage.getItem('openforum_user'));
 
     useEffect(() => {
         if (storedUser) {
@@ -28,7 +28,7 @@ function Header() {
     }, [])
 
     function logout() {
-        localStorage.removeItem('user');
+        localStorage.removeItem('openforum_user');
         window.location.assign("/");
     }
 

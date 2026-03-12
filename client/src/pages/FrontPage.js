@@ -189,8 +189,8 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
             .then(res => {
 
                 // Reset everything
-                localStorage.setItem("selectedCommunity", 0);
-                localStorage.removeItem("randomCommunities");
+                localStorage.setItem("openforum_selectedCommunity", 0);
+                localStorage.removeItem("openforum_randomCommunities");
                 window.location.reload();
 
                 // Return
@@ -259,10 +259,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     useEffect(() => {
 
         // If there's a user
-        if (localStorage.getItem("user")) {
+        if (localStorage.getItem("openforum_user")) {
 
             // Get user role from id
-            fetch(`/api/user/getUserRole/${JSON.parse(localStorage.getItem("user")).id}`)
+            fetch(`/api/user/getUserRole/${JSON.parse(localStorage.getItem("openforum_user")).id}`)
             .then(res => res.json())
             .then(res => {
 
@@ -277,8 +277,8 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     function getPosts() {
 
         // If no selected community
-        if (localStorage.getItem("selectedCommunity") == 0 ||
-           !localStorage.getItem('selectedCommunity')) {
+        if (localStorage.getItem("openforum_selectedCommunity") == 0 ||
+           !localStorage.getItem('openforum_selectedCommunity')) {
 
             // Fetch 10 random posts 
             fetch('/api/community/randomPosts/10')
@@ -296,7 +296,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
             // Fetch the selected community posts
             fetch(`/api/community/getCommunityPosts/${localStorage
-                                                .getItem('selectedCommunity')}`)
+                                                .getItem('openforum_selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
 
@@ -307,7 +307,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
             // Fetch the selected community's data
             fetch(`/api/community/getCommunityData/${localStorage
-                                                .getItem('selectedCommunity')}`)
+                                                .getItem('openforum_selectedCommunity')}`)
             .then(res => res.json())
             .then(data => {
 
@@ -318,7 +318,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         }
 
         // Get the user's joined communities if logged in
-        if (localStorage.getItem('user')) {
+        if (localStorage.getItem('openforum_user')) {
             getUserCommunities()
         }
     }
@@ -352,10 +352,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         getAllPostVotes();
 
         // If user logged in
-        if (localStorage.getItem('user')) {
+        if (localStorage.getItem('openforum_user')) {
 
             // Get user's votes
-            getUserVotes(JSON.parse(localStorage.getItem('user')).id)
+            getUserVotes(JSON.parse(localStorage.getItem('openforum_user')).id)
         }
     }
     
@@ -410,7 +410,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
     // Go to clicked community
     function goToCommunity(id) {
-        localStorage.setItem('selectedCommunity', id)
+        localStorage.setItem('openforum_selectedCommunity', id)
         window.location.reload(true)
     }
 
@@ -445,7 +445,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     function communityAction(cMehtod, community_id) {
 
         // Get cur user id
-        let user_id = JSON.parse(localStorage.getItem('user')).id;
+        let user_id = JSON.parse(localStorage.getItem('openforum_user')).id;
 
         // Fetch community action path
         fetch('api/user/communityAction', {
@@ -496,7 +496,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     function getUserCommunities() {
 
         // Get user's communities
-        fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+        fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('openforum_user')).id}`)
         .then(res => res.json())
         .then(res => {
 
@@ -519,7 +519,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
     function vote(post_id, action, state) {
 
         // If user not logged in, return
-        if (!localStorage.getItem('user')) return;
+        if (!localStorage.getItem('openforum_user')) return;
 
         // Call vote with the data
         fetch(`/api/user/vote`, {
@@ -528,7 +528,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                user_id: JSON.parse(localStorage.getItem('user')).id,
+                user_id: JSON.parse(localStorage.getItem('openforum_user')).id,
                 post_id: post_id,
                 action: action,
                 state: state
@@ -545,7 +545,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         .catch(err => console.log(err))
 
         // Get all user votes again
-        getUserVotes(JSON.parse(localStorage.getItem('user')).id);
+        getUserVotes(JSON.parse(localStorage.getItem('openforum_user')).id);
 
         // Get all votes again
         getAllPostVotes();
@@ -591,7 +591,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                 text: formData.text,
                 img: formData.img,
                 community_id: community,
-                user_id: JSON.parse(localStorage.getItem('user')).id
+                user_id: JSON.parse(localStorage.getItem('openforum_user')).id
             })
         })
         .then(res => res.json())
@@ -634,7 +634,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 post_id: post_id,
-                user_id: JSON.parse(localStorage.getItem('user')).id,
+                user_id: JSON.parse(localStorage.getItem('openforum_user')).id,
                 text: e.currentTarget.children[0].children[0].value
             })
         })
@@ -661,8 +661,8 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
             <div className="p-4 border-1 rounded-base">
 
                 {/* Community details */}
-                {localStorage.getItem('selectedCommunity') !== "0" &&
-                 localStorage.getItem('selectedCommunity') && (
+                {localStorage.getItem('openforum_selectedCommunity') !== "0" &&
+                 localStorage.getItem('openforum_selectedCommunity') && (
                     <div className='text-white text-center'>
                         {communityData.community && communityData.community.name ? (
                             <div className='mb-8 justify-center animate-fadeIn'>
@@ -684,7 +684,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                         <>
                                             {/* Leave community button, if user is joined */}
                                             {joinedCommunities.includes(communityData.community.id) &&
-                                             localStorage.getItem("user") &&
+                                             localStorage.getItem("openforum_user") &&
                                             (
                                                 <div className='flex gap-3'>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
@@ -733,7 +733,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
                                             {/* Join community button, if user is not joined */}
                                             {!joinedCommunities.includes(communityData.community.id) &&
-                                             localStorage.getItem("user") &&
+                                             localStorage.getItem("openforum_user") &&
                                             (
                                                 <div className='flex flex-col'>
                                                     <button className="mt-1.5 px-6 py-2 rounded-full
@@ -912,7 +912,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                 <p className="text-gray-500 text-sm">Loading comments...</p>
                             )}
 
-                            {localStorage.getItem("user") && joinedCommunities ?
+                            {localStorage.getItem("openforum_user") && joinedCommunities ?
                                 (
                                     <>
                                         { joinedCommunities.includes(post.community_id) && (

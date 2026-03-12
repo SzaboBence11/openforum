@@ -19,7 +19,7 @@ function Profile() {
     // Either 'save' or 'cancel'
     const [confirmMode, setConfirmMode] = useState('');
 
-    const storedUser = JSON.parse(localStorage.getItem('user')).id;
+    const storedUser = JSON.parse(localStorage.getItem('openforum_user')).id;
 
     const [formData, setFormData] = useState({
         name: '',

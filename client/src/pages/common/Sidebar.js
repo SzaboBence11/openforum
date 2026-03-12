@@ -12,15 +12,15 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
     
     useEffect(() => {
         // Fetch user communities if logged in
-        if (localStorage.getItem('user')) {
-            getUserCommunities(JSON.parse(localStorage.getItem('user')).id)
+        if (localStorage.getItem('openforum_user')) {
+            getUserCommunities(JSON.parse(localStorage.getItem('openforum_user')).id)
 
-            getOwnedCommunities(JSON.parse(localStorage.getItem('user')).id)
+            getOwnedCommunities(JSON.parse(localStorage.getItem('openforum_user')).id)
         }
     }, [refreshKey])
 
     function getCommunity(community_id) {
-        localStorage.setItem('selectedCommunity', community_id);
+        localStorage.setItem('openforum_selectedCommunity', community_id);
         setIsSidebarOpen(false);
         window.location.reload(true);
     }
@@ -29,12 +29,12 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
     useEffect(() => {
 
         // If random communities are already stored
-        if (!localStorage.getItem('randomCommunities')) {
+        if (!localStorage.getItem('openforum_randomCommunities')) {
             fetch('/api/community/randomCommunities/10')
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                localStorage.setItem('randomCommunities', JSON.stringify(data))
+                localStorage.setItem('openforum_randomCommunities', JSON.stringify(data))
                 setRandomCommunities({ communities: data })
             })
             .catch(err => console.error('Fetch /randomCommunities failed:', err))
@@ -42,15 +42,15 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
         
         // If random communities aren't stored
         else {
-            let data = JSON.parse(localStorage.getItem('randomCommunities'));
+            let data = JSON.parse(localStorage.getItem('openforum_randomCommunities'));
             setRandomCommunities({communities: data});
         }
 
         // Fetch user communities if logged in
-        if (localStorage.getItem('user')) {
-            getUserCommunities(JSON.parse(localStorage.getItem('user')).id)
+        if (localStorage.getItem('openforum_user')) {
+            getUserCommunities(JSON.parse(localStorage.getItem('openforum_user')).id)
 
-            getOwnedCommunities(JSON.parse(localStorage.getItem('user')).id)
+            getOwnedCommunities(JSON.parse(localStorage.getItem('openforum_user')).id)
         }
     }, [])
 
@@ -94,7 +94,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
                 <div className="px-3 py-2 overflow-y-auto">
 
                     {/* Create community */}
-                    {localStorage.getItem('user') && (
+                    {localStorage.getItem('openforum_user') && (
                         <div>
                             {/* Create Community */}
                             <div className="hover:bg-blue-900 rounded-md
@@ -116,7 +116,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
 
                     {/* Divider */}
                     <div className={`border-2 border-t-white my-2
-                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
+                                    ${localStorage.getItem('openforum_user') ? "" : "hidden"}`}/>
 
                     {/* Random posts */}
                     <div className="hover:bg-blue-900 rounded-md
@@ -137,10 +137,10 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
 
                     {/* Divider */}
                     <div className={`border-2 border-t-white my-2
-                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
+                                    ${localStorage.getItem('openforum_user') ? "" : "hidden"}`}/>
 
                     {/* Get owned communities */}
-                    {localStorage.getItem('user') && (
+                    {localStorage.getItem('openforum_user') && (
                         <div>
                             <div>
                                 <h1 className='mb-2 ms-1.5'>
@@ -210,10 +210,10 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
 
                     {/* Divider */}
                     <div className={`border-2 border-t-white my-2
-                                    ${localStorage.getItem('user') ? "" : "hidden"}`}/>
+                                    ${localStorage.getItem('openforum_user') ? "" : "hidden"}`}/>
 
                     {/* Joined communities */}
-                    {localStorage.getItem('user') && (
+                    {localStorage.getItem('openforum_user') && (
                         <div>
                             <h1 className='mb-2 ms-1.5'>
                                 <i className="fa-solid fa-users"/>

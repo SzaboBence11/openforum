@@ -118,7 +118,7 @@ function Home() {
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
                     {randomCommunities.communities.map((community, i) => (
                         <Link to='/feed'
-                              onClick={() => localStorage.setItem('selectedCommunity', community.id)}
+                              onClick={() => localStorage.setItem('openforum_selectedCommunity', community.id)}
                               key={i}>
                             <div className='bg-white/10 border border-white/15 rounded-xl
                                             p-5 hover:bg-white/20 transition cursor-pointer min-h-32'>

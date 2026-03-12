@@ -82,7 +82,7 @@ function Register() {
                 .then(res => res.json())
                 .then(data => {
                     if(data.id){
-                        localStorage.setItem('user', JSON.stringify({
+                        localStorage.setItem('openforum_user', JSON.stringify({
                                 id: data.id
                         }))
                         setTimeout(() => {

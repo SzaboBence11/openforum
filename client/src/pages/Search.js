@@ -25,12 +25,12 @@ function Search() {
     useEffect(() => {
 
         // If search term saved
-        if (localStorage.getItem('searchTerm').length > 0) {
-            setSearchTerm(localStorage.getItem('searchTerm'))
+        if (localStorage.getItem('openforum_searchTerm').length > 0) {
+            setSearchTerm(localStorage.getItem('openforum_searchTerm'))
         }
 
         // Get the user's joined communities if logged in
-        if (localStorage.getItem('user')) {
+        if (localStorage.getItem('openforum_user')) {
             getUserCommunities()
         }
     }, [])
@@ -54,7 +54,7 @@ function Search() {
     }
 
     function getUserCommunities() {
-        fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('user')).id}`)
+        fetch(`/api/user/getUserCommunities/${JSON.parse(localStorage.getItem('openforum_user')).id}`)
         .then(res => res.json())
         .then(res => {
             let idArray = [];
@@ -66,12 +66,12 @@ function Search() {
     }
 
     function onSubmit(search) {
-        localStorage.setItem('searchTerm', searchTerm)
+        localStorage.setItem('openforum_searchTerm', searchTerm)
         navigate('/search');
     }
 
     function communityAction(cMehtod, community_id) {
-        let user_id = JSON.parse(localStorage.getItem('user')).id;
+        let user_id = JSON.parse(localStorage.getItem('openforum_user')).id;
 
         fetch('api/user/communityAction', {
             method: 'POST',
@@ -191,7 +191,7 @@ function Search() {
                                                         <>
                                                             {/* Leave community button, if user is joined */}
                                                             {joinedCommunities.includes(community.id) &&
-                                                            localStorage.getItem("user") &&
+                                                            localStorage.getItem("openforum_user") &&
                                                             (
                                                                 <button className="mt-1.5 px-6 py-2 rounded-full
                                                                                    bg-white/15 text-white font-semibold
@@ -211,7 +211,7 @@ function Search() {
 
                                                             {/* Join community button, if user is not joined */}
                                                             {!joinedCommunities.includes(community.id) &&
-                                                            localStorage.getItem("user") &&
+                                                            localStorage.getItem("openforum_user") &&
 
                                                             (
                                                                 <button className="mt-1.5 px-6 py-2 rounded-full

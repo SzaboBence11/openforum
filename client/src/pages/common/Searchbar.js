@@ -6,7 +6,7 @@ function Searchbar() {
     const [searchTerm, setSearchTerm] = useState('');
 
     function onSubmit(search) {
-        localStorage.setItem('searchTerm', searchTerm)
+        localStorage.setItem('openforum_searchTerm', searchTerm)
         navigate('/search');
     }
 

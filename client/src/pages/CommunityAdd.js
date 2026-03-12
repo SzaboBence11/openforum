@@ -26,7 +26,7 @@ function CommunityAdd() {
     const [createDelay, setCreateDelay] = useState(false)
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user')
+        const storedUser = localStorage.getItem('openforum_user')
 
         if (!storedUser) {
             navigate('/login')
@@ -69,7 +69,7 @@ function CommunityAdd() {
                 name: formData.name,
                 description: formData.description,
                 img: formData.img,
-                user_id: JSON.parse(localStorage.getItem('user')).id
+                user_id: JSON.parse(localStorage.getItem('openforum_user')).id
             })
         })
         .then(res => res.json())
@@ -95,7 +95,7 @@ function CommunityAdd() {
     }
 
     function goToCommunity(id) {
-        localStorage.setItem('selectedCommunity', id);
+        localStorage.setItem('openforum_selectedCommunity', id);
         navigate('/feed');
     }
 
