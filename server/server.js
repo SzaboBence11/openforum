@@ -234,8 +234,11 @@ app.use('/api/user', adminActionRouter);
 import addPostPictureRouter from './api/community/addPostPicture.js';
 app.use('/api/community', addPostPictureRouter);
 
-import getPostData from './api/community/getPostData.js';
-app.use('/api/community', getPostData);
+import getPostDataRouter from './api/community/getPostData.js';
+app.use('/api/community', getPostDataRouter);
+
+import popularCommunitiesRouter from './api/community/popularCommunities.js';
+app.use('/api/community', popularCommunitiesRouter);
 
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));

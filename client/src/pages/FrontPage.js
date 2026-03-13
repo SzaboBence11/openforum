@@ -190,7 +190,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
 
                 // Reset everything
                 localStorage.setItem("openforum_selectedCommunity", 0);
-                localStorage.removeItem("openforum_randomCommunities");
+                localStorage.removeItem("openforum_popularCommunities");
                 window.location.reload();
 
                 // Return

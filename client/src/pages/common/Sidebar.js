@@ -3,7 +3,7 @@ import FrontPage from '../FrontPage';
 import { Link } from 'react-router-dom';
 
 function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
-    const [randomCommunities, setRandomCommunities] = useState({ communities: [] })
+    const [popularCommunities, setPopularCommunities] = useState({ communities: [] })
     const [userCommunities, setUserCommunities] = useState({ communities: [] })
     const [ownedCommunities, setOwnedCommunities] = useState({ communities: [] })
     const [showUserCommunities, setShowUserCommunities] = useState(true)
@@ -25,25 +25,25 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
         window.location.reload(true);
     }
 
-    // Fetch randomCommunities (10)
+    // Fetch popularCommunities (10)
     useEffect(() => {
 
         // If random communities are already stored
-        if (!localStorage.getItem('openforum_randomCommunities')) {
-            fetch('/api/community/randomCommunities/10')
+        if (!localStorage.getItem('openforum_popularCommunities')) {
+            fetch('/api/community/popularCommunities/10')
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                localStorage.setItem('openforum_randomCommunities', JSON.stringify(data))
-                setRandomCommunities({ communities: data })
+                localStorage.setItem('openforum_popularCommunities', JSON.stringify(data))
+                setPopularCommunities({ communities: data })
             })
-            .catch(err => console.error('Fetch /randomCommunities failed:', err))
+            .catch(err => console.error('Fetch /popularCommunities failed:', err))
         }
         
         // If random communities aren't stored
         else {
-            let data = JSON.parse(localStorage.getItem('openforum_randomCommunities'));
-            setRandomCommunities({communities: data});
+            let data = JSON.parse(localStorage.getItem('openforum_popularCommunities'));
+            setPopularCommunities({communities: data});
         }
 
         // Fetch user communities if logged in
@@ -299,7 +299,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen, refreshKey }) {
 
                         
                         {/* Show popular communities */}
-                        { showPopular && randomCommunities.communities.map(community => (
+                        { showPopular && popularCommunities.communities.map(community => (
 
                             // Random Community on sidebar
                             <li className="hover:bg-blue-900 rounded-md
