@@ -43,7 +43,6 @@ namespace openForum
                     query = $"SELECT p.id, u.name AS user_name, c.name AS community_name, p.title, p.text, p.date, p.valid FROM posts p LEFT JOIN users u ON u.id = p.user_id LEFT JOIN communities c ON c.id = p.community_id WHERE p.title LIKE \"%{tbSearch.Text}%\" OR u.name LIKE \"%{tbSearch.Text}%\" OR c.name LIKE \"%{tbSearch.Text}%\" or p.text LIKE \"%{tbSearch.Text}%\"";
                 }
 
-
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
                 connection.Open();
                 DataSet ds = new DataSet();
