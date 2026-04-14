@@ -791,7 +791,16 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                 <hr className='w-3/6 mt-4 mx-auto border-t-1 border-gray-400 rounded-full' />
                             </div>
                         ) : (
-                            <span>Loading...</span>
+                                <div className="relative mt-10 ms-10 w-1 h-1">
+                                    <div className="dot" style={{"--i":0}}></div>
+                                    <div className="dot" style={{"--i":1}}></div>
+                                    <div className="dot" style={{"--i":2}}></div>
+                                    <div className="dot" style={{"--i":3}}></div>
+                                    <div className="dot" style={{"--i":4}}></div>
+                                    <div className="dot" style={{"--i":5}}></div>
+                                    <div className="dot" style={{"--i":6}}></div>
+                                    <div className="dot" style={{"--i":7}}></div>
+                                </div>
                         )}
                     </div>
                 )}
@@ -915,7 +924,16 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                 
                             ))
                             ) : (
-                                <p className="text-gray-500 text-sm">Loading comments...</p>
+                                <div className="relative mt-10 ms-10 w-1 h-1">
+                                    <div className="dot" style={{"--i":0}}></div>
+                                    <div className="dot" style={{"--i":1}}></div>
+                                    <div className="dot" style={{"--i":2}}></div>
+                                    <div className="dot" style={{"--i":3}}></div>
+                                    <div className="dot" style={{"--i":4}}></div>
+                                    <div className="dot" style={{"--i":5}}></div>
+                                    <div className="dot" style={{"--i":6}}></div>
+                                    <div className="dot" style={{"--i":7}}></div>
+                                </div>
                             )}
 
                             {localStorage.getItem("openforum_user") && joinedCommunities ?
@@ -963,7 +981,16 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                     )}
                                 </>
                             ) : (
-                                <p>Loading...</p>
+                                <div className="relative ms-10 w-1 h-1">
+                                    <div className="dot" style={{"--i":0}}></div>
+                                    <div className="dot" style={{"--i":1}}></div>
+                                    <div className="dot" style={{"--i":2}}></div>
+                                    <div className="dot" style={{"--i":3}}></div>
+                                    <div className="dot" style={{"--i":4}}></div>
+                                    <div className="dot" style={{"--i":5}}></div>
+                                    <div className="dot" style={{"--i":6}}></div>
+                                    <div className="dot" style={{"--i":7}}></div>
+                                </div>
                             )}
                             
 
@@ -984,7 +1011,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                                     return;
                                                                 }
 
-                                                                if(joinedCommunities.includes(communityData.community.id))
+                                                                if(!joinedCommunities.includes(communityData.community.id))
                                                                 {
                                                                     doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
                                                                     return;
