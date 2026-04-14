@@ -5,7 +5,11 @@ import { useNavigate, Link } from 'react-router-dom'
 
 function Search() {
     const [foundCommunities, setFoundCommunities] = useState({ foundCommunities: [] })
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState(() => {
+        return localStorage.getItem('openforum_searchTerm') ?
+            localStorage.getItem('openforum_searchTerm') :
+            ''
+    });
     const navigate = useNavigate()
 
     // Notif variables
