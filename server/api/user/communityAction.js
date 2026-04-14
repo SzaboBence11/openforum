@@ -12,7 +12,6 @@ router.post('/communityAction', (req, res) => {
         let { community_id, user_id, method } = req.body;
         let deletion = false;
         let sql = "";
-        let continueDelete = false;
         let isInsert = false;
 
         if(method == 'join'){
@@ -72,12 +71,25 @@ router.post('/communityAction', (req, res) => {
                                 
                         })
                     })
-                }else{
-                    continueDelete = true;
+                } else{
+                    // Insert new user
+                    db.query(sql,[community_id,
+                                user_id],
+                            (err) => {
+                        // If there's an error
+                        if (err)
+                            return res.status(400)
+                                    .json({ error: err });
+
+                        // Successful
+                        return res.json({ message: "Siker " });
+                        
+                    });
                 }
             })
         }
-        if(continueDelete || isInsert){
+
+        if (isInsert) {
 
             // Insert new user
             db.query(sql,[community_id,
