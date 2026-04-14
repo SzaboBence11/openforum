@@ -41,6 +41,8 @@ function Search() {
             searchByTerm(searchTerm)
         }
 
+        localStorage.setItem('openforum_searchTerm', searchTerm)
+
     }, [searchTerm])
 
     function searchByTerm() {
@@ -191,50 +193,82 @@ function Search() {
                                                         <>
                                                             {/* Leave community button, if user is joined */}
                                                             {joinedCommunities.includes(community.id) &&
-                                                            localStorage.getItem("openforum_user") &&
-                                                            (
-                                                                <button className="mt-1.5 px-6 py-2 rounded-full
-                                                                                   bg-white/15 text-white font-semibold
-                                                                                   hover:bg-white/25 border border-white/20
-                                                                                   hover:scale-105
-                                                                                   active:scale-95
-                                                                                   transition-all duration-300"
-                                                                        onClick={() => {
-                                                                            setClickedCommunity(community.id)
-                                                                            setConfirmMode('leave')
-                                                                            setIsConfirmOpen(true)
-                                                                        }}>
-                                                                    Leave
-                                                                </button>
-                                                            )
+                                                             localStorage.getItem("openforum_user") &&
+                                                                (
+                                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                                    bg-white/15 text-white font-semibold
+                                                                                    hover:bg-white/25 border border-white/20
+                                                                                    hover:scale-105
+                                                                                    active:scale-95
+                                                                                    transition-all duration-300"
+                                                                            onClick={() => {
+                                                                                setClickedCommunity(community.id)
+                                                                                setConfirmMode('leave')
+                                                                                setIsConfirmOpen(true)
+                                                                            }}>
+                                                                        Leave
+                                                                    </button>
+                                                                )
                                                             }
 
                                                             {/* Join community button, if user is not joined */}
                                                             {!joinedCommunities.includes(community.id) &&
-                                                            localStorage.getItem("openforum_user") &&
+                                                             localStorage.getItem("openforum_user") &&
+                                                                (
+                                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                                    bg-gradient-to-r
+                                                                                    from-blue-500 to-indigo-500
+                                                                                    text-white font-bold
+                                                                                    shadow-lg
+                                                                                    hover:shadow-xl
+                                                                                    hover:scale-105
+                                                                                    active:scale-95
+                                                                                    transition-all duration-300"
+                                                                            onClick={() => {
+                                                                                communityAction('join', community.id);
+                                                                                searchByTerm(searchTerm)
+                                                                            }}>
+                                                                        Join
+                                                                    </button>
+                                                                )
+                                                            }
 
-                                                            (
-                                                                <button className="mt-1.5 px-6 py-2 rounded-full
-                                                                                   bg-gradient-to-r
-                                                                                   from-blue-500 to-indigo-500
-                                                                                   text-white font-bold
-                                                                                   shadow-lg
-                                                                                   hover:shadow-xl
-                                                                                   hover:scale-105
-                                                                                   active:scale-95
-                                                                                   transition-all duration-300"
-                                                                        onClick={() => {
-                                                                            communityAction('join', community.id);
-                                                                            searchByTerm(searchTerm)
-                                                                        }}>
-                                                                    Join
-                                                                </button>
-                                                            )
-
+                                                            {/* Join community button, if user is not joined */}
+                                                            {!localStorage.getItem("openforum_user") &&
+                                                                (
+                                                                    <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                                    bg-gradient-to-r
+                                                                                    from-blue-500 to-indigo-500
+                                                                                    text-white font-bold
+                                                                                    shadow-lg
+                                                                                    hover:shadow-xl
+                                                                                    hover:scale-105
+                                                                                    active:scale-95
+                                                                                    transition-all duration-300"
+                                                                            onClick={() => {
+                                                                                communityAction('join', community.id);
+                                                                                searchByTerm(searchTerm)
+                                                                            }}>
+                                                                        Login
+                                                                    </button>
+                                                                )
                                                             }
                                                         </>
                                                     ) : (
-                                                        <div></div>
+                                                        <Link to='/login'>
+                                                            <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                            bg-gradient-to-r
+                                                                            from-blue-500 to-indigo-500
+                                                                            text-white font-bold
+                                                                            shadow-lg
+                                                                            hover:shadow-xl
+                                                                            hover:scale-105
+                                                                            active:scale-95
+                                                                            transition-all duration-300">
+                                                                <i className="fa-solid fa-right-to-bracket me-2 mt-0.5"></i>
+                                                                Login
+                                                            </button>
+                                                        </Link>
                                                     )}
                                                 </div>
 

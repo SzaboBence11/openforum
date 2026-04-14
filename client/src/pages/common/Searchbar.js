@@ -3,12 +3,19 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function Searchbar() {
     const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState(() => {
+        return localStorage.getItem('openforum_searchTerm') ?
+            localStorage.getItem('openforum_searchTerm') :
+            ''
+    });
 
     function onSubmit(search) {
-        localStorage.setItem('openforum_searchTerm', searchTerm)
         navigate('/search');
     }
+
+    useEffect(() => {
+        localStorage.setItem('openforum_searchTerm', searchTerm)
+    }, [searchTerm])
 
     return (
 

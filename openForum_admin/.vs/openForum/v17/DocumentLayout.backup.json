@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "Z:\\openforum\\openForum_admin\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\openforum\\openForum_admin\\openforum\\posts.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|z:\\openforum\\openforum_admin\\openforum\\posts.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\posts.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|z:\\openforum\\openforum_admin\\openforum\\users.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|Z:\\openforum\\openForum_admin\\openforum\\users.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B158D93D-5C7D-421D-BD0D-C321CA2F91DE}|openForum\\openForum.csproj|solutionrelative:openforum\\users.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -155,8 +155,7 @@
               "RelativeToolTip": "openForum\\users.xaml.cs",
               "ViewState": "AgIAAKYAAAAAAAAAAAAhwO4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T16:48:47.094Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-30T16:48:47.094Z"
             },
             {
               "$type": "Document",
@@ -166,7 +165,7 @@
               "RelativeDocumentMoniker": "openForum\\Posts.xaml.cs",
               "ToolTip": "Z:\\openforum\\openForum_admin\\openForum\\Posts.xaml.cs",
               "RelativeToolTip": "openForum\\Posts.xaml.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAwCEAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAuwCcAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-30T16:52:01.785Z",
               "EditorCaption": ""
