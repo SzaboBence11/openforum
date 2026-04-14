@@ -12,6 +12,8 @@ router.post('/communityAction', (req, res) => {
         let { community_id, user_id, method } = req.body;
         let deletion = false;
         let sql = "";
+        let continueDelete = false;
+        let isInsert = false;
 
         if(method == 'join'){
             // Insert community join sql
@@ -21,6 +23,8 @@ router.post('/communityAction', (req, res) => {
                                    user_id,
                                    role)
                 VALUES (?, ?, 'U')`
+
+            isInsert = true;
         }
         
         else {
@@ -68,9 +72,12 @@ router.post('/communityAction', (req, res) => {
                                 
                         })
                     })
+                }else{
+                    continueDelete = true;
                 }
             })
-        } else{
+        }
+        if(continueDelete || isInsert){
 
             // Insert new user
             db.query(sql,[community_id,
