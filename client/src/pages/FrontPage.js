@@ -653,6 +653,12 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         .catch(err => console.log(err))
     }
 
+    function doVoteErrorNotification(currentError){
+        setNotificationType(false)
+        setNotificationText(currentError)
+        addNotification();
+    }
+
     return (
 
         // The whole frontpage area
@@ -972,15 +978,57 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                 <>
                                                     {userVotes[`${post.post_id}`] == 'U' ? (
                                                         <i className="fa-solid fa-arrow-up text-white mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                           onClick={() => vote(post.post_id, 'U', 'U')} />
+                                                           onClick={() => {
+                                                                if(!localStorage.getItem("openforum_user")){
+                                                                    doVoteErrorNotification("Kérem jelentkezzen be!");
+                                                                    return;
+                                                                }
+
+                                                                if(joinedCommunities.includes(communityData.community.id))
+                                                                {
+                                                                    doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                                    return;
+                                                                }
+
+                                                                vote(post.post_id, 'U', 'U');
+                                                            }}
+                                                        />
                                                     ) : (
                                                         <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                           onClick={() => vote(post.post_id, 'U', 'D')} />
+                                                           onClick={() => {
+                                                                if(!localStorage.getItem("openforum_user")){
+                                                                    doVoteErrorNotification("Kérem jelentkezzen be!");
+                                                                    return;
+                                                                }
+
+                                                                if(!joinedCommunities.includes(communityData.community.id))
+                                                                {
+                                                                    doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                                    return;
+                                                                }
+
+                                                                vote(post.post_id, 'U', 'D');
+                                                            }}
+                                                        />
                                                     )}
                                                 </>
                                             ) : (
                                                 <i className="fa-solid fa-arrow-up text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                   onClick={() => vote(post.post_id, 'U', 'N')} />
+                                                   onClick={() => {
+                                                        if(!localStorage.getItem("openforum_user")){
+                                                            doVoteErrorNotification("Kérem jelentkezzen be!");
+                                                            return;
+                                                        }
+
+                                                        if(!joinedCommunities.includes(communityData.community.id))
+                                                        {
+                                                            doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                            return;
+                                                        }
+
+                                                        vote(post.post_id, 'U', 'N');
+                                                    }}
+                                                />
                                             )
                                         }
                                     </div>
@@ -999,15 +1047,57 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                                                 <>
                                                     {userVotes[`${post.post_id}`] == 'D' ? (
                                                         <i className="fa-solid fa-arrow-down text-white mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                           onClick={() => vote(post.post_id, 'D', 'D')} />
+                                                           onClick={() => {
+                                                                if(!localStorage.getItem("openforum_user")){
+                                                                    doVoteErrorNotification("Kérem jelentkezzen be!");
+                                                                    return;
+                                                                }
+
+                                                                if(!joinedCommunities.includes(communityData.community.id))
+                                                                {
+                                                                    doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                                    return;
+                                                                }
+
+                                                                vote(post.post_id, 'D', 'D');
+                                                            }}
+                                                        />
                                                     ) : (
                                                         <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                           onClick={() => vote(post.post_id, 'D', 'U')} />
+                                                           onClick={() => {
+                                                                if(!localStorage.getItem("openforum_user")){
+                                                                    doVoteErrorNotification("Kérem jelentkezzen be!");
+                                                                    return;
+                                                                }
+
+                                                                if(!joinedCommunities.includes(communityData.community.id))
+                                                                {
+                                                                    doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                                    return;
+                                                                }
+
+                                                                vote(post.post_id, 'D', 'U');
+                                                            }}
+                                                        />
                                                     )}
                                                 </>
                                             ) : (
                                                 <i className="fa-solid fa-arrow-down text-gray-400 mt-0.5 flex justify-center py-2 px-[17.5px]"
-                                                   onClick={() => vote(post.post_id, 'D', 'N')} />
+                                                   onClick={() => {
+                                                        if(!localStorage.getItem("openforum_user")){
+                                                            doVoteErrorNotification("Kérem jelentkezzen be!")
+                                                            return;
+                                                        }
+
+                                                        if(!joinedCommunities.includes(communityData.community.id))
+                                                        {
+                                                            doVoteErrorNotification("Nem tartozik ehhez a közösséghez!");
+                                                            return;
+                                                        }
+
+                                                        vote(post.post_id, 'D', 'N');
+                                                    }}
+                                                />
                                             )
                                         }
                                     </div>
