@@ -37,9 +37,10 @@ function Search() {
 
     useEffect(() => {
 
-        if (searchTerm.length > 0) {
+        if (searchTerm.length > 0)
             searchByTerm(searchTerm)
-        }
+        else
+            searchAll()
 
         localStorage.setItem('openforum_searchTerm', searchTerm)
 
@@ -48,6 +49,16 @@ function Search() {
     function searchByTerm() {
         // Fetch communities based on search term
         fetch(`/api/community/searchCommunity/${searchTerm}`)
+        .then(res => res.json())
+        .then(data => {
+            setFoundCommunities({ foundCommunities: data })
+        })
+        .catch(err => console.log(err))
+    }
+
+    function searchAll() {
+        // Fetch communities based on search term
+        fetch(`/api/community/searchCommunity`)
         .then(res => res.json())
         .then(data => {
             setFoundCommunities({ foundCommunities: data })
@@ -161,6 +172,9 @@ function Search() {
                                     hover:text-gray-300 transition-all duration-300`}
                         />
                     </div>
+                    <div className='flex mt-5'>
+                        <span className='mx-auto text-gray-400'>Found communities: {foundCommunities.foundCommunities.length}</span>
+                    </div>
                 </form>
 
                 {foundCommunities.foundCommunities ? (
@@ -233,26 +247,22 @@ function Search() {
                                                                 )
                                                             }
 
-                                                            {/* Join community button, if user is not joined */}
-                                                            {!localStorage.getItem("openforum_user") &&
-                                                                (
-                                                                    <button className="mt-1.5 px-6 py-2 rounded-full
-                                                                                    bg-gradient-to-r
-                                                                                    from-blue-500 to-indigo-500
-                                                                                    text-white font-bold
-                                                                                    shadow-lg
-                                                                                    hover:shadow-xl
-                                                                                    hover:scale-105
-                                                                                    active:scale-95
-                                                                                    transition-all duration-300"
-                                                                            onClick={() => {
-                                                                                communityAction('join', community.id);
-                                                                                searchByTerm(searchTerm)
-                                                                            }}>
-                                                                        Login
-                                                                    </button>
-                                                                )
-                                                            }
+                                                            {/* View community btn */}
+                                                            <Link to='/feed'>
+                                                                <button className="mt-1.5 px-6 py-2 rounded-full
+                                                                                bg-white/15 text-white font-semibold
+                                                                                hover:bg-white/25 border border-white/20
+                                                                                hover:scale-105
+                                                                                active:scale-95
+                                                                                transition-all duration-300"
+                                                                        onClick={() => {
+                                                                            searchByTerm(searchTerm)
+                                                                            localStorage.setItem('openforum_selectedCommunity', community.id)
+                                                                        }}>
+                                                                    <i className="fa-solid fa-arrow-up-right-from-square me-2 mt-0.5"></i>
+                                                                    View
+                                                                </button>
+                                                            </Link>
                                                         </>
                                                     ) : (
                                                         <Link to='/login'>
