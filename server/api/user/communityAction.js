@@ -8,6 +8,7 @@ router.post('/communityAction', (req, res) => {
     try {
 
         // Get fetch data
+        // 12, 4, 'leave'
         let { community_id, user_id, method } = req.body;
         let deletion = false;
         let sql = "";
@@ -20,7 +21,9 @@ router.post('/communityAction', (req, res) => {
                                    user_id,
                                    role)
                 VALUES (?, ?, 'U')`
-        } else {
+        }
+        
+        else {
             sql = `
                 DELETE FROM community_users 
                 WHERE community_id = ? AND
@@ -31,46 +34,58 @@ router.post('/communityAction', (req, res) => {
 
         if (deletion) {
             let sql2 = `
-                SELECT *
+                SELECT user_id
                 FROM community_users
                 WHERE user_id = ? AND
                     community_id = ? AND
-                    role = 'O'`
+                    role = 'O'
+                LIMIT 1`
             db.query(sql2, [user_id, community_id], (err, res1) => {
                 if (err)
                     return res.status(400)
-                                .json({ error: err });
+                              .json({ error: err });
+
+                console.log("res1:", res1);
+
                                 
                 if(res1.length){
-                    sql2 = `
+                    let sql3 = `
                         UPDATE communities
                         SET valid = 0
-                        WHERE community_id = ?`
+                        WHERE id = ?`
+
+                    console.log(community_id)
                     
-                    db.query(sql2, [community_id]), (err, res2) => {
+                    db.query(sql3, [community_id], (err, res2) => {
+                        console.log(res2)
                         if (err)
                             return res.status(400)
                                         .json({ error: err });
-                        db.query(sql, [community_id, user_id]), (err, res3) => {
-                                return res.json("Siker");
-                        }
-                    }
+
+                        db.query(sql, [community_id, user_id], (err, res3) => {
+                            console.log("res3:", res3);
+                            return res.json(res3);
+                                
+                        })
+                    })
                 }
             })
-        }
-        // Insert new user
-        db.query(sql,[community_id,
-                      user_id],
-                (err) => {
-            // If there's an error
-            if (err)
-                return res.status(400)
-                          .json({ error: err });
+        } else{
 
-            // Successful
-            return res.json({ message: "Siker " });
-            
-        });
+            // Insert new user
+            db.query(sql,[community_id,
+                        user_id],
+                    (err) => {
+                // If there's an error
+                if (err)
+                    return res.status(400)
+                            .json({ error: err });
+
+                // Successful
+                return res.json({ message: "Siker " });
+                
+            });
+        }
 
     }
     catch (err) {

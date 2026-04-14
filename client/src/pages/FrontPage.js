@@ -461,6 +461,9 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         })
         .then(res => res.json())
         .then(res => {
+            if (cMehtod == 'leave') {
+                localStorage.setItem('openforum_selectedCommunity', 0);
+            }
 
             // Get user's communities
             getUserCommunities();
@@ -473,10 +476,10 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                 // On successful join/leave
                 setNotificationType(true)
                 if (cMehtod == 'leave') {
-                    setNotificationText('Successfuly left community!')
+                    setNotificationText('Successfuly left community!');
                 }
                 else {
-                    setNotificationText('Successfully joined community')
+                    setNotificationText('Successfully joined community');
                 }
                 addNotification();
                 getPosts();
@@ -484,8 +487,8 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
             }
 
             // Else error
-            setNotificationType(false)
-            setNotificationText('Something went wrong!')
+            setNotificationType(false);
+            setNotificationText('Something went wrong!');
             addNotification();
         })
         .catch(err => alert(err))
