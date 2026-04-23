@@ -56,12 +56,27 @@ function Home() {
             </div>
 
             {/* Discover button */}
-            <div className='mt-12 text-center animate-fadeIn'
+            <div className='mt-4 text-center animate-fadeIn'
+                 id='discover'>
+                <Link to='/about'>
+                    <button className="bg-white/10 backdrop-blur-xl hover:bg-white/25
+                                       border border-white/15 font-bold w-80 group
+                                       px-4 py-4 rounded-full transition text-xl duration-300">
+                        <i className="fa-solid fa-people-group me-1"></i>
+                        About us
+                        <i className="fa-solid fa-angles-right ms-2 group-hover:ms-4 transition-all"/>
+                    </button>
+                </Link>
+            </div>
+
+            {/* Discover button */}
+            <div className='mt-20 text-center animate-fadeIn'
                  id='discover'>
                 <Link to='/feed'>
                     <button className="bg-white/10 backdrop-blur-xl hover:bg-white/25
                                        border border-white/15 font-bold w-80 group
                                        px-4 py-4 rounded-full transition text-xl duration-300">
+                        <i class="fa-solid fa-map-location-dot me-1"></i>
                         Discover Communities
                         <i className="fa-solid fa-angles-right ms-2 group-hover:ms-4 transition-all"/>
                     </button>
@@ -147,6 +162,7 @@ function Home() {
                     <button className="bg-white/10 backdrop-blur-xl hover:bg-white/25
                                        border border-white/15 font-bold w-80 group
                                        px-4 py-4 rounded-full transition text-xl duration-300">
+                        <i class="fa-solid fa-fire me-1"></i>
                         Get Started
                         <i className="fa-solid fa-angles-right ms-2 group-hover:ms-4 transition-all"/>
                     </button>

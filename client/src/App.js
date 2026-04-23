@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import Feed from './pages/Feed';
 import CommunityAdd from './pages/CommunityAdd';
 import Search from './pages/Search';
+import About from './pages/About';
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/newcommunity" element={<CommunityAdd />} />
                         <Route path="/search" element={<Search />} />
+                        <Route path="/about" element={<About />} />
                     </Routes>
                 </main>
             </div>
