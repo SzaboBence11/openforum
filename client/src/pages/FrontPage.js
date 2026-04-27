@@ -230,6 +230,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
                 data.post != null &&
                 data.user != null) {
 
+                    
             // Fetch admin action
             fetch('/api/user/adminAction', {
                 method: 'POST',
