@@ -643,6 +643,7 @@ function FrontPage({ isSidebarOpen , refreshSidebar}) {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             if (!data.error) {
                 getAllPostComments();
                 e.currentTarget.children[0].children[0].value = '';
