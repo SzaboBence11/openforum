@@ -3,7 +3,7 @@ import express from 'express';
 
 const router = express.Router()
 
-// Get random communities (For Sidebar)
+// Get vote count
 router.get('/getVoteCount/:post_id', (req, res) => {
 
     // Turn post_id to int

@@ -63,7 +63,7 @@ router.get('/searchCommunity/:search', async (req, res) => {
   }
 });
 
-// Get random communities (For Sidebar)
+// Search for community
 router.get('/searchCommunity', async (req, res) => {
 
     // Community details
